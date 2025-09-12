@@ -19,17 +19,85 @@ const PinterestIcon = () => (
 export default function Footer() {
   return (
     <footer className="relative bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-800 text-white overflow-hidden">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-600/10"></div>
+      {/* Wave separator - Higher z-index to stay on top */}
+      <div className="absolute top-0 left-0 w-full z-20">
+        <svg
+          className="relative block w-full h-6"
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+            fill="white"
+          ></path>
+        </svg>
+      </div>
       
-      {/* Floating particles */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Animated Wavy Background - Lower z-index, starts below wave separator */}
+      <div className="absolute inset-0 overflow-hidden z-10" style={{top: '28px'}}>
+        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wave1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(147, 51, 234, 0.15)" />
+              <stop offset="50%" stopColor="rgba(59, 130, 246, 0.15)" />
+              <stop offset="100%" stopColor="rgba(236, 72, 153, 0.15)" />
+            </linearGradient>
+            <linearGradient id="wave2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(6, 182, 212, 0.12)" />
+              <stop offset="50%" stopColor="rgba(168, 85, 247, 0.12)" />
+              <stop offset="100%" stopColor="rgba(244, 63, 94, 0.12)" />
+            </linearGradient>
+            <linearGradient id="wave3" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(139, 92, 246, 0.08)" />
+              <stop offset="50%" stopColor="rgba(236, 72, 153, 0.08)" />
+              <stop offset="100%" stopColor="rgba(59, 130, 246, 0.08)" />
+            </linearGradient>
+          </defs>
+          
+          {/* First Wave - Contained */}
+          <path d="M0,100 Q300,150 600,100 T1200,100 L1200,400 L0,400 Z" fill="url(#wave1)">
+            <animate attributeName="d" 
+              values="M0,100 Q300,150 600,100 T1200,100 L1200,400 L0,400 Z;
+                      M0,130 Q300,180 600,130 T1200,130 L1200,400 L0,400 Z;
+                      M0,100 Q300,150 600,100 T1200,100 L1200,400 L0,400 Z"
+              dur="8s" repeatCount="indefinite" />
+          </path>
+          
+          {/* Second Wave - Contained */}
+          <path d="M0,150 Q400,200 800,150 T1200,150 L1200,400 L0,400 Z" fill="url(#wave2)">
+            <animate attributeName="d" 
+              values="M0,150 Q400,200 800,150 T1200,150 L1200,400 L0,400 Z;
+                      M0,180 Q400,230 800,180 T1200,180 L1200,400 L0,400 Z;
+                      M0,150 Q400,200 800,150 T1200,150 L1200,400 L0,400 Z"
+              dur="12s" repeatCount="indefinite" />
+          </path>
+          
+          {/* Third Wave - Contained */}
+          <path d="M0,200 Q200,250 400,200 Q600,150 800,200 Q1000,250 1200,200 L1200,400 L0,400 Z" fill="url(#wave3)">
+            <animate attributeName="d" 
+              values="M0,200 Q200,250 400,200 Q600,150 800,200 Q1000,250 1200,200 L1200,400 L0,400 Z;
+                      M0,230 Q200,280 400,230 Q600,180 800,230 Q1000,280 1200,230 L1200,400 L0,400 Z;
+                      M0,200 Q200,250 400,200 Q600,150 800,200 Q1000,250 1200,200 L1200,400 L0,400 Z"
+              dur="15s" repeatCount="indefinite" />
+          </path>
+        </svg>
+      </div>
+      
+      {/* Gradient Background - Behind animated waves */}
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-600/10 z-5"></div>
+      
+      {/* Floating particles - Behind content */}
+      <div className="absolute inset-0 overflow-hidden z-5">
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
         <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-purple-400 rounded-full animate-bounce"></div>
         <div className="absolute bottom-1/4 left-1/2 w-3 h-3 bg-pink-400 rounded-full animate-pulse"></div>
+        <div className="absolute top-1/2 left-3/4 w-1.5 h-1.5 bg-pink-300 rounded-full animate-pulse"></div>
+        <div className="absolute top-1/3 right-1/4 w-2.5 h-2.5 bg-cyan-300 rounded-full animate-bounce"></div>
       </div>
       
-      <div className="relative container mx-auto px-4 py-12">
+      <div className="relative container mx-auto px-4 py-12 z-30">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Navigation Column */}
@@ -106,7 +174,7 @@ export default function Footer() {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="px-3 text-white hover:bg-white/10 bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 rounded-lg"
+                className="px-3 text-white bg-white/10 border border-white/20 hover:bg-white/20 rounded-lg transition-all duration-300"
               >
                 →
               </Button>

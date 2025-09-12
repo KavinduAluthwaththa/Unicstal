@@ -17,7 +17,7 @@ const PinterestIcon = () => (
 
 export function Footer() {
   return (
-    <footer className="bg-stone-100 pt-16 pb-8 relative">
+    <footer className="bg-purple-900 pt-16 pb-8 relative text-white">
       <div className="absolute top-0 left-0 w-full overflow-hidden">
         <svg
           className="relative block w-full h-12"
@@ -28,7 +28,7 @@ export function Footer() {
         >
           <path
             d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            className="fill-white"
+            className="fill-white "
           ></path>
         </svg>
       </div>
@@ -36,70 +36,70 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Navigation Column */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">NAVIGATION</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <h3 className="font-semibold text-white mb-4">NAVIGATION</h3>
+            <ul className="space-y-2 text-sm text-purple-200">
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   Shop All
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   Crystals and their Meanings
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   REVIEWS
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   Designer Trade Program
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   CRYSTAL QUIZ
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   REWARDS
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   BECOME AN AFFILIATE
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   CONTACT
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   Search
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   FAQ
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   Return & Refund Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   Terms of service
                 </a>
               </li>
@@ -108,28 +108,28 @@ export function Footer() {
 
           {/* Crystals.com Column */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">CRYSTALS.COM</h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <h3 className="font-semibold text-white mb-4">CRYSTALS.COM</h3>
+            <p className="text-sm text-purple-200 leading-relaxed">
               Discover our crystal shop online for home décor, wellness, and meaningful gifts.
             </p>
           </div>
 
           {/* Journal Column */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">JOURNAL</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <h3 className="font-semibold text-white mb-4">JOURNAL</h3>
+            <ul className="space-y-2 text-sm text-purple-200">
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   Best Crystals for Home Protection...
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   The September Birthstone: Sapphire
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-900">
+                <a href="#" className="hover:text-white transition-colors">
                   1010 Angel Number Meaning -...
                 </a>
               </li>
@@ -138,11 +138,11 @@ export function Footer() {
 
           {/* Newsletter Column */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">Stay in the Loop</h3>
-            <p className="text-sm text-gray-600 mb-4">Join our list for new drops, stories, and rare finds.</p>
+            <h3 className="font-semibold text-white mb-4">Stay in the Loop</h3>
+            <p className="text-sm text-purple-200 mb-4">Join our list for new drops, stories, and rare finds.</p>
             <div className="flex gap-2">
-              <Input type="email" placeholder="Your email" className="flex-1 text-sm" />
-              <Button variant="ghost" size="sm" className="px-3">
+              <Input type="email" placeholder="Your email" className="flex-1 text-sm bg-white/10 border-white/20 text-white placeholder:text-purple-300" />
+              <Button variant="ghost" size="sm" className="px-3 text-white hover:bg-white/10">
                 →
               </Button>
             </div>
@@ -150,33 +150,33 @@ export function Footer() {
         </div>
 
         {/* Social Media and Copyright */}
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-200">
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-purple-700">
           <div className="flex space-x-4 mb-4 md:mb-0">
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="#" className="text-purple-300 hover:text-white transition-colors">
               <Instagram size={20} />
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="#" className="text-purple-300 hover:text-white transition-colors">
               <TikTokIcon />
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="#" className="text-purple-300 hover:text-white transition-colors">
               <Facebook size={20} />
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="#" className="text-purple-300 hover:text-white transition-colors">
               <PinterestIcon />
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="#" className="text-purple-300 hover:text-white transition-colors">
               <Youtube size={20} />
             </a>
           </div>
-          <p className="text-xs text-gray-500">© 2025, CRYSTALS.COM. Powered by Shopify.</p>
+          <p className="text-xs text-purple-400">© 2025, CRYSTALS.COM. Powered by Shopify.</p>
         </div>
       </div>
 
       {/* Unlock 20% Off Badge */}
-      <div className="fixed bottom-4 left-4 bg-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg border hover:shadow-xl transition-shadow cursor-pointer">
+      <div className="fixed bottom-4 left-4 bg-yellow-400 rounded-full w-16 h-16 flex items-center justify-center shadow-lg border hover:shadow-xl transition-shadow cursor-pointer">
         <div className="text-center">
-          <div className="text-xs font-semibold text-gray-700">Unlock</div>
-          <div className="text-sm font-bold text-gray-900">20% Off</div>
+          <div className="text-xs font-semibold text-black">Unlock</div>
+          <div className="text-sm font-bold text-black">20% Off</div>
         </div>
       </div>
     </footer>

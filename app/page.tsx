@@ -8,14 +8,30 @@ import { Footer } from "@/components/footer"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen">
       <Header />
       <HeroSection />
-      <div className="h-1 bg-primary"></div>
-      <ProductShowcase />
-      <StoreBuilderSection />
-      <ManifestationSection />
-      <CrystalBlogSection />
+      
+      {/* White section */}
+      <div className="bg-white">
+        <ProductShowcase />
+      </div>
+      
+      {/* Purple section */}
+      <div className="bg-gradient-to-br from-purple-100 to-purple-200">
+        <StoreBuilderSection />
+      </div>
+      
+      {/* White section */}
+      <div className="bg-white">
+        <ManifestationSection />
+      </div>
+      
+      {/* Light purple section */}
+      <div className="bg-white">
+        <CrystalBlogSection />
+      </div>
+      
       <Footer />
     </main>
   )

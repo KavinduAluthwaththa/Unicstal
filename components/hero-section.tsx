@@ -34,14 +34,10 @@ export function HeroSection() {
       <div className="hidden lg:block relative z-10">
         <div className="relative">
           <img
-            src="/professional-spiritual-healer-woman-smiling-warmly.jpg"
+            src="/images/Queen 01.jpg"
             alt="Woman with crystal crown"
             className="w-96 h-[600px] object-cover object-center"
           />
-          {/* Crown effect overlay */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4">
-            <div className="w-32 h-16 bg-gradient-to-r from-yellow-300 to-yellow-500 rounded-full opacity-80 blur-sm"></div>
-          </div>
         </div>
       </div>
 

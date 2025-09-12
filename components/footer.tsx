@@ -1,6 +1,7 @@
-import { Instagram, Facebook, Youtube, Sparkles } from "lucide-react"
+import { Instagram, Facebook, Youtube, Sparkles, ChevronRight, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import Link from "next/link"
 
 // Custom TikTok and Pinterest icons as SVG components
 const TikTokIcon = () => (
@@ -15,107 +16,128 @@ const PinterestIcon = () => (
   </svg>
 )
 
-export function Footer() {
+export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 pt-16 pb-8 relative text-white overflow-hidden">
-      {/* Iridescent background effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-48 h-48 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 opacity-10 blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-32 h-32 rounded-full bg-gradient-to-r from-pink-400 to-yellow-500 opacity-10 blur-2xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-24 h-24 rounded-full bg-gradient-to-r from-emerald-400 to-blue-500 opacity-8 blur-xl animate-pulse delay-500"></div>
+    <footer className="relative bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-800 text-white overflow-hidden">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-600/10"></div>
+      
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+        <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-purple-400 rounded-full animate-bounce"></div>
+        <div className="absolute bottom-1/4 left-1/2 w-3 h-3 bg-pink-400 rounded-full animate-pulse"></div>
       </div>
+      
+      <div className="relative container mx-auto px-4 py-12">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          {/* Navigation Column */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              NAVIGATION
+            </h3>
+            <div className="space-y-3">
+              <Link href="/shop" className="block text-purple-200 hover:text-cyan-300 transition-colors">Shop</Link>
+              <Link href="/collections" className="block text-purple-200 hover:text-cyan-300 transition-colors">Collections</Link>
+              <Link href="/about" className="block text-purple-200 hover:text-cyan-300 transition-colors">About</Link>
+              <Link href="/contact" className="block text-purple-200 hover:text-cyan-300 transition-colors">Contact</Link>
+              <Link href="/shipping" className="block text-purple-200 hover:text-cyan-300 transition-colors">Shipping</Link>
+              <Link href="/returns" className="block text-purple-200 hover:text-cyan-300 transition-colors">Returns & Exchanges</Link>
+              <Link href="/faq" className="block text-purple-200 hover:text-cyan-300 transition-colors">FAQ</Link>
+            </div>
+          </div>
 
-      {/* Wave separator */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden">
-        <svg
-          className="relative block w-full h-12"
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            className="fill-white"
-          ></path>
-        </svg>
-      </div>
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          {/* Crystals.com Column */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              CRYSTALS.COM
+            </h3>
+            <p className="text-purple-200 text-sm leading-relaxed">
+              A global marketplace for extraordinary crystals, stones, and spiritual tools. We curate the finest quality specimens from trusted sources worldwide, bringing you authentic pieces that enhance your spiritual journey and energetic practice.
+            </p>
+            <div className="pt-2">
+              <p className="text-cyan-300 text-sm font-semibold">✨ Authentic • Ethically Sourced • Energy Activated</p>
+            </div>
+          </div>
+
+          {/* Journal Column */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              JOURNAL
+            </h3>
+            <div className="space-y-3">
+              <div className="border-l-2 border-cyan-400/50 pl-3">
+                <Link href="/journal/crystal-care" className="block text-purple-200 hover:text-cyan-300 transition-colors text-sm">
+                  How to Care for Your Crystals
+                </Link>
+                <p className="text-purple-300 text-xs mt-1">Dec 15, 2024</p>
+              </div>
+              <div className="border-l-2 border-purple-400/50 pl-3">
+                <Link href="/journal/manifestation-guide" className="block text-purple-200 hover:text-cyan-300 transition-colors text-sm">
+                  Manifestation with Rose Quartz
+                </Link>
+                <p className="text-purple-300 text-xs mt-1">Dec 12, 2024</p>
+              </div>
+              <div className="border-l-2 border-pink-400/50 pl-3">
+                <Link href="/journal/moon-rituals" className="block text-purple-200 hover:text-cyan-300 transition-colors text-sm">
+                  New Moon Rituals for Beginners
+                </Link>
+                <p className="text-purple-300 text-xs mt-1">Dec 8, 2024</p>
+              </div>
+              <Link href="/journal" className="inline-flex items-center text-cyan-300 hover:text-cyan-200 text-sm font-semibold mt-2">
+                View All Articles <ChevronRight className="ml-1 h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
           {/* Newsletter Column */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="h-6 w-6 text-cyan-400" />
-              <h3 className="text-xl font-bold bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
-                Join the Iridescent Waitlist
-              </h3>
-            </div>
-            <p className="text-purple-100 mb-4 leading-relaxed">
-              Be the first to experience our mystical collection when we launch. 
-              Get exclusive early access and special manifesting guides.
-            </p>
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              Stay in the Loop
+            </h3>
+            <p className="text-sm text-purple-200 mb-4">Join our list for new drops, stories, and rare finds.</p>
             <div className="flex gap-2">
-              <Input
-                type="email"
-                placeholder="Enter your magical email..."
-                className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-purple-200 backdrop-blur-sm"
+              <Input 
+                type="email" 
+                placeholder="Your email" 
+                className="flex-1 text-sm bg-white/10 border-white/20 text-white placeholder:text-purple-200 rounded-lg"
               />
-              <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-semibold px-6 py-2 border-none shadow-lg hover:shadow-xl transition-all duration-300">
-                Join
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="px-3 text-white hover:bg-white/10 bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 rounded-lg"
+              >
+                →
               </Button>
             </div>
-          </div>
-
-          {/* Coming Soon */}
-          <div>
-            <h3 className="font-semibold text-purple-100 mb-4">COMING SOON</h3>
-            <ul className="space-y-2 text-sm text-purple-200">
-              <li>
-                <span className="text-cyan-300">✨ Mystical Collection</span>
-              </li>
-              <li>
-                <span className="text-cyan-300">🔮 Energy Healing Tools</span>
-              </li>
-              <li>
-                <span className="text-cyan-300">💎 Sacred Geometry</span>
-              </li>
-              <li>
-                <span className="text-cyan-300">🌙 Lunar Manifestation</span>
-              </li>
-              <li>
-                <span className="text-cyan-300">⭐ Cosmic Jewelry</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Connect */}
-          <div>
-            <h3 className="font-semibold text-purple-100 mb-4">CONNECT</h3>
-            <p className="text-sm text-purple-200 mb-4 leading-relaxed">
-              Follow our journey as we prepare to launch something truly magical.
-            </p>
-            <div className="flex gap-3">
-              <Button 
-                size="icon" 
-                variant="outline" 
-                className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
-              >
-                <Instagram className="h-5 w-5" />
-              </Button>
-              <Button 
-                size="icon" 
-                variant="outline" 
-                className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
-              >
-                <TikTokIcon />
-              </Button>
-              <Button 
-                size="icon" 
-                variant="outline" 
-                className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
-              >
-                <PinterestIcon />
-              </Button>
+            
+            {/* Social Media */}
+            <div className="pt-4">
+              <p className="text-sm text-purple-200 mb-3">Follow the magic</p>
+              <div className="flex gap-2">
+                <Button 
+                  size="icon" 
+                  variant="outline" 
+                  className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                >
+                  <Instagram className="h-5 w-5" />
+                </Button>
+                <Button 
+                  size="icon" 
+                  variant="outline" 
+                  className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                >
+                  <TikTokIcon />
+                </Button>
+                <Button 
+                  size="icon" 
+                  variant="outline" 
+                  className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                >
+                  <PinterestIcon />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -128,11 +150,11 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Floating Waitlist Badge */}
+      {/* Shopping CTA Badge */}
       <div className="fixed bottom-4 left-4 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full w-20 h-20 flex items-center justify-center shadow-lg border-2 border-white/20 hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 backdrop-blur-sm">
         <div className="text-center">
-          <Sparkles className="h-6 w-6 text-white mx-auto mb-1" />
-          <div className="text-xs font-bold text-white">Waitlist</div>
+          <ShoppingCart className="h-6 w-6 text-white mx-auto mb-1" />
+          <div className="text-xs font-bold text-white">Shop</div>
         </div>
       </div>
     </footer>

@@ -22,7 +22,7 @@ export function HeroSection() {
         </h1>
         
         <p className="text-purple-100 text-xl mb-8 leading-relaxed">
-          Initiate your exclusive crystal journey, expand your spiritual energy, and amplify the magic for the unveiling day.
+          Transform your spiritual journey with our mystical collection of powerful healing crystals and sacred energy tools.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4">
@@ -30,7 +30,7 @@ export function HeroSection() {
             size="lg" 
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-12 py-6 rounded-full font-medium text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-purple-300/30"
           >
-            Crystals That Help You Attract
+            Shop Crystal Collection
           </Button>
           
         </div>

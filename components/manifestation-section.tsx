@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Heart, ChevronLeft, ChevronRight, Sparkles, Moon, Star } from "lucide-react"
+import { Heart, ChevronLeft, ChevronRight, Sparkles, Moon, Star, ShoppingCart } from "lucide-react"
 import Image from "next/image"
 
 const filterCategories = [
@@ -18,29 +18,29 @@ const manifestationCards = [
     id: 1,
     title: "Cosmic Abundance Ritual",
     image: "/money-financial-abundance.jpg",
-    likes: 200,
-    status: "coming-soon"
+    price: 49,
+    originalPrice: 65,
   },
   {
     id: 2,
     title: "Twin Flame Connection",
     image: "/love-relationships-sunset.jpg",
-    likes: 200,
-    status: "coming-soon"
+    price: 39,
+    originalPrice: 55,
   },
   {
     id: 3,
     title: "Spiritual Ascension Path",
     image: "/career-growth-success.jpg",
-    likes: 200,
-    status: "coming-soon"
+    price: 59,
+    originalPrice: 75,
   },
   {
     id: 4,
     title: "Inner Light Activation",
     image: "/peace-mind-clarity-tulips.jpg",
-    likes: 200,
-    status: "coming-soon"
+    price: 45,
+    originalPrice: 60,
   },
 ]
 
@@ -65,7 +65,6 @@ export function ManifestationSection() {
         
         <div className="flex-1 pr-8 relative z-10">
           <div className="flex items-center gap-3 mb-4">
-            <Moon className="h-8 w-8 text-cyan-400" />
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent leading-tight">
               What do you wish to Manifest?
             </h2>
@@ -74,12 +73,10 @@ export function ManifestationSection() {
             "Your intentions are cosmic energy. Set your vision, align with the universe, and manifest the mystical life you desire — one sacred ritual at a time."
           </p>
           <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white px-8 py-3 rounded-lg font-semibold border-none shadow-lg transition-all duration-300">
-            <Sparkles className="w-4 h-4 mr-2" />
             Coming Soon
           </Button>
         </div>
         <div className="flex-shrink-0 relative">
-          <Star className="absolute -top-2 -right-2 h-6 w-6 text-cyan-300 animate-pulse" />
           <div className="w-64 h-64 rounded-2xl overflow-hidden border-2 border-cyan-400/30">
             <Image
               src="/manifestation-woman-with-crown.jpg"
@@ -131,20 +128,25 @@ export function ManifestationSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/70 transition-all duration-300" />
               
-              {/* Coming Soon Badge */}
-              <div className="absolute top-4 right-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full px-3 py-1 text-xs font-semibold">
-                Coming Soon
-              </div>
-
-              {/* Mystical Sparkles */}
-              <div className="absolute bottom-4 left-4">
-                <Sparkles className="w-5 h-5 text-cyan-300 animate-pulse" />
-              </div>
-
-              {/* Title */}
+              {/* Add to Cart Button */}
+              <Button
+                size="icon"
+                className="absolute top-4 right-4 bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white rounded-full w-10 h-10 shadow-lg transition-all duration-300 hover:scale-110"
+              >
+                <ShoppingCart className="w-5 h-5" />
+              </Button>
+              {/* Title and Price */}
               <div className="absolute bottom-6 left-6 right-6">
                 <h3 className="text-white text-xl font-bold leading-tight mb-2">{card.title}</h3>
-                <div className="text-cyan-300 text-sm font-medium">✨ Mystical Ritual</div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white text-lg font-bold">${card.price}</span>
+                    {card.originalPrice && (
+                      <span className="text-white/60 text-sm line-through">${card.originalPrice}</span>
+                    )}
+                  </div>
+                  <div className="text-cyan-300 text-xs">Digital Guide</div>
+                </div>
               </div>
             </div>
           ))}

@@ -18,7 +18,7 @@ const blogPosts: BlogPost[] = [
     title: "The Cosmic Portal to Manifestation",
     description: "Discover how sacred crystals open doorways to your highest potential and divine purpose",
     image: "/crystal-jewelry-necklace.jpg",
-    date: "Coming Soon",
+    date: "Jan 15, 2024",
     status: "mystical-guide",
     featured: true,
   },
@@ -27,32 +27,32 @@ const blogPosts: BlogPost[] = [
     title: "Sacred Geometry & Crystal Wisdom",
     description: "Explore the ancient art of crystal alignment with universal sacred patterns.",
     image: "/crystals-with-healing-book.jpg",
-    date: "Coming Soon",
+    date: "Jan 10, 2024",
     status: "mystical-guide",
     featured: true,
   },
   {
     id: "3",
     title: "Lunar Manifestation Rituals",
-    description: "",
+    description: "Harness the power of moon phases for spiritual growth",
     image: "/crystal-jewelry-necklace.jpg",
-    date: "Coming Soon",
+    date: "Jan 5, 2024",
     status: "ritual-guide",
   },
   {
     id: "4",
     title: "Crystal Aura Cleansing",
-    description: "",
+    description: "Purify your energy field with healing crystals",
     image: "/crystals-with-healing-book.jpg",
-    date: "Coming Soon",
+    date: "Dec 28, 2023",
     status: "healing-guide",
   },
   {
     id: "5",
     title: "Divine Feminine Energy",
-    description: "",
+    description: "Connect with your inner goddess through crystal meditation",
     image: "/hands-holding-heart-crystal.jpg",
-    date: "Coming Soon",
+    date: "Dec 20, 2023",
     status: "spiritual-guide",
   },
 ]
@@ -72,11 +72,9 @@ export function CrystalBlogSection() {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Moon className="h-8 w-8 text-purple-600" />
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               Mystical Wisdom Library
             </h2>
-            <Star className="h-8 w-8 text-purple-600" />
           </div>
           <p className="text-purple-700 text-lg">Sacred knowledge coming to illuminate your path</p>
         </div>
@@ -91,11 +89,7 @@ export function CrystalBlogSection() {
                   <div className="relative h-48">
                     <Image src={post.image || "/placeholder.svg"} alt={post.title} fill className="object-cover opacity-80" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <div className="absolute top-4 right-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full px-3 py-1 text-xs font-semibold">
-                      Coming Soon
-                    </div>
                     <div className="absolute bottom-4 left-4">
-                      <Sparkles className="h-5 w-5 text-cyan-300 animate-pulse" />
                     </div>
                   </div>
                   <div className="p-6">
@@ -103,7 +97,7 @@ export function CrystalBlogSection() {
                     <p className="text-purple-600 mb-4 text-sm leading-relaxed">{post.description}</p>
                     <div className="flex items-center justify-between">
                       <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white px-6 py-2 rounded-xl font-semibold text-sm transition-all duration-300 border-none">
-                        Coming Soon
+                        Read More
                       </Button>
                       <span className="text-purple-400 text-sm font-medium">{post.date}</span>
                     </div>
@@ -117,7 +111,6 @@ export function CrystalBlogSection() {
           <div className="lg:col-span-1">
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg sticky top-8 border border-purple-200/50">
               <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white px-4 py-2 rounded-full font-semibold mb-4 text-sm w-auto border-none">
-                <Star className="w-3 h-3 mr-1" />
                 Mystical Guides
               </Button>
 
@@ -133,7 +126,6 @@ export function CrystalBlogSection() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg"></div>
                       <div className="absolute top-1 right-1">
-                        <Sparkles className="w-3 h-3 text-cyan-300" />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">

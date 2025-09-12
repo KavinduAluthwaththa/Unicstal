@@ -151,9 +151,8 @@ export function ProductShowcase() {
         </div>
 
         <div className="text-center mt-12">
-          <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-semibold px-8 py-4 rounded-xl text-base shadow-lg hover:shadow-xl transition-all duration-300">
+          <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-semibold px-12 py-6 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300">
             Shop All Crystals
-            <Sparkles className="w-4 h-4 ml-2" />
           </Button>
         </div>
       </div>

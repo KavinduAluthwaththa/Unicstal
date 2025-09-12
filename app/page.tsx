@@ -27,7 +27,7 @@ export default function Home() {
         <ManifestationSection />
       </div>
       
-      {/* Light purple section */}
+      {/* white section */}
       <div className="bg-white">
         <CrystalBlogSection />
       </div>

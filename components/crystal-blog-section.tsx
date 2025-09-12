@@ -62,7 +62,7 @@ export function CrystalBlogSection() {
   const latestPosts = blogPosts.filter((post) => !post.featured)
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-slate-50 to-purple-50 relative overflow-hidden">
+    <section className="py-16 px-4 bg-white from-slate-50 to-purple-50 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-r from-purple-400 to-cyan-400 opacity-8 blur-2xl"></div>
@@ -96,7 +96,7 @@ export function CrystalBlogSection() {
                     <h3 className="text-lg font-bold text-purple-900 mb-2">{post.title}</h3>
                     <p className="text-purple-600 mb-4 text-sm leading-relaxed">{post.description}</p>
                     <div className="flex items-center justify-between">
-                      <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white px-6 py-2 rounded-xl font-semibold text-sm transition-all duration-300 border-none">
+                      <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white px-8 py-3 rounded-xl font-semibold text-base transition-all duration-300 border-none">
                         Read More
                       </Button>
                       <span className="text-purple-400 text-sm font-medium">{post.date}</span>
@@ -110,7 +110,7 @@ export function CrystalBlogSection() {
           {/* Latest Posts - Right Side (1/4 width) */}
           <div className="lg:col-span-1">
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg sticky top-8 border border-purple-200/50">
-              <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white px-4 py-2 rounded-full font-semibold mb-4 text-sm w-auto border-none">
+              <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white px-6 py-3 rounded-full font-semibold mb-4 text-base w-auto border-none">
                 Mystical Guides
               </Button>
 

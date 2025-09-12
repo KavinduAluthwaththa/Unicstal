@@ -71,8 +71,8 @@ export function ManifestationSection() {
           </div>
           <p className="text-purple-100 text-lg mb-8 leading-relaxed">
             "Your intentions are cosmic energy. Set your vision, align with the universe, and manifest the mystical life you desire — one sacred ritual at a time."
-          </p>
-          <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white px-8 py-3 rounded-lg font-semibold border-none shadow-lg transition-all duration-300">
+          </p>          
+          <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-semibold px-12 py-6 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300">
             Coming Soon
           </Button>
         </div>

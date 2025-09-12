@@ -84,9 +84,9 @@ export function CrystalBlogSection() {
           {/* Latest Posts - Right Side (2 columns) */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl p-6 shadow-lg">
-              <div className="bg-purple-600 text-white px-6 py-3 rounded-xl inline-block font-semibold mb-6">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-semibold mb-6 transition-all duration-300">
                 Latest Post
-              </div>
+              </Button>
 
               <div className="space-y-6">
                 {latestPosts.map((post) => (

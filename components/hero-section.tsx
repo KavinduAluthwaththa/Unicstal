@@ -1,33 +1,55 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { ChevronDown, ShoppingBag } from "lucide-react"
+import { ChevronDown, ShoppingBag, Sparkles } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 flex items-center justify-between px-6 lg:px-12 py-20 overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-32 h-32 rounded-full bg-white/20"></div>
-        <div className="absolute bottom-40 right-32 w-24 h-24 rounded-full bg-white/15"></div>
-        <div className="absolute top-1/2 left-1/4 w-16 h-16 rounded-full bg-white/10"></div>
+    <section className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-between px-6 lg:px-12 py-20 overflow-hidden">
+      {/* Iridescent background effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-64 h-64 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 opacity-20 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-40 right-32 w-48 h-48 rounded-full bg-gradient-to-r from-pink-400 to-yellow-500 opacity-20 blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/4 w-32 h-32 rounded-full bg-gradient-to-r from-emerald-400 to-blue-500 opacity-15 blur-2xl animate-pulse delay-500"></div>
       </div>
 
       {/* Left Content */}
       <div className="max-w-xl z-10">
-        <h1 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+        <div className="mb-6">
+          <span className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-300/30 text-purple-200 text-sm font-medium backdrop-blur-sm">
+            <Sparkles className="w-4 h-4 mr-2" />
+            MAGICAL CRYSTALS — LAUNCHING SOON
+          </span>
+        </div>
+        
+        <h1 className="font-[family-name:var(--font-playfair)] text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-8 leading-tight">
           Manifest Your Dreams with the Power of{" "}
-          <span className="text-purple-200">Crystals</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-400">
+            Iridescent Crystals
+          </span>
         </h1>
-        <p className="text-purple-100 text-lg mb-8 leading-relaxed">
-          Align your energy, raise your vibration, and attract abundance — One Crystal at a time.
+        
+        <p className="text-purple-100 text-xl mb-8 leading-relaxed">
+          Initiate your exclusive crystal journey, expand your spiritual energy, and amplify the magic for the unveiling day.
         </p>
-        <Button 
-          size="lg" 
-          className="bg-purple-500 hover:bg-purple-600 text-white px-8 py-4 rounded-full font-medium text-lg shadow-lg hover:shadow-xl transition-all duration-300"
-        >
-          <ChevronDown className="w-5 h-5 mr-2" />
-          Crystals That Help You Attract
-        </Button>
+        
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Button 
+            size="lg" 
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-12 py-6 rounded-full font-medium text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-purple-300/30"
+          >
+            <Sparkles className="w-6 h-6 mr-3" />
+            JOIN THE WAITLIST!
+          </Button>
+          
+          <Button 
+            variant="outline"
+            size="lg" 
+            className="border-2 border-purple-300/50 text-purple-200 hover:bg-purple-500/20 px-12 py-6 rounded-full font-medium text-xl backdrop-blur-sm transition-all duration-300"
+          >
+            <ChevronDown className="w-6 h-6 mr-3" />
+            Explore Magic
+          </Button>
+        </div>
       </div>
 
       {/* Center Model */}

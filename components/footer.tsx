@@ -1,4 +1,4 @@
-import { Instagram, Facebook, Youtube } from "lucide-react"
+import { Instagram, Facebook, Youtube, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -17,7 +17,15 @@ const PinterestIcon = () => (
 
 export function Footer() {
   return (
-    <footer className="bg-purple-900 pt-16 pb-8 relative text-white">
+    <footer className="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 pt-16 pb-8 relative text-white overflow-hidden">
+      {/* Iridescent background effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 left-10 w-48 h-48 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 opacity-10 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-32 h-32 rounded-full bg-gradient-to-r from-pink-400 to-yellow-500 opacity-10 blur-2xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-24 h-24 rounded-full bg-gradient-to-r from-emerald-400 to-blue-500 opacity-8 blur-xl animate-pulse delay-500"></div>
+      </div>
+
+      {/* Wave separator */}
       <div className="absolute top-0 left-0 w-full overflow-hidden">
         <svg
           className="relative block w-full h-12"
@@ -28,155 +36,103 @@ export function Footer() {
         >
           <path
             d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            className="fill-white "
+            className="fill-white"
           ></path>
         </svg>
       </div>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Navigation Column */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">NAVIGATION</h3>
-            <ul className="space-y-2 text-sm text-purple-200">
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Shop All
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Crystals and their Meanings
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  REVIEWS
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Designer Trade Program
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  CRYSTAL QUIZ
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  REWARDS
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  BECOME AN AFFILIATE
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  CONTACT
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Search
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Return & Refund Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Terms of service
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Crystals.com Column */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">CRYSTALS.COM</h3>
-            <p className="text-sm text-purple-200 leading-relaxed">
-              Discover our crystal shop online for home décor, wellness, and meaningful gifts.
-            </p>
-          </div>
-
-          {/* Journal Column */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">JOURNAL</h3>
-            <ul className="space-y-2 text-sm text-purple-200">
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Best Crystals for Home Protection...
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  The September Birthstone: Sapphire
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  1010 Angel Number Meaning -...
-                </a>
-              </li>
-            </ul>
-          </div>
-
           {/* Newsletter Column */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">Stay in the Loop</h3>
-            <p className="text-sm text-purple-200 mb-4">Join our list for new drops, stories, and rare finds.</p>
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="h-6 w-6 text-cyan-400" />
+              <h3 className="text-xl font-bold bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
+                Join the Iridescent Waitlist
+              </h3>
+            </div>
+            <p className="text-purple-100 mb-4 leading-relaxed">
+              Be the first to experience our mystical collection when we launch. 
+              Get exclusive early access and special manifesting guides.
+            </p>
             <div className="flex gap-2">
-              <Input type="email" placeholder="Your email" className="flex-1 text-sm bg-white/10 border-white/20 text-white placeholder:text-purple-300" />
-              <Button variant="ghost" size="sm" className="px-3 text-white hover:bg-white/10">
-                →
+              <Input
+                type="email"
+                placeholder="Enter your magical email..."
+                className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-purple-200 backdrop-blur-sm"
+              />
+              <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-semibold px-6 py-2 border-none shadow-lg hover:shadow-xl transition-all duration-300">
+                Join
+              </Button>
+            </div>
+          </div>
+
+          {/* Coming Soon */}
+          <div>
+            <h3 className="font-semibold text-purple-100 mb-4">COMING SOON</h3>
+            <ul className="space-y-2 text-sm text-purple-200">
+              <li>
+                <span className="text-cyan-300">✨ Mystical Collection</span>
+              </li>
+              <li>
+                <span className="text-cyan-300">🔮 Energy Healing Tools</span>
+              </li>
+              <li>
+                <span className="text-cyan-300">💎 Sacred Geometry</span>
+              </li>
+              <li>
+                <span className="text-cyan-300">🌙 Lunar Manifestation</span>
+              </li>
+              <li>
+                <span className="text-cyan-300">⭐ Cosmic Jewelry</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div>
+            <h3 className="font-semibold text-purple-100 mb-4">CONNECT</h3>
+            <p className="text-sm text-purple-200 mb-4 leading-relaxed">
+              Follow our journey as we prepare to launch something truly magical.
+            </p>
+            <div className="flex gap-3">
+              <Button 
+                size="icon" 
+                variant="outline" 
+                className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+              >
+                <Instagram className="h-5 w-5" />
+              </Button>
+              <Button 
+                size="icon" 
+                variant="outline" 
+                className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+              >
+                <TikTokIcon />
+              </Button>
+              <Button 
+                size="icon" 
+                variant="outline" 
+                className="bg-white/10 border-white/20 text-purple-200 hover:bg-cyan-400/20 hover:text-cyan-300 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+              >
+                <PinterestIcon />
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Social Media and Copyright */}
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-purple-700">
-          <div className="flex space-x-4 mb-4 md:mb-0">
-            <a href="#" className="text-purple-300 hover:text-white transition-colors">
-              <Instagram size={20} />
-            </a>
-            <a href="#" className="text-purple-300 hover:text-white transition-colors">
-              <TikTokIcon />
-            </a>
-            <a href="#" className="text-purple-300 hover:text-white transition-colors">
-              <Facebook size={20} />
-            </a>
-            <a href="#" className="text-purple-300 hover:text-white transition-colors">
-              <PinterestIcon />
-            </a>
-            <a href="#" className="text-purple-300 hover:text-white transition-colors">
-              <Youtube size={20} />
-            </a>
-          </div>
-          <p className="text-xs text-purple-400">© 2025, CRYSTALS.COM. Powered by Shopify.</p>
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 pt-6 text-center">
+          <p className="text-purple-200 text-sm">
+            © 2024 Iridescent. All rights reserved. ✨ Made with cosmic energy.
+          </p>
         </div>
       </div>
 
-      {/* Unlock 20% Off Badge */}
-      <div className="fixed bottom-4 left-4 bg-yellow-400 rounded-full w-16 h-16 flex items-center justify-center shadow-lg border hover:shadow-xl transition-shadow cursor-pointer">
+      {/* Floating Waitlist Badge */}
+      <div className="fixed bottom-4 left-4 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full w-20 h-20 flex items-center justify-center shadow-lg border-2 border-white/20 hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105 backdrop-blur-sm">
         <div className="text-center">
-          <div className="text-xs font-semibold text-black">Unlock</div>
-          <div className="text-sm font-bold text-black">20% Off</div>
+          <Sparkles className="h-6 w-6 text-white mx-auto mb-1" />
+          <div className="text-xs font-bold text-white">Waitlist</div>
         </div>
       </div>
     </footer>

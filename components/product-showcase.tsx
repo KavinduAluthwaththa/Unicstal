@@ -84,11 +84,9 @@ export function ProductShowcase() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="h-6 w-6 text-purple-600" />
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent font-serif">
-              "MYSTICAL COLLECTION"
+              MYSTICAL COLLECTION
             </h2>
-            <Sparkles className="h-6 w-6 text-purple-600" />
           </div>
           <p className="text-lg text-purple-700 mb-6">Coming soon to transform your spiritual journey</p>
         </div>

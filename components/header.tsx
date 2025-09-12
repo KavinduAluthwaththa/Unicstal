@@ -4,52 +4,52 @@ import { Search, Heart, ShoppingCart, Menu, Sparkles } from "lucide-react"
 
 export function Header() {
   return (
-    <header className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-indigo-900/95 via-purple-900/95 to-pink-900/95 backdrop-blur-xl border-b border-purple-300/20 shadow-lg">
+    <header className="w-full px-6 py-4 flex items-center justify-between relative">
       {/* Logo */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 relative z-10">
         <div className="flex items-center">
-          <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full flex items-center justify-center mr-3 shadow-lg">
-            <Sparkles className="w-6 h-6 text-white" />
+          <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full flex items-center justify-center mr-3 shadow-md">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
-          <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">IRIDESCENT</span>
+          <span className="text-xl font-bold text-white">IRIDESCENT</span>
         </div>
       </div>
 
       {/* Search Bar */}
-      <div className="hidden md:flex flex-1 max-w-md mx-8">
+      <div className="hidden md:flex flex-1 max-w-md mx-8 relative z-10">
         <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/80 w-5 h-5" />
           <Input
             placeholder="Search for magical crystals..."
-            className="pl-10 pr-4 py-3 w-full rounded-full border-purple-300/30 bg-white/10 backdrop-blur-sm text-white placeholder-purple-300 focus:border-purple-400 focus:ring-purple-400/50"
+            className="pl-10 pr-4 py-3 w-full rounded-full border-2 border-white/40 bg-transparent text-white placeholder:text-white focus:border-cyan-400 focus:ring-cyan-400/50"
           />
         </div>
       </div>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 relative z-10">
         {/* Wishlist */}
-        <Button variant="ghost" size="sm" className="hidden md:flex text-purple-200 hover:text-white hover:bg-purple-500/20">
+        <Button variant="ghost" size="sm" className="hidden md:flex text-white/80 hover:text-cyan-600 hover:bg-purple-100/50 rounded-full p-2">
           <Heart className="w-5 h-5" />
         </Button>
 
         {/* Shopping Cart */}
-        <Button variant="ghost" size="sm" className="hidden md:flex text-purple-200 hover:text-white hover:bg-purple-500/20">
+        <Button variant="ghost" size="sm" className="hidden md:flex text-white/80 hover:text-cyan-600 hover:bg-purple-100/50 rounded-full p-2">
           <ShoppingCart className="w-5 h-5" />
         </Button>
 
         {/* Login/Signup */}
-        <div className="hidden md:flex items-center gap-2">
-          <Button variant="outline" className="border-purple-300/50 text-purple-200 hover:bg-purple-500/20 backdrop-blur-sm px-8 py-3 rounded-full text-lg font-medium">
+        <div className="hidden md:flex items-center gap-3">
+          <Button variant="outline" className="border-purple-400/50 text-purple-700 hover:bg-purple-100/50 backdrop-blur-sm px-6 py-2 rounded-full font-medium">
             Login
           </Button>
-          <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold px-8 py-3 rounded-full text-lg shadow-lg">
-            Join Waitlist
+          <Button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+            Register
           </Button>
         </div>
 
         {/* Mobile Menu */}
-        <Button variant="ghost" size="sm" className="md:hidden text-purple-200">
+        <Button variant="ghost" size="sm" className="md:hidden text-purple-700 hover:text-cyan-600 hover:bg-purple-100/50 rounded-full p-2">
           <Menu className="w-5 h-5" />
         </Button>
       </div>

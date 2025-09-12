@@ -4,7 +4,7 @@ import { ChevronDown, ShoppingBag, Sparkles } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-between px-6 lg:px-12 py-20 overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-between px-6 lg:px-12 pt-24 pb-20 overflow-hidden -mt-20">
       {/* Iridescent background effects */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-64 h-64 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 opacity-20 blur-3xl animate-pulse"></div>
@@ -14,13 +14,6 @@ export function HeroSection() {
 
       {/* Left Content */}
       <div className="max-w-xl z-10">
-        <div className="mb-6">
-          <span className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-300/30 text-purple-200 text-sm font-medium backdrop-blur-sm">
-            <Sparkles className="w-4 h-4 mr-2" />
-            MAGICAL CRYSTALS — LAUNCHING SOON
-          </span>
-        </div>
-        
         <h1 className="font-[family-name:var(--font-playfair)] text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-8 leading-tight">
           Manifest Your Dreams with the Power of{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-400">
@@ -37,18 +30,9 @@ export function HeroSection() {
             size="lg" 
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-12 py-6 rounded-full font-medium text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-purple-300/30"
           >
-            <Sparkles className="w-6 h-6 mr-3" />
-            JOIN THE WAITLIST!
+            Crystals That Help You Attract
           </Button>
           
-          <Button 
-            variant="outline"
-            size="lg" 
-            className="border-2 border-purple-300/50 text-purple-200 hover:bg-purple-500/20 px-12 py-6 rounded-full font-medium text-xl backdrop-blur-sm transition-all duration-300"
-          >
-            <ChevronDown className="w-6 h-6 mr-3" />
-            Explore Magic
-          </Button>
         </div>
       </div>
 

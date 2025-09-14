@@ -147,42 +147,66 @@ async function setupViewer(){
             duration: 0.2
         }, 0.2)
 
-        // THIRD TO FOURTH SECTION (40% to 60%)
+        // THIRD TO FOURTH SECTION (40% to 60%) - SMOOTH ARC MOVEMENT
         .to(position, {
-            x: 4.2,  // Moved further back from 2.5
-            y: -1.5, 
-            z: 6.5,  // Moved further back from 4.8
-            duration: 0.2
+            x: 2.8,   // Intermediate position - smoother arc
+            y: 1.2,   // Gradual height change
+            z: 4.5,   // Closer to model for better view
+            duration: 0.2,
+            ease: "power2.inOut"  // Smooth easing
         }, 0.4)
         .to(target, {
-            x: 0.8, 
-            y: 1.0, 
-            z: 0.2,
-            duration: 0.2
+            x: 0.5,   // Focus on center-right of model
+            y: 1.5,   // Slightly higher target
+            z: 0.1,
+            duration: 0.2,
+            ease: "power2.inOut"
         }, 0.4)
 
-        // FOURTH TO FIFTH SECTION (60% to 80%) - MOVE TO RIGHT SIDE
+        // FOURTH TO FIFTH SECTION (60% to 80%) - DRAMATIC RIGHT SIDE REVEAL
         .to(position, {
-            x: 5.5,   // Move to right side (positive X)
-            y: 3.2,   // Slightly lower 
-            z: 1.4,   // Updated z position as requested
-            duration: 0.2
+            x: 6.2,   // Further right for dramatic angle
+            y: 2.8,   // Higher viewpoint
+            z: 2.5,   // Closer for impact
+            duration: 0.2,
+            ease: "power2.inOut"
         }, 0.6)
         .to(target, {
-            x: 0.7,   // Target on right side (positive X)
-            y: 1.6, 
-            z: -0.4,
-            duration: 0.2
+            x: 1.2,   // Target further right side of model
+            y: 1.8,   // Higher focus point
+            z: -0.2,
+            duration: 0.2,
+            ease: "power2.inOut"
         }, 0.6)
         
-        // ROTATE DRILL 180 DEGREES IN SECTION 5
+        // SMOOTH DRILL ROTATION AND SCALE DURING SECTION 4→5 TRANSITION
         .to(drillModel.rotation, {
             y: drillModel.rotation.y + Math.PI, // 180 degree rotation (Math.PI radians)
             duration: 0.2,
+            ease: "power2.inOut",
             onUpdate: () => {
                 viewer.setDirty(); // Update the scene
             }
         }, 0.6)
+        
+        // ADD SUBTLE SCALE ANIMATION FOR EMPHASIS
+        .to(drillModel.scale, {
+            x: 1.1,
+            y: 1.1, 
+            z: 1.1,
+            duration: 0.1,
+            ease: "power2.out"
+        }, 0.6)
+        .to(drillModel.scale, {
+            x: 1.0,
+            y: 1.0,
+            z: 1.0,
+            duration: 0.1,
+            ease: "power2.in",
+            onUpdate: () => {
+                viewer.setDirty(); // Update the scene
+            }
+        }, 0.7)
 
         // DRILL STAYS AT RIGHT SIDE (80% to 100%) - STOP AT SECTION 5 POSITION
         .to(position, {

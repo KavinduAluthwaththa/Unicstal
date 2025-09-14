@@ -65,6 +65,9 @@ pids
 # Turbo
 .turbo
 
+# Cache directories
+.cache/
+
 # Package manager lock files (keep one, remove others)
 # yarn.lock
 # package-lock.json

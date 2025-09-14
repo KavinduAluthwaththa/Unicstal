@@ -87,6 +87,7 @@ async function setupViewer(){
     await manager.addFromPath("./assets/drill3.glb")
 
     const drillMaterial = manager.materials!.findMaterialsByName('Drill_01')[0] as MeshBasicMaterial2
+    const drillModel = viewer.scene.modelRoot // Get reference to the drill model
 
     viewer.getPlugin(TonemapPlugin)!.config!.clipBackground = true // in case its set to false in the glb
 
@@ -104,51 +105,114 @@ async function setupViewer(){
 
     function setupScrollanimation(){
 
-        const tl = gsap.timeline()
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".container",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1,
+                immediateRender: false
+            }
+        })
 
-        // FIRST SECTION
+        // CONTINUOUS CAMERA MOVEMENT - ONE SMOOTH TIMELINE
+        // Total progress: 0 to 1 across all sections
 
         tl
-        .to(position, {x: isMobile ? -6.0 : 1.56, y: isMobile ?  5.5 :  -2.26, z: isMobile ? -3.3 :  -3.85,
+        // FIRST TO SECOND SECTION (0% to 20%)
+        .to(position, {
+            x: isMobile ? -6.0 : 1.56, 
+            y: isMobile ? 5.5 : -2.26, 
+            z: isMobile ? -3.3 : -3.85,
+            duration: 0.2
+        }, 0)
+        .to(target, {
+            x: isMobile ? -1.1 : -1.37, 
+            y: isMobile ? 1.0 : 1.99, 
+            z: isMobile ? -0.1 : -0.37,
+            duration: 0.2
+        }, 0)
+
+        // SECOND TO THIRD SECTION (20% to 40%)
+        .to(position, {
+            x: -3.4, 
+            y: 9.6, 
+            z: 3.5,  // Moved further back from 1.71
+            duration: 0.2
+        }, 0.2)
+        .to(target, {
+            x: -1.5, 
+            y: 2.13, 
+            z: -0.4,
+            duration: 0.2
+        }, 0.2)
+
+        // THIRD TO FOURTH SECTION (40% to 60%)
+        .to(position, {
+            x: 4.2,  // Moved further back from 2.5
+            y: -1.5, 
+            z: 6.5,  // Moved further back from 4.8
+            duration: 0.2
+        }, 0.4)
+        .to(target, {
+            x: 0.8, 
+            y: 1.0, 
+            z: 0.2,
+            duration: 0.2
+        }, 0.4)
+
+        // FOURTH TO FIFTH SECTION (60% to 80%) - MOVE TO RIGHT SIDE
+        .to(position, {
+            x: 5.5,   // Move to right side (positive X)
+            y: 3.2,   // Slightly lower 
+            z: 1.4,   // Updated z position as requested
+            duration: 0.2
+        }, 0.6)
+        .to(target, {
+            x: 0.7,   // Target on right side (positive X)
+            y: 1.6, 
+            z: -0.4,
+            duration: 0.2
+        }, 0.6)
+        
+        // ROTATE DRILL 180 DEGREES IN SECTION 5
+        .to(drillModel.rotation, {
+            y: drillModel.rotation.y + Math.PI, // 180 degree rotation (Math.PI radians)
+            duration: 0.2,
+            onUpdate: () => {
+                viewer.setDirty(); // Update the scene
+            }
+        }, 0.6)
+
+        // DRILL STAYS AT RIGHT SIDE (80% to 100%) - STOP AT SECTION 5 POSITION
+        .to(position, {
+            x: 8.5,   // Stay at right side position
+            y: 3.2,   
+            z: 1.4,   // Keep the same z position
+            duration: 0.2
+        }, 0.8)
+        .to(target, {
+            x: 1.7,   // Stay focused on right side
+            y: 1.6, 
+            z: 1.4,
+            duration: 0.2
+        }, 0.8)
+
+        // TEXT ANIMATIONS - SEPARATE TRIGGERS
+        gsap.to(".section--one--container", { 
+            xPercent: '-150', 
+            opacity: 0,
             scrollTrigger: {
                 trigger: ".second",
-                start:"top bottom",
-                end: "top top", scrub: true,
+                start: "top bottom",
+                end: "top 80%", 
+                scrub: 1,
                 immediateRender: false
-        }, onUpdate})
+            }
+        })
 
-        .to(".section--one--container", { xPercent:'-150' , opacity:0,
-            scrollTrigger: {
-                trigger: ".second",
-                start:"top bottom",
-                end: "top 80%", scrub: 1,
-                immediateRender: false
-        }})
-        .to(target, {x: isMobile ? -1.1 : -1.37, y: isMobile ? 1.0 : 1.99 , z: isMobile ? -0.1 : -0.37,
-            scrollTrigger: {
-                trigger: ".second",
-                start:"top bottom",
-                end: "top top", scrub: true,
-                immediateRender: false
-        }})
-
-        // LAST SECTION
-
-        .to(position, {x: -3.4, y: 9.6, z: 1.71,
-            scrollTrigger: {
-                trigger: ".third",
-                start:"top bottom",
-                end: "top top", scrub: true,
-                immediateRender: false
-        }, onUpdate})
-
-        .to(target, {x: -1.5, y: 2.13 , z: -0.4,
-            scrollTrigger: {
-                trigger: ".third",
-                start:"top bottom",
-                end: "top top", scrub: true,
-                immediateRender: false
-        }})
+        // UPDATE CALLBACK
+        tl.eventCallback("onUpdate", onUpdate)
 
     }
 

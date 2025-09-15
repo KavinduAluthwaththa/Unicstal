@@ -47,7 +47,7 @@
 	</div>
 	<nav class="nav--bar">
 		<div class="logo-container">
-			<img class="logo-icon" src="assets/images/logo.svg" >
+			<!-- <img class="logo-icon" src="assets/images/logo.svg" > -->
 			<span class="logo-text">UNICSTAL</span>
 		</div>
 		<div class="search-container">
@@ -82,9 +82,9 @@
 	<div class="container">
 		<section class="section first">
 			<div class="section--one--container">
-				<h1>Perfect Drill</h1>
-				<p>Variable speed for ultimate fingertip control for all drilling applications. Reverse brush system for full torque and power in forward and reverse, lock-on button for continuous use.</p>
-				<button class="button--hero">KNOW MORE</button>
+				<h1>Manifest Your Dreams with the Power of <span class="highlight-text">Crystals</span></h1>
+				<p>Align your energy, raise your vibration, and attract abundance — One Crystal at a time.</p>
+				<button class="button--hero">Crystals That Help You Attract</button>
 			</div>
 		</section>
 
@@ -98,17 +98,94 @@
 
 		<section class="section third">
 			<div class="section--third--container">
-				<h2>Wood and metal</h2>
-				<p>Supports wood and metal drilling. Metal drill bits are not part of the included components with the product. Metal drill bits can be procured by the customer and can be used for drilling into metal surfaces</p>
-				<button class="button--customize">CUSTOMIZE</button>
+				<h2>Precision Control</h2>
+				<p>Advanced torque settings and speed control for precise drilling. Digital display shows current speed and torque levels, ensuring optimal performance for different materials and applications.</p>
+				<button class="button--features">EXPLORE FEATURES</button>
 			</div>
 		</section>
 
 		<section class="section fourth">
 			<div class="section--four--container">
-				<h2>Precision Control</h2>
-				<p>Advanced torque settings and speed control for precise drilling. Digital display shows current speed and torque levels, ensuring optimal performance for different materials and applications.</p>
-				<button class="button--features">EXPLORE FEATURES</button>
+				<h2>"YOUR JOURNEY. YOUR STONES."</h2>
+				<p>Our top selects for the season</p>
+				
+				<div class="crystal-showcase">
+					<div class="crystal-carousel" id="crystalCarousel">
+						<div class="crystal-component">
+							<div class="crystal-image amethyst-bg">
+								<div class="add-to-cart-btn">🛒</div>
+							</div>
+							<h3 class="crystal-name">Amethyst</h3>
+							<p class="crystal-type">Special Sale Item</p>
+							<p class="crystal-price">$450</p>
+						</div>
+						
+						<div class="crystal-component">
+							<div class="crystal-image multicolor-bg">
+								<div class="add-to-cart-btn">🛒</div>
+							</div>
+							<h3 class="crystal-name">Rose Quartz Set</h3>
+							<p class="crystal-type">Special Sale Item</p>
+							<p class="crystal-price">$200</p>
+						</div>
+						
+						<div class="crystal-component">
+							<div class="crystal-image clear-crystal-bg">
+								<div class="add-to-cart-btn">🛒</div>
+							</div>
+							<h3 class="crystal-name">Clear Quartz</h3>
+							<p class="crystal-type">Special Sale Item</p>
+							<p class="crystal-price">$100</p>
+						</div>
+						
+						<div class="crystal-component">
+							<div class="crystal-image citrine-bg">
+								<div class="add-to-cart-btn">🛒</div>
+							</div>
+							<h3 class="crystal-name">Citrine</h3>
+							<p class="crystal-type">Special Sale Item</p>
+							<p class="crystal-price">$210</p>
+						</div>
+						
+						<div class="crystal-component">
+							<div class="crystal-image agate-bg">
+								<div class="add-to-cart-btn">🛒</div>
+							</div>
+							<h3 class="crystal-name">Purple Agate</h3>
+							<p class="crystal-type">Limited Edition</p>
+							<p class="crystal-price">$320</p>
+						</div>
+						
+						<div class="crystal-component">
+							<div class="crystal-image fluorite-bg">
+								<div class="add-to-cart-btn">🛒</div>
+							</div>
+							<h3 class="crystal-name">Green Fluorite</h3>
+							<p class="crystal-type">New Arrival</p>
+							<p class="crystal-price">$180</p>
+						</div>
+						
+						<div class="crystal-component">
+							<div class="crystal-image obsidian-bg">
+								<div class="add-to-cart-btn">🛒</div>
+							</div>
+							<h3 class="crystal-name">Black Obsidian</h3>
+							<p class="crystal-type">Protection Stone</p>
+							<p class="crystal-price">$150</p>
+						</div>
+						
+						<div class="crystal-component">
+							<div class="crystal-image lapis-bg">
+								<div class="add-to-cart-btn">🛒</div>
+							</div>
+							<h3 class="crystal-name">Lapis Lazuli</h3>
+							<p class="crystal-type">Wisdom Stone</p>
+							<p class="crystal-price">$275</p>
+						</div>
+					</div>
+				</div>
+				
+				<button class="button--hero">VIEW ALL CRYSTALS</button>
 			</div>
 		</section>
 
@@ -217,6 +294,71 @@
 			<li class="button--colors black"></li>
 		</ul>
 	</div>
+
+	<script>
+		// Crystal Carousel Scroll Functionality
+		document.addEventListener('DOMContentLoaded', function() {
+			const carousel = document.getElementById('crystalCarousel');
+			const scrollLeft = document.getElementById('scrollLeft');
+			const scrollRight = document.getElementById('scrollRight');
+			
+			const scrollAmount = 265; // Width of one crystal component + gap (240px + 25px)
+			
+			scrollLeft.addEventListener('click', function() {
+				carousel.scrollBy({
+					left: -scrollAmount,
+					behavior: 'smooth'
+				});
+			});
+			
+			scrollRight.addEventListener('click', function() {
+				carousel.scrollBy({
+					left: scrollAmount,
+					behavior: 'smooth'
+				});
+			});
+			
+			// Optional: Auto-hide scroll buttons at edges
+			function updateScrollButtons() {
+				const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+				scrollLeft.style.opacity = carousel.scrollLeft <= 0 ? '0.5' : '1';
+				scrollRight.style.opacity = carousel.scrollLeft >= maxScroll ? '0.5' : '1';
+			}
+			
+			carousel.addEventListener('scroll', updateScrollButtons);
+			updateScrollButtons(); // Initial call
+			
+			// Add touch/swipe support for mobile
+			let isDown = false;
+			let startX;
+			let scrollLeftPos;
+			
+			carousel.addEventListener('mousedown', (e) => {
+				isDown = true;
+				startX = e.pageX - carousel.offsetLeft;
+				scrollLeftPos = carousel.scrollLeft;
+				carousel.style.cursor = 'grabbing';
+			});
+			
+			carousel.addEventListener('mouseleave', () => {
+				isDown = false;
+				carousel.style.cursor = 'grab';
+			});
+			
+			carousel.addEventListener('mouseup', () => {
+				isDown = false;
+				carousel.style.cursor = 'grab';
+			});
+			
+			carousel.addEventListener('mousemove', (e) => {
+				if (!isDown) return;
+				e.preventDefault();
+				const x = e.pageX - carousel.offsetLeft;
+				const walk = (x - startX) * 2;
+				carousel.scrollLeft = scrollLeftPos - walk;
+			});
+		});
+	</script>
 
 	<script src="src/index.ts"></script>
 	

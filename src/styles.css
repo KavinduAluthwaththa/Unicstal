@@ -141,7 +141,7 @@ body {
 
 .search-container {
   flex: 1;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 40px 0 40px;
   margin-right: 60px;
 }
@@ -300,16 +300,23 @@ body {
 }
 
 .section--one--container{
-  width: 360px;
+  width: 720px;
   margin-left: 15%;
 }
 
 .first h1{
-  font-size: 10rem;
-  line-height: 8rem;
+  font-size: 5rem;
   letter-spacing: -0.3rem;
-  width: 50%;
+  width: 100%;
   margin: 0 0 30px -10px;
+}
+
+.highlight-text {
+  background: linear-gradient(135deg, #8B5CF6, #A855F7, #C084FC);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
 }
 
 .button--hero{
@@ -321,7 +328,7 @@ body {
   padding: 15px 30px;
   margin-top: 24px;
   margin-right: 40px;
-  font-size: 0.6rem;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.8s ease;
 }
@@ -416,30 +423,205 @@ body {
 }
 
 .section--third--container{
-  width: 360px;
-  margin-left: 10%;
+  width: 800px;
+  margin-left: 8%;
   z-index: 1;
+}
+
+/* Crystal Showcase Styles */
+.crystal-showcase {
+  position: relative;
+  margin: 30px 0;
+}
+
+.scroll-controls {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 50%;
+  left: -25px;
+  right: -25px;
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.scroll-btn {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.crystal-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 15px;
+  margin: 0 -15px;
+}
+
+.crystal-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.crystal-carousel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.crystal-carousel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.crystal-carousel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.crystal-component {
+  flex: 0 0 calc(25% - 15px);
+  min-width: 200px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.crystal-component:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.crystal-image {
+  height: 160px;
+  border-radius: 15px;
+  margin-bottom: 18px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.crystal-component:hover .crystal-image {
+  transform: scale(1.05);
+}
+
+.add-to-cart-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.crystal-name {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 12px 0 6px 0;
+  color: #000;
+}
+
+.crystal-type {
+  font-size: 13px;
+  color: #666;
+  margin: 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.crystal-price {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000;
+  margin: 10px 0 0 0;
+}
+
+/* Crystal Background Gradients */
+.amethyst-bg {
+  background: linear-gradient(135deg, #8B5CF6, #A855F7);
+}
+
+.multicolor-bg {
+  background: linear-gradient(135deg, #F8BBD9, #FDE68A, #86EFAC);
+}
+
+.clear-crystal-bg {
+  background: linear-gradient(135deg, #E5E7EB, #F9FAFB, #D1D5DB);
+}
+
+.citrine-bg {
+  background: linear-gradient(135deg, #FBBF24, #F59E0B, #D97706);
+}
+
+.agate-bg {
+  background: linear-gradient(135deg, #7C3AED, #8B5CF6, #A855F7);
+}
+
+.fluorite-bg {
+  background: linear-gradient(135deg, #10B981, #059669, #047857);
+}
+
+.obsidian-bg {
+  background: linear-gradient(135deg, #1F2937, #111827, #0F172A);
+}
+
+.lapis-bg {
+  background: linear-gradient(135deg, #1E40AF, #1D4ED8, #2563EB);
 }
 
 .section--four--container{
-  width: 360px;
-  margin-right: 10%;
+  width: min(80vw, 1200px);
+  margin: 0 auto;
   z-index: 1;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .section--five--container{
-  width: 360px;
-  margin-left: 10%;
+  width: min(360px, 90vw);
+  margin: 0 auto;
   z-index: 1;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .fourth{
-  justify-content: flex-end;
+  justify-content: center;
   position: relative;
 }
 
 .fifth{
-  justify-content: flex-start;
+  justify-content: center;
   position: relative;
 }
 
@@ -838,8 +1020,36 @@ footer.main-footer {
   }
   
   .section--third--container {
-    width: 220px;
-    margin-left: 7%;
+    width: 380px;
+    margin-left: 5%;
+  }
+
+  .crystal-component {
+    flex: 0 0 180px;
+    padding: 15px;
+  }
+
+  .crystal-image {
+    height: 120px;
+  }
+
+  .crystal-name {
+    font-size: 16px;
+  }
+
+  .crystal-price {
+    font-size: 20px;
+  }
+
+  .scroll-controls {
+    left: -15px;
+    right: -15px;
+  }
+
+  .scroll-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
   }
 
   .section--four--container {

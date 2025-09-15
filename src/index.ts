@@ -147,80 +147,28 @@ async function setupViewer(){
             duration: 0.2
         }, 0.2)
 
-        // THIRD TO FOURTH SECTION (40% to 60%) - SMOOTH ARC MOVEMENT
-        .to(position, {
-            x: 2.8,   // Intermediate position - smoother arc
-            y: 1.2,   // Gradual height change
-            z: 4.5,   // Closer to model for better view
-            duration: 0.2,
-            ease: "power2.inOut"  // Smooth easing
-        }, 0.4)
-        .to(target, {
-            x: 0.5,   // Focus on center-right of model
-            y: 1.5,   // Slightly higher target
-            z: 0.1,
-            duration: 0.2,
-            ease: "power2.inOut"
-        }, 0.4)
-
-        // FOURTH TO FIFTH SECTION (60% to 80%) - DRAMATIC RIGHT SIDE REVEAL
-        .to(position, {
-            x: 6.2,   // Further right for dramatic angle
-            y: 2.8,   // Higher viewpoint
-            z: 2.5,   // Closer for impact
-            duration: 0.2,
-            ease: "power2.inOut"
-        }, 0.6)
-        .to(target, {
-            x: 1.2,   // Target further right side of model
-            y: 1.8,   // Higher focus point
-            z: -0.2,
-            duration: 0.2,
-            ease: "power2.inOut"
-        }, 0.6)
-        
-        // SMOOTH DRILL ROTATION AND SCALE DURING SECTION 4→5 TRANSITION
-        .to(drillModel.rotation, {
-            y: drillModel.rotation.y + Math.PI, // 180 degree rotation (Math.PI radians)
-            duration: 0.2,
-            ease: "power2.inOut",
-            onUpdate: () => {
-                viewer.setDirty(); // Update the scene
-            }
-        }, 0.6)
-        
-        // ADD SUBTLE SCALE ANIMATION FOR EMPHASIS
-        .to(drillModel.scale, {
-            x: 1.1,
-            y: 1.1, 
-            z: 1.1,
-            duration: 0.1,
+        // AFTER SECTION 3 - MOVE DRILL MODEL OFF SCREEN TO THE RIGHT
+        .to(drillModel.position, {
+            x: 15.0,  // Move drill model far to the right
+            y: 0.0,   // Keep at ground level
+            z: 0.0,   // Keep centered depth
+            duration: 0.5,
             ease: "power2.out"
-        }, 0.6)
-        .to(drillModel.scale, {
-            x: 1.0,
-            y: 1.0,
-            z: 1.0,
-            duration: 0.1,
-            ease: "power2.in",
-            onUpdate: () => {
-                viewer.setDirty(); // Update the scene
-            }
-        }, 0.7)
-
-        // DRILL STAYS AT RIGHT SIDE (80% to 100%) - STOP AT SECTION 5 POSITION
+        }, 0.4)
         .to(position, {
-            x: 8.5,   // Stay at right side position
-            y: 3.2,   
-            z: 1.4,   // Keep the same z position
-            duration: 0.2
-        }, 0.8)
+            x: -3.4,  // Keep camera at section 3 position
+            y: 9.6,   // Keep camera at section 3 position
+            z: 3.5,   // Keep camera at section 3 position
+            duration: 0.1,
+            ease: "none"
+        }, 0.4)
         .to(target, {
-            x: 1.7,   // Stay focused on right side
-            y: 1.6, 
-            z: 1.4,
-            duration: 0.2
-        }, 0.8)
+            x: -1.5,  // Keep target at section 3 position
+            y: 2.13,  // Keep target at section 3 position
+            z: -0.4,  // Keep target at section 3 position
+            duration: 0.1,
+            ease: "none"
+        }, 0.4)
 
         // TEXT ANIMATIONS - SEPARATE TRIGGERS
         gsap.to(".section--one--container", { 

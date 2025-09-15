@@ -599,6 +599,139 @@ body {
   background: linear-gradient(135deg, #1E40AF, #1D4ED8, #2563EB);
 }
 
+/* Blog Section Styles */
+.blog-showcase {
+  position: relative;
+  margin: 30px 0;
+}
+
+.blog-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 15px;
+  margin: 0 -15px;
+}
+
+.blog-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.blog-carousel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.blog-carousel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.blog-carousel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.blog-post {
+  flex: 0 0 calc(33.333% - 14px);
+  min-width: 280px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.blog-post:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.blog-image {
+  height: 180px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.blog-date {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(242, 206, 110, 0.9);
+  color: #000;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.blog-content {
+  padding: 25px;
+}
+
+.blog-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.blog-excerpt {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.blog-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.blog-author {
+  font-weight: 500;
+}
+
+.blog-read-time {
+  font-style: italic;
+}
+
+/* Blog Background Images */
+.crystal-meditation-bg {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.8), rgba(124, 58, 237, 0.8)), 
+              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23ffffff" opacity="0.1"/></svg>');
+}
+
+.moonstone-bg {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.8), rgba(79, 70, 229, 0.8)), 
+              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="30" cy="30" r="15" fill="%23ffffff" opacity="0.15"/><circle cx="70" cy="70" r="10" fill="%23ffffff" opacity="0.1"/></svg>');
+}
+
+.chakra-healing-bg {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.8)), 
+              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,10 90,50 50,90 10,50" fill="%23ffffff" opacity="0.1"/></svg>');
+}
+
+.protection-stones-bg {
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.8)), 
+              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="25" y="25" width="50" height="50" fill="%23ffffff" opacity="0.1"/></svg>');
+}
+
+.crystal-cleansing-bg {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.8), rgba(245, 158, 11, 0.8)), 
+              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="%23ffffff" opacity="0.12"/></svg>');
+}
+
+.manifestation-bg {
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.8), rgba(29, 78, 216, 0.8)), 
+              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><star points="50,5 60,35 95,35 68,57 78,87 50,70 22,87 32,57 5,35 40,35" fill="%23ffffff" opacity="0.1"/></svg>');
+}
+
 .section--four--container{
   width: min(80vw, 1200px);
   margin: 0 auto;
@@ -608,7 +741,7 @@ body {
 }
 
 .section--five--container{
-  width: min(360px, 90vw);
+  width: min(80vw, 1200px);
   margin: 0 auto;
   z-index: 1;
   padding: 0 20px;

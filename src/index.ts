@@ -126,9 +126,9 @@ async function setupViewer(){
         tl
         // PHASE 1: Move to left with rotation (Start extremely early)
         .to(starModel.position, {
-            x: -1.0, // Move from far right to left side
+            x: -2.0, // Move from far right to left side
             y: 0.0,  // Back to original ground level
-            z: 6.0,   // Keep same distance as section 1
+            z: 3.0,   // Keep same distance as section 1
             duration: 0.1, // Very short duration
             ease: "power2.inOut"
         }, -0.6) // Start much much earlier

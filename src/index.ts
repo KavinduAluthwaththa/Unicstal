@@ -183,6 +183,81 @@ async function setupViewer(){
             }
         })
 
+        // SECTION 2 SLIDE OUT TO RIGHT (SAME STYLE AS SECTION 1)
+        gsap.to(".section--two--container", { 
+            xPercent: '150', 
+            opacity: 0,
+            scrollTrigger: {
+                trigger: ".third",
+                start: "top bottom",
+                end: "top 80%", 
+                scrub: 1,
+                immediateRender: false
+            }
+        })
+
+        // SECTION 3 SLIDE OUT TO LEFT (SAME STYLE AS SECTION 1)
+        gsap.to(".section--third--container", { 
+            xPercent: '-150', 
+            opacity: 0,
+            scrollTrigger: {
+                trigger: ".fourth",
+                start: "top bottom",
+                end: "top 80%", 
+                scrub: 1,
+                immediateRender: false
+            }
+        })
+
+
+
+        // SECTION 4 FADE IN ANIMATION
+        gsap.set(".section--fourth--container", { opacity: 0 })
+        gsap.to(".section--fourth--container", {
+            opacity: 1,
+            duration: 1.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".fourth",
+                start: "top 90%",
+                end: "top 60%",
+                toggleActions: "play none none reverse"
+            }
+        })
+
+        // SECTION 5 SLIDE IN FROM BOTTOM WITH DELAY
+        gsap.set(".section--five--container", { y: 100, opacity: 0 })
+        gsap.to(".section--five--container", {
+            y: 0,
+            opacity: 1,
+            duration: 1.0,
+            delay: 0.3,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".fifth",
+                start: "top 80%",
+                end: "top 50%",
+                toggleActions: "play none none reverse"
+            }
+        })
+
+        // SECTION 4 SLIDE OUT TO RIGHT
+        gsap.to(".section--fourth--container", { 
+            xPercent: '150', 
+            opacity: 0,
+            scrollTrigger: {
+                trigger: ".fifth",
+                start: "top bottom",
+                end: "top 80%", 
+                scrub: 1,
+                immediateRender: false
+            }
+        })
+
+        // SECTION 5 SLIDE OUT TO LEFT (ONLY WHEN SCROLLING UP)
+        // Note: Section 5 slide out is handled by the reversible slide-in animation above
+        
+
         // UPDATE CALLBACK
         tl.eventCallback("onUpdate", onUpdate)
 

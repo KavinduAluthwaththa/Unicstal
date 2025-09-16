@@ -84,10 +84,17 @@ async function setupViewer(){
 
     viewer.renderer.refreshPipeline()
 
-    await manager.addFromPath("./assets/drill3.glb")
+    await manager.addFromPath("./assets/painter_of_stars.glb")
 
-    const drillMaterial = manager.materials!.findMaterialsByName('Drill_01')[0] as MeshBasicMaterial2
-    const drillModel = viewer.scene.modelRoot // Get reference to the drill model
+    // Update this material name to match your painter of stars model
+    const modelMaterial = manager.materials!.findMaterialsByName('Sketchfab_model')[0] as MeshBasicMaterial2
+    const starModel = viewer.scene.modelRoot // Get reference to the painter of stars model
+
+    // Set initial position of the model to far right of the screen
+    starModel.position.set(2.0, 0.0, 1.0)
+    
+    // Set initial rotation: 30 degrees from left towards viewer (-30 degrees on Y axis)
+    starModel.rotation.set(0, -Math.PI / 6, 0) // -30 degrees in radians
 
     viewer.getPlugin(TonemapPlugin)!.config!.clipBackground = true // in case its set to false in the glb
 
@@ -115,60 +122,44 @@ async function setupViewer(){
             }
         })
 
-        // CONTINUOUS CAMERA MOVEMENT - ONE SMOOTH TIMELINE
-        // Total progress: 0 to 1 across all sections
-
+        // CONTINUOUS MODEL ANIMATION - EXTREMELY EARLY TIMELINE
         tl
-        // FIRST TO SECOND SECTION (0% to 20%)
-        .to(position, {
-            x: isMobile ? -6.0 : 1.56, 
-            y: isMobile ? 5.5 : -2.26, 
-            z: isMobile ? -3.3 : -3.85,
-            duration: 0.2
-        }, 0)
-        .to(target, {
-            x: isMobile ? -1.1 : -1.37, 
-            y: isMobile ? 1.0 : 1.99, 
-            z: isMobile ? -0.1 : -0.37,
-            duration: 0.2
-        }, 0)
+        // PHASE 1: Move to left with rotation (Start extremely early)
+        .to(starModel.position, {
+            x: -1.0, // Move from far right to left side
+            y: 0.0,  // Back to original ground level
+            z: 6.0,   // Keep same distance as section 1
+            duration: 0.1, // Very short duration
+            ease: "power2.inOut"
+        }, -0.6) // Start much much earlier
+        .to(starModel.rotation, {
+            y: -Math.PI / 6 + Math.PI / 3, // Starting rotation (-30°) + 60° = 30° final rotation
+            duration: 0.1, // Same duration as position
+            ease: "power2.inOut"
+        }, -0.6) // Start much much earlier
 
-        // SECOND TO THIRD SECTION (20% to 40%)
-        .to(position, {
-            x: -3.4, 
-            y: 9.6, 
-            z: 3.5,  // Moved further back from 1.71
-            duration: 0.2
-        }, 0.2)
-        .to(target, {
-            x: -1.5, 
-            y: 2.13, 
-            z: -0.4,
-            duration: 0.2
-        }, 0.2)
+        // PHASE 2: Move to right with zoom and rotation back
+        .to(starModel.position, {
+            x: 3.0,  // Move to the right side
+            y: -0.2,  // Lower position for section 3
+            z: 1,  // Move closer to camera for zoom effect
+            duration: 0.15, // Duration for smooth movement
+            ease: "power2.inOut"
+        }, -0.5) // Start right after phase 1 ends (-0.6 + 0.1 = -0.5)
+        .to(starModel.rotation, {
+            y: -Math.PI / 6, // Rotate back to original section 1 rotation (-30°)
+            duration: 0.15, // Same duration as position
+            ease: "power2.inOut"
+        }, -0.5) // Start right after phase 1 ends
 
-        // AFTER SECTION 3 - MOVE DRILL MODEL OFF SCREEN TO THE RIGHT
-        .to(drillModel.position, {
-            x: 15.0,  // Move drill model far to the right
-            y: 0.0,   // Keep at ground level
-            z: 0.0,   // Keep centered depth
-            duration: 0.5,
+        // PHASE 3: Move off screen (Slower, more gradual exit)
+        .to(starModel.position, {
+            x: 15.0,  // Move model far off screen to the right
+            y: 0.0,   // Back to original ground level
+            z: 0.5,   // Keep the zoomed distance
+            duration: 0.25, // Slower duration for gradual exit
             ease: "power2.out"
-        }, 0.4)
-        .to(position, {
-            x: -3.4,  // Keep camera at section 3 position
-            y: 9.6,   // Keep camera at section 3 position
-            z: 3.5,   // Keep camera at section 3 position
-            duration: 0.1,
-            ease: "none"
-        }, 0.4)
-        .to(target, {
-            x: -1.5,  // Keep target at section 3 position
-            y: 2.13,  // Keep target at section 3 position
-            z: -0.4,  // Keep target at section 3 position
-            duration: 0.1,
-            ease: "none"
-        }, 0.4)
+        }, -0.35) // Start right after phase 2 ends (-0.5 + 0.15 = -0.35)
 
         // TEXT ANIMATIONS - SEPARATE TRIGGERS
         gsap.to(".section--one--container", { 
@@ -342,7 +333,7 @@ async function setupViewer(){
     })
 
     function changeColor(_colorToBeChanged: Color){
-        drillMaterial.color = _colorToBeChanged;
+        modelMaterial.color = _colorToBeChanged;
         viewer.scene.setDirty()
     }
 

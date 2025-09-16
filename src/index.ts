@@ -75,7 +75,7 @@ async function setupViewer(){
     })
 
     importer.addEventListener("onLoad", (ev) => {
-        gsap.to('.loader', {x: '100%', duration: 0.8, ease: 'power4.inOut', delay: 1, onComplete: () =>{
+        gsap.to('.loader', {y: '100%', duration: 0.8, ease: 'power4.inOut', delay: 1, onComplete: () =>{
             document.body.style.overflowY = 'auto'
             lenis.start()
 

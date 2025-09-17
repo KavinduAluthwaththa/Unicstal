@@ -79,14 +79,11 @@ async function setupViewer() {
             camera.fov = 55;
             camera.updateProjectionMatrix();
         } else {
-            // Desktop camera positioning to frame model on the right
-            camera.position.set(-0.8, 0.8, 4.0);
+            // Desktop camera positioning
+            camera.position.set(0.8, -0.4, 3);
             camera.fov = 70;
             camera.updateProjectionMatrix();
         }
-        
-        // Set camera to look at the model's new position
-        camera.lookAt(2.2, 0.2, 0);
 
         console.log('Camera set up at position:', camera.position);
 
@@ -98,8 +95,8 @@ async function setupViewer() {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    // renderer.shadowMap.enabled = true;
-    // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace; // Updated from outputEncoding
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
@@ -112,32 +109,32 @@ async function setupViewer() {
     controls.dampingFactor = 0.05;
 
     // Lighting setup for dramatic effect - TEMPORARILY COMMENTED OUT
-    // const ambientLight = new THREE.AmbientLight(0x404040, 0.3); // Reduced ambient for more drama
-    // scene.add(ambientLight);
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.3); // Reduced ambient for more drama
+    scene.add(ambientLight);
 
     // // Main directional light from upper right
-    // const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    // directionalLight.position.set(8, 12, 6);
-    // directionalLight.castShadow = true;
-    // directionalLight.shadow.mapSize.width = 2048;
-    // directionalLight.shadow.mapSize.height = 2048;
-    // directionalLight.shadow.camera.near = 0.5;
-    // directionalLight.shadow.camera.far = 50;
-    // scene.add(directionalLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    directionalLight.position.set(8, 12, 6);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.width = 2048;
+    directionalLight.shadow.mapSize.height = 2048;
+    directionalLight.shadow.camera.near = 0.5;
+    directionalLight.shadow.camera.far = 50;
+    scene.add(directionalLight);
 
     // // Soft hemisphere light for general illumination
-    // const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
-    // scene.add(hemisphereLight);
+    const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
+    scene.add(hemisphereLight);
 
     // // Key light from the left for dramatic lighting like in the image
-    // const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    // keyLight.position.set(-8, 6, 4);
-    // scene.add(keyLight);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    keyLight.position.set(-8, 6, 4);
+    scene.add(keyLight);
     
     // // Add rim lighting for mystical effect
-    // const rimLight = new THREE.DirectionalLight(0x9966ff, 0.6); // Purple tint
-    // rimLight.position.set(2, -3, -5);
-    // scene.add(rimLight);
+    const rimLight = new THREE.DirectionalLight(0x9966ff, 0.6); // Purple tint
+    rimLight.position.set(2, -3, -5);
+    scene.add(rimLight);
 
     // Load model
     await loadModel();
@@ -188,15 +185,12 @@ async function loadModel() {
                 console.log('Model loaded:', starModel);
                 console.log('Model bounding box:', new THREE.Box3().setFromObject(starModel));
                 
-                // POSITION ADJUSTMENTS - Move model even further to the right
-                starModel.position.set(3, -0.3, 0);  // Much further right
+                // POSITION ADJUSTMENTS - x,y,z
+                starModel.position.set(2, 0, -0.2);
                 
-                // ROTATION ADJUSTMENTS - X-axis tilt (top to back) and Y rotation
-                starModel.rotation.set(-0.3, -1, 0.0);  // Positive X for top-to-back tilt, negative Y rotation
-                
-                // SCALE ADJUSTMENTS - Size to fill right side of frame
-                starModel.scale.set(1.3, 1.5, 2);  // Maintain dramatic presence
-                
+                // ROTATION ADJUSTMENTS - x,y,z
+                starModel.rotation.set(0, -0.6, 0);  // Positive X for top-to-back tilt, negative Y rotation
+                                
                 // Setup animations if available
                 if (gltf.animations && gltf.animations.length > 0) {
                     mixer = new THREE.AnimationMixer(starModel);
@@ -208,8 +202,8 @@ async function loadModel() {
                 // Enable shadows and configure materials - TEMPORARILY COMMENTED OUT
                 starModel.traverse((child) => {
                     if (child instanceof THREE.Mesh) {
-                        // child.castShadow = true;
-                        // child.receiveShadow = true;
+                        child.castShadow = true;
+                        child.receiveShadow = true;
                         
                         // Ensure proper material configuration
                         if (child.material) {
@@ -245,8 +239,9 @@ async function loadModel() {
 }
 
 function setupScrollAnimation() {
-    // Only setup text animations, no model animations
+    // Setup both text and model animations
     setupTextAnimations();
+    setupModelScrollAnimation();
 }
 
 function setupTextAnimations() {
@@ -329,6 +324,69 @@ function setupTextAnimations() {
         }
     });
 }
+
+function setupModelScrollAnimation() {
+    if (!starModel) return;
+
+    // Store initial transform
+    const initialX = starModel.position.x;
+    const initialRotY = starModel.rotation.y;
+    const initialScale = starModel.scale.clone();
+
+    // Use a single timeline for smooth transition from section 1 -> 2 -> 3
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".second",
+            start: "top bottom",
+            endTrigger: ".third",
+            end: "bottom top",
+            scrub: 1,
+        }
+    });
+
+    // Section 1 (start) to Section 2 (end of .second) - 0 to 0.5 progress
+    // CONTINUOUS MODEL ANIMATION - ALIGNED WITH SCROLL
+    tl
+        // PHASE 1: Section 1 to 2 (start as early as possible, -0.5 to 0.0 scroll progress)
+        .to(starModel.position, {
+            x: -1.35,
+            y: -0.2,
+            z: 1.5,
+            duration: 0.3,
+            ease: "power2.inOut"
+        }, -0.8)
+        .to(starModel.rotation, {
+            y: Math.PI / 3,
+            duration: 0.3,
+            ease: "power2.inOut"
+        }, -0.8)
+
+        // PHASE 2: Section 2 to 3 (start immediately after phase 1, 0.0 to 0.15 scroll progress)
+        .to(starModel.position, {
+            x: 1.8,
+            y: -0.2,
+            z: 0,
+            duration: 0.13,
+            ease: "power2.inOut"           
+        }, -0.5)
+        .to(starModel.rotation, {
+            y: -Math.PI / 4,
+            duration: 0.13,
+            ease: "power2.inOut"
+        }, -0.5)
+
+        // PHASE 3: Section 3 to 4 (start immediately after phase 2, 0.15 to 0.3 scroll progress)
+        .to(starModel.position, {
+            x: 13,
+            y: -0.2,
+            z: 0,
+            duration: 0.13,
+            ease: "power2.inOut"
+        }, -0.3)
+    
+    }
+
+
 
 function setupUIInteractions() {
     const sections = document.querySelector('.container') as HTMLElement;
@@ -461,3 +519,7 @@ function animate() {
 }
 
 setupViewer();
+function to(position: THREE.Vector3, arg1: { x: number; y: number; z: number; duration: number; ease: string; }, arg2: number) {
+    throw new Error('Function not implemented.');
+}
+

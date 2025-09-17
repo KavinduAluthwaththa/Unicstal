@@ -447,10 +447,19 @@ body {
 }
 
 .section--third--container{
-  width: 360px;
+  width: 720px;
   margin-left: 15%;
   z-index: 1;
 }
+
+.section--third--container > p {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-top: 2rem;
+  margin-bottom: -0.5rem;
+}
+
 
 /* Crystal Showcase Styles */
 .crystal-showcase {

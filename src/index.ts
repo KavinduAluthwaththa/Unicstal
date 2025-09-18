@@ -282,45 +282,19 @@ function setupTextAnimations() {
         }
     });
 
-    // Section 4 fade in
-    gsap.set(".section--fourth--container", { opacity: 0 });
-    gsap.to(".section--fourth--container", {
-        opacity: 1,
-        duration: 1.2,
-        ease: "power2.out",
-        scrollTrigger: {
-            trigger: ".fourth",
-            start: "top 90%",
-            end: "top 60%",
-            toggleActions: "play none none reverse"
-        }
-    });
-
-    // Section 5 slide in
-    gsap.set(".section--five--container", { y: 100, opacity: 0 });
-    gsap.to(".section--five--container", {
+    // Section 4 fade in (delayed, from bottom to top)
+    gsap.set(".section--four--container", { y: 100, opacity: 0 });
+    gsap.to(".section--four--container", {
         y: 0,
         opacity: 1,
-        duration: 1.0,
-        delay: 0.3,
+        duration: 1.1,
+        delay: 0.5,
         ease: "power2.out",
         scrollTrigger: {
-            trigger: ".fifth",
+            trigger: "#section-four",
             start: "top 80%",
             end: "top 50%",
             toggleActions: "play none none reverse"
-        }
-    });
-
-    gsap.to(".section--fourth--container", { 
-        xPercent: '150', 
-        opacity: 0,
-        scrollTrigger: {
-            trigger: ".fifth",
-            start: "top bottom",
-            end: "top 80%", 
-            scrub: 1,
-            immediateRender: false
         }
     });
 }

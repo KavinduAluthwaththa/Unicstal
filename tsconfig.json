@@ -11,6 +11,10 @@
       "dom"
     ],
     "rootDir": "src",
+    "outDir": "dist",
     "moduleResolution": "node"
-  }
+  },
+  "exclude": [
+    "dist"
+  ]
 }

@@ -383,9 +383,7 @@ function setupModelScrollAnimation() {
             duration: 0.13,
             ease: "power2.inOut"
         }, -0.3)
-    
     }
-
 
 
 function setupUIInteractions() {

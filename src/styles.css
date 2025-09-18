@@ -187,8 +187,8 @@ body {
 }
 
 .login-btn {
+  background: transparent;
   color: black;
-  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .login-btn:hover {
@@ -330,9 +330,9 @@ body {
 }
 
 .button--hero{
-  background: #F2CE6E;
+  background: transparent;
   color: black;
-  border: none;
+  border: solid 2px black;
   font-weight: 600;
   border-radius: 50px;
   padding: 15px 30px;
@@ -344,8 +344,8 @@ body {
 }
 
 .button--customize{
-  background: #F2CE6E;
-  color: black;
+  background: #A084E8;
+  color: white;
   border: none;
   font-weight: 600;
   border-radius: 50px;
@@ -433,17 +433,24 @@ body {
   text-align: right;
 }
 
+.section--two--container > h2 {
+  color: white;
+}
+
 .section--two--container > p {
   font-size: 1.2rem;
   font-weight: 500;
   line-height: 1.6;
   margin-top: 2rem;
   margin-bottom: -0.5rem;
+  color: white;
 }
 
 .section--two--container .button--hero {
   margin-left: 0;
   margin-right: 0;
+  color: white;
+  border: 2px solid white;
 }
 
 .section--third--container{
@@ -613,7 +620,7 @@ body {
 }
 
 .citrine-bg {
-  background: linear-gradient(135deg, #FBBF24, #F59E0B, #D97706);
+  background: linear-gradient(135deg, #A084E8, #8B5CF6, #C084FC);
 }
 
 .agate-bg {
@@ -691,8 +698,8 @@ body {
   position: absolute;
   top: 15px;
   right: 15px;
-  background: rgba(242, 206, 110, 0.9);
-  color: #000;
+  background: rgba(160, 132, 232, 0.9);
+  color: #fff;
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 0.8rem;
@@ -777,7 +784,7 @@ body {
 }
 
 .crystal-cleansing-bg {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.8), rgba(245, 158, 11, 0.8)), 
+  background: linear-gradient(135deg, rgba(160, 132, 232, 0.8), rgba(192, 132, 252, 0.8)), 
               url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="%23ffffff" opacity="0.12"/></svg>');
 }
 
@@ -844,7 +851,7 @@ h2{
 .custom--bg{
   width: 100%;
   height: 800px;
-  background: #F2CE6E;
+  background: #A084E8;
   -webkit-transform: skew(20deg);
   -moz-transform: skew(20deg);
   -o-transform: skew(20deg);
@@ -853,14 +860,38 @@ h2{
   top: 0;
   left: 0;
   z-index: -1;
+  overflow: hidden;
+}
+
+.star-bg-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
 }
 
 footer.main-footer {
-  background: black;
+  background: linear-gradient(135deg, #5d34af 0%, #4d11b6 100%);
   color: white;
   padding: 60px 0 20px;
   position: relative;
   z-index: 10; /* Ensure footer is above the 3D canvas */
+  overflow: hidden;
+}
+
+.footer-star-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
 }
 
 .footer-content {
@@ -868,7 +899,7 @@ footer.main-footer {
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 40px;
   margin-bottom: 40px;
 }
@@ -883,7 +914,7 @@ footer.main-footer {
   font-weight: 600;
   letter-spacing: 1px;
   margin-bottom: 20px;
-  color: #ccc;
+  color: white;
   text-transform: uppercase;
 }
 
@@ -898,7 +929,7 @@ footer.main-footer {
 }
 
 .footer-links a {
-  color: #999;
+  color: white;
   text-decoration: none;
   font-size: 0.85rem;
   line-height: 1.4;
@@ -910,7 +941,7 @@ footer.main-footer {
 }
 
 .footer-description {
-  color: #999;
+  color: white;
   font-size: 0.85rem;
   line-height: 1.6;
   margin: 0;
@@ -921,7 +952,7 @@ footer.main-footer {
 }
 
 .newsletter-description {
-  color: #999;
+  color: white;
   font-size: 0.85rem;
   line-height: 1.6;
   margin-bottom: 20px;
@@ -929,44 +960,62 @@ footer.main-footer {
 
 .newsletter-form {
   display: flex;
-  border: 1px solid #333;
-  border-radius: 4px;
+  border: 1.5px solid rgba(160, 132, 232, 0.5);
+  border-radius: 12px;
   overflow: hidden;
-  background: white;
+  background: rgba(124, 58, 237, 0.12);
+  box-shadow: 0 4px 24px 0 rgba(124, 58, 237, 0.10), 0 1.5px 8px 0 rgba(160, 132, 232, 0.10);
+  backdrop-filter: blur(8px);
+  transition: box-shadow 0.3s;
+}
+
+.newsletter-form:hover, .newsletter-form:focus-within {
+  box-shadow: 0 0 0 4px rgba(160, 132, 232, 0.30), 0 4px 24px 0 rgba(124, 58, 237, 0.15);
+  border-color: #A084E8;
 }
 
 .newsletter-input {
   flex: 1;
-  padding: 12px 16px;
+  padding: 14px 20px;
   border: none;
   outline: none;
-  font-size: 0.85rem;
-  color: #333;
+  font-size: 1rem;
+  color: #fff;
+  background: transparent;
+  font-family: inherit;
+  transition: color 0.3s;
 }
 
 .newsletter-input::placeholder {
-  color: #999;
+  color: #e0d7fa;
+  opacity: 1;
 }
 
 .newsletter-submit {
-  background: black;
-  color: white;
+  background: linear-gradient(135deg, #A084E8 0%, #7C3AED 100%);
+  color: #fff;
   border: none;
-  padding: 12px 16px;
+  padding: 0 22px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-size: 1.3rem;
+  transition: background 0.3s, color 0.3s;
+  border-left: 1.5px solid rgba(160, 132, 232, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
-.newsletter-submit:hover {
-  background: #333;
+.newsletter-submit:hover, .newsletter-submit:focus {
+  background: linear-gradient(135deg, #7C3AED 0%, #A084E8 100%);
+  color: #fff;
 }
 
 .footer-bottom {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px 20px 0;
-  border-top: 1px solid #333;
+  border-top: 1.5px solid #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -985,7 +1034,7 @@ footer.main-footer {
   justify-content: center;
   width: 36px;
   height: 36px;
-  color: #666;
+  color: white;
   transition: color 0.3s ease;
   text-decoration: none;
 }
@@ -1005,7 +1054,7 @@ footer.main-footer {
 }
 
 .footer-copyright p {
-  color: #666;
+  color: white;
   font-size: 0.75rem;
   margin: 0;
 }
@@ -1138,7 +1187,7 @@ footer.main-footer {
 }
 
 .yellow{
-  background-color: #F0D56C;
+  background-color: #A084E8;
 }
 
 .red{
@@ -1272,4 +1321,19 @@ footer.main-footer {
     width: 220px;
     margin-left: 7%;
   }
+}
+
+.footer-wave {
+  width: 100%;
+  height: 90px;
+  position: relative;
+  z-index: 11;
+  margin-bottom: -2px;
+  pointer-events: none;
+}
+
+.footer-wave svg {
+  display: block;
+  width: 100%;
+  height: 90px;
 }

@@ -455,7 +455,7 @@ body {
 
 .section--third--container{
   margin-top: -100px;
-  width: 720px;
+  width: 760px;
   margin-left: 15%;
   z-index: 1;
 }
@@ -481,7 +481,7 @@ body {
 .crystal-showcase {
   position: relative;
   margin: 30px auto;
-  max-width: 720px;
+  max-width: 760px;
   width: 100%;
 }
 

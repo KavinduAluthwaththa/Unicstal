@@ -398,7 +398,7 @@ body {
 }
 .section--third--container .button--hero,
 .section--four--container .button--hero {
-  background: rgba(124, 58, 237, 0.4);
+  background: rgba(124, 58, 237, 1);
   color: white;
   border: none;
   font-weight: 600;
@@ -416,7 +416,7 @@ body {
 
 .section--third--container .button--hero:hover,
 .section--four--container .button--hero:hover {
-  background: rgba(124, 58, 237, 0.8);
+  background: rgb(62, 12, 148);
   color: #fff;
   border-color: none;
 }
@@ -492,7 +492,7 @@ body {
 }
 
 .section--third--container{
-  margin-top: -100px;
+  margin-top: -200px;
   width: 760px;
   margin-left: 15%;
   z-index: 1;
@@ -1396,7 +1396,7 @@ footer.main-footer {
 }
 
 .section--one--container .button--hero {
-  background: rgba(124, 58, 237, 0.28);
+  background: rgba(124, 58, 237, 1);
   color: white;
   border: none;
   font-weight: 600;
@@ -1413,7 +1413,7 @@ footer.main-footer {
 }
 
 .section--one--container .button--hero:hover {
-  background: rgba(124, 58, 237, 0.68);
+  background: rgb(62, 12, 148);
   color: #fff;
   border-color: none;
 }

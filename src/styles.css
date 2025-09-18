@@ -135,8 +135,13 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  height: 70px;
+  height: 60px;
   box-sizing: border-box;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.24);
+  box-shadow: 0 4px 24px 0 rgba(80,80,120,0.08);
 }
 
 .search-container {
@@ -302,6 +307,7 @@ body {
 .section--one--container{
   width: 720px;
   margin-left: 15%;
+  margin-bottom: 7%;
 }
 
 .first h1{
@@ -330,9 +336,9 @@ body {
 }
 
 .button--hero{
-  background: transparent;
-  color: black;
-  border: solid 2px black;
+  background: #f5f3ff;
+  color: #6d28d9;
+  border: solid 2px #6d28d9;
   font-weight: 600;
   border-radius: 50px;
   padding: 15px 30px;
@@ -340,7 +346,7 @@ body {
   margin-right: 40px;
   font-size: 1.5rem;
   cursor: pointer;
-  transition: all 0.8s ease;
+  transition: all 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .button--customize{
@@ -386,8 +392,33 @@ body {
 }
 
 .button--hero:hover{
-  background: black;
+  background: #6d28d9;
+  color: #fff;
+  border-color: #6d28d9;
+}
+.section--third--container .button--hero,
+.section--four--container .button--hero {
+  background: rgba(124, 58, 237, 0.4);
   color: white;
+  border: none;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 15px 30px;
+  margin-top: 24px;
+  margin-right: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.8s ease;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.section--third--container .button--hero:hover,
+.section--four--container .button--hero:hover {
+  background: rgba(124, 58, 237, 0.8);
+  color: #fff;
+  border-color: none;
 }
 
 .button--features:hover{
@@ -451,6 +482,13 @@ body {
   margin-right: 0;
   color: white;
   border: 2px solid white;
+  background: transparent;
+}
+
+.section--two--container .button--hero:hover {
+  background: white;
+  color: #6d28d9;
+  border-color: #6d28d9;
 }
 
 .section--third--container{
@@ -521,9 +559,9 @@ body {
 .crystal-carousel {
   display: flex;
   gap: 20px;
-  overflow-x: auto;
+  overflow-x:auto;
   scroll-behavior: smooth;
-  padding: 15px 0;
+  padding: 15px 10px;
   margin: 0;
   max-width: 720px;
   width: 100%;
@@ -1379,4 +1417,5 @@ footer.main-footer {
   color: #fff;
   border-color: none;
 }
+
 

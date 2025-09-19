@@ -288,7 +288,7 @@ function setupTextAnimations() {
         y: 0,
         opacity: 1,
         duration: 1.1,
-        delay: 0.5,
+        delay: 0.2,
         ease: "power2.out",
         scrollTrigger: {
             trigger: "#section-four",
@@ -337,26 +337,12 @@ function setupModelScrollAnimation() {
 
         // PHASE 2: Section 2 to 3 (start immediately after phase 1, 0.0 to 0.15 scroll progress)
         .to(starModel.position, {
-            x: 1.8,
+            x: -50.8,
             y: -0.2,
-            z: 0,
+            z: -2,
             duration: 0.13,
             ease: "power2.inOut"           
-        }, -0.5)
-        .to(starModel.rotation, {
-            y: -Math.PI / 4,
-            duration: 0.13,
-            ease: "power2.inOut"
-        }, -0.5)
-
-        // PHASE 3: Section 3 to 4 (start immediately after phase 2, 0.15 to 0.3 scroll progress)
-        .to(starModel.position, {
-            x: 13,
-            y: -0.2,
-            z: 0,
-            duration: 0.13,
-            ease: "power2.inOut"
-        }, -0.3)
+        }, -0.5);
     }
 
 

@@ -1,3 +1,10 @@
+.crystal-gradient-crystal {
+  background: linear-gradient(90deg, #F472B6 0%, #F59E42 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
 body {
   font-family: 'DM Sans', sans-serif;
   overflow-x: hidden;
@@ -396,10 +403,9 @@ body {
   color: #fff;
   border-color: #6d28d9;
 }
-.section--third--container .button--hero,
-.section--four--container .button--hero {
-  background: rgba(124, 58, 237, 1);
-  color: white;
+.section--third--container .button--hero {
+  background: #2DD4BF;
+  color: #065F46;
   border: none;
   font-weight: 600;
   border-radius: 50px;
@@ -408,17 +414,34 @@ body {
   margin-right: 40px;
   font-size: 1.5rem;
   cursor: pointer;
-  transition: all 0.8s ease;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  transition: background 0.3s, color 0.3s, border-color 0.3s;
+  transition: all 0.3s, color 0.3s, border-color 0.3s;
+  box-shadow: 0 2px 12px 0 rgba(45, 212, 191, 0.10);
 }
 
-.section--third--container .button--hero:hover,
-.section--four--container .button--hero:hover {
-  background: rgb(62, 12, 148);
+.section--four--container .button--hero {
+  background: #FDE047;
+  color: #7C3A00;
+  border: none;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 15px 30px;
+  margin-top: 24px;
+  margin-right: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s, color 0.3s, border-color 0.3s;
+  box-shadow: 0 2px 12px 0 rgba(245, 224, 71, 0.10);
+}
+
+  
+.section--third--container .button--hero:hover {
+  background: #098375;
   color: #fff;
-  border-color: none;
+}
+
+.section--four--container .button--hero:hover {
+  background: #e6b800e7;
+  color: #fff;
 }
 
 .button--features:hover{
@@ -494,7 +517,7 @@ body {
 
 .section--third--container{
   margin-top: -200px;
-  width: 760px;
+  width: 800px;
   margin-left: 15%;
   z-index: 1;
 }
@@ -505,6 +528,21 @@ body {
   line-height: 1.6;
   margin-top: 2rem;
   margin-bottom: -0.5rem;
+}
+
+.crystal-gradient-journey {
+  background: linear-gradient(90deg, #2DD4BF 0%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+.crystal-gradient-stones {
+  background: linear-gradient(90deg, #FDE047 0%, #F59E42 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .section--four--container > p,

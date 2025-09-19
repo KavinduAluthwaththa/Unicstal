@@ -516,10 +516,17 @@ body {
 }
 
 .section--third--container{
-  margin-top: -200px;
-  width: 800px;
-  margin-left: 15%;
+  width: 100%;
+  margin: 0;
   z-index: 1;
+  margin-top: -100px;
+  padding-left: 15vw;
+  padding-right: 15vw;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .section--third--container > p {
@@ -558,8 +565,7 @@ body {
 .crystal-showcase {
   position: relative;
   margin: 30px auto;
-  max-width: 760px;
-  width: 100%;
+  max-width: 1600px;
 }
 
 .scroll-controls {
@@ -598,12 +604,12 @@ body {
 .crystal-carousel {
   display: flex;
   gap: 20px;
-  overflow-x:auto;
+  overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 15px 10px;
-  margin: 0;
-  max-width: 720px;
-  width: 100%;
+  padding: 15px 0;
+  margin: 0 auto;
+  max-width: 1170px;
+  width: min(95vw, 1600px);
   box-sizing: border-box;
 }
 
@@ -626,8 +632,10 @@ body {
 }
 
 .crystal-component {
-  flex: 0 0 calc(33.333% - 14px);
+  flex: 0 0 280px;
   min-width: 200px;
+  max-width: 320px;
+  width: 100%;
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 18px;
@@ -733,7 +741,15 @@ body {
 /* Blog Section Styles */
 .blog-showcase {
   position: relative;
-  margin: 30px 0;
+  width: min(80vw, 1200px);
+  margin: 30px auto;
+  z-index: 1;
+  padding: 0 20px;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .blog-carousel {
@@ -741,8 +757,10 @@ body {
   gap: 20px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 15px;
-  margin: 0 -15px;
+  width: min(80vw, 1200px);
+  margin: 0 auto;
+  padding: 15px 0;
+  box-sizing: border-box;
 }
 
 .blog-carousel::-webkit-scrollbar {
@@ -887,6 +905,7 @@ body {
 .section--four--container{
   width: min(80vw, 1200px);
   margin: 0 auto;
+  margin-top: -200px;
   z-index: 1;
   padding: 0 20px;
   box-sizing: border-box;

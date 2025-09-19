@@ -1,3 +1,19 @@
+/* Two-row crystal carousel layout */
+.crystal-carousel {
+  flex-direction: column;
+}
+
+.crystal-row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.crystal-row:last-child {
+  margin-bottom: 0;
+}
 .crystal-gradient-crystal {
   background: linear-gradient(90deg, #F472B6 0%, #F59E42 100%);
   -webkit-background-clip: text;
@@ -519,9 +535,11 @@ body {
   width: 100%;
   margin: 0;
   z-index: 1;
-  margin-top: -100px;
-  padding-left: 15vw;
-  padding-right: 15vw;
+  margin-top: -60px;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  padding-top: -20px;
+  padding-bottom: -20px;
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -564,7 +582,7 @@ body {
 /* Crystal Showcase Styles */
 .crystal-showcase {
   position: relative;
-  margin: 30px auto;
+  margin: 10px auto;
   max-width: 1600px;
 }
 
@@ -1027,7 +1045,7 @@ footer.main-footer {
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: white;
   text-transform: uppercase;
 }

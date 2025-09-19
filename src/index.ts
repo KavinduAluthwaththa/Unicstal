@@ -276,7 +276,7 @@ function setupTextAnimations() {
         scrollTrigger: {
             trigger: ".fourth",
             start: "top bottom",
-            end: "top 80%", 
+            end: "top -200%", 
             scrub: 1,
             immediateRender: false
         }

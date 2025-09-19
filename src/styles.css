@@ -438,7 +438,8 @@ body {
 }
 
 .logo-icon {
-  height: 40px;
+  margin-top: -10px;
+  height: 250px;
   width: auto;
 }
 

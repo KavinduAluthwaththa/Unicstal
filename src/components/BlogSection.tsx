@@ -38,8 +38,8 @@ const BlogCard = React.memo(({ post, index }: { post: any; index: number }) => {
 });
 
 const BlogSection = () => {
-  const { containerRef, titleRef, buttonRef, showcaseRef } = useBlogAnimations();
   const blogRowRef = React.useRef<HTMLDivElement>(null);
+  const { containerRef, titleRef, paragraphRef, buttonRef, showcaseRef } = useBlogAnimations();
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
 
   useEffect(() => {

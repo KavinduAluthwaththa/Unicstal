@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Crystal } from '@/data/crystals';
 import { getCrystalData } from '@/lib/dataManager';
-import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
+import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 
 const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: (crystal: Crystal) => void }) => {
   return (
@@ -36,8 +36,8 @@ const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: 
 };
 
 const CrystalSection = () => {
-  const { containerRef, titleRef, buttonRef, showcaseRef } = useCrystalAnimations();
   const { firstRowRef, secondRowRef } = useAutoScroll();
+  const { containerRef, titleRef, paragraphRef, buttonRef, showcaseRef } = useCrystalAnimations();
   const [cartItems, setCartItems] = useState<Crystal[]>([]);
   const [crystals, setCrystals] = useState<Crystal[]>([]);
   

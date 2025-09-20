@@ -24,14 +24,14 @@ export const useCrystalAnimations = () => {
     const button = buttonRef.current;
     const showcase = showcaseRef.current;
 
-    // Initial states - set elements to invisible and positioned from bottom
+    // Initial states - set elements to invisible and positioned from left
     gsap.set([title, paragraph, button], {
-      y: 100,
+      x: -100,
       opacity: 0
     });
 
     gsap.set(showcase, {
-      y: 50,
+      x: -80,
       opacity: 0
     });
 
@@ -47,25 +47,25 @@ export const useCrystalAnimations = () => {
 
     entranceTl
       .to(title, {
-        y: 0,
+        x: 0,
         opacity: 1,
         duration: 1.2,
         ease: "power2.out"
       })
       .to(paragraph, {
-        y: 0,
+        x: 0,
         opacity: 1,
         duration: 1,
         ease: "power2.out"
       }, "-=0.8")
       .to(button, {
-        y: 0,
+        x: 0,
         opacity: 1,
         duration: 0.8,
         ease: "power2.out"
       }, "-=0.6")
       .to(showcase, {
-        y: 0,
+        x: 0,
         opacity: 1,
         duration: 1,
         ease: "power2.out"

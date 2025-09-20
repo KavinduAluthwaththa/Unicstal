@@ -22,30 +22,37 @@ export const useHeroAnimations = () => {
     const paragraph = paragraphRef.current;
     const button = buttonRef.current;
 
-    // Initial states - set elements to invisible and positioned from bottom
+    // Initial states - set elements to invisible and positioned from left
     gsap.set([title, paragraph, button], {
-      y: 100,
+      x: -100,
       opacity: 0
     });
 
-    // Create timeline for initial load animations (staggered entrance)
-    const initialTl = gsap.timeline({ delay: 1.2 }); // Delay to match loader from old project
+    // Create timeline for entrance animations when section comes into view
+    const entranceTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top 80%",
+        end: "top 50%",
+        toggleActions: "play none none reverse"
+      }
+    });
 
-    initialTl
+    entranceTl
       .to(title, {
-        y: 0,
+        x: 0,
         opacity: 1,
-        duration: 1.2,
+        duration: 1.0,
         ease: "power2.out"
       })
       .to(paragraph, {
-        y: 0,
+        x: 0,
         opacity: 1,
-        duration: 1,
+        duration: 0.9,
         ease: "power2.out"
-      }, "-=0.8") // Start 0.8s before previous animation ends
+      }, "-=0.7") // Start 0.7s before previous animation ends
       .to(button, {
-        y: 0,
+        x: 0,
         opacity: 1,
         duration: 0.8,
         ease: "power2.out"

@@ -24,37 +24,50 @@ export const useBlogAnimations = () => {
     const button = buttonRef.current;
     const showcase = showcaseRef.current;
 
-    // Initial states - set elements to invisible and positioned from bottom
+    // Initial states - set elements to invisible and positioned from left
     gsap.set([title, paragraph, button], {
-      y: 100,
+      x: -100,
       opacity: 0
     });
 
     gsap.set(showcase, {
-      y: 50,
+      x: -80,
       opacity: 0
     });
 
-    // Simplified entrance animations - reduced complexity for better performance
+    // Create timeline for entrance animations when section comes into view
     const entranceTl = gsap.timeline({
       scrollTrigger: {
         trigger: container,
-        start: "top 85%",
-        toggleActions: "play none none none"
+        start: "top 80%",
+        end: "top 50%",
+        toggleActions: "play none none reverse"
       }
     });
 
     entranceTl
       .to(title, {
-        y: 0,
+        x: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: "power2.out"
+      })
+      .to(paragraph, {
+        x: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out"
+      }, "-=0.8")
+      .to(button, {
+        x: 0,
         opacity: 1,
         duration: 0.8,
         ease: "power2.out"
-      })
-      .to([button, showcase], {
-        y: 0,
+      }, "-=0.6")
+      .to(showcase, {
+        x: 0,
         opacity: 1,
-        duration: 0.6,
+        duration: 1,
         ease: "power2.out"
       }, "-=0.4");
 

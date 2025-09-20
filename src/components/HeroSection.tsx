@@ -10,8 +10,8 @@ const HeroSection = () => {
     <section className="section first" id="section-one">
       <div className="section--one--container" ref={containerRef}>
         <h1 
-          ref={titleRef}
           className="first"
+          ref={titleRef}
         >
           Manifest Your Dreams with the Power of <span className="highlight-text">Crystals</span>
         </h1>
@@ -21,8 +21,8 @@ const HeroSection = () => {
         </p>
         
         <button 
-          ref={buttonRef}
           className="button--hero"
+          ref={buttonRef}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'scale(1.05)';
           }}

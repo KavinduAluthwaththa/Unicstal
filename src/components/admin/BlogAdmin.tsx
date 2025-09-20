@@ -129,7 +129,6 @@ const BlogAdmin = () => {
           <button
             onClick={handleResetData}
             className="btn-secondary"
-            style={{ marginRight: '10px' }}
           >
             Reset to Original
           </button>

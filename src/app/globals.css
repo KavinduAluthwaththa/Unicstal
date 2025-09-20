@@ -1112,8 +1112,8 @@ nav {
 
 .section--four--container .button--hero {
   background: transparent;
-  color: #c2aa35;
-  border: solid 2px #c2aa35;
+  color: #f17726;
+  border: solid 2px #f17726;
   font-weight: 600;
   border-radius: 50px;
   padding: 15px 30px;
@@ -1125,7 +1125,7 @@ nav {
 }
 
 .section--four--container .button--hero:hover {
-  background: #c2aa35;
+  background: #f17726;
   border: none;
   color: #fff;
 }
@@ -1543,6 +1543,12 @@ footer.main-footer {
   font-size: 1.5rem;
   font-weight: 700;
   color: #1e293b;
+}
+
+.admin-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* Button Styles */

@@ -35,40 +35,26 @@ export const useBlogAnimations = () => {
       opacity: 0
     });
 
-    // Create timeline for entrance animations with delay (fade up from bottom)
+    // Simplified entrance animations - reduced complexity for better performance
     const entranceTl = gsap.timeline({
       scrollTrigger: {
         trigger: container,
-        start: "top 80%",
-        end: "top 50%",
-        toggleActions: "play none none reverse"
-      },
-      delay: 0.3 // Add slight delay
+        start: "top 85%",
+        toggleActions: "play none none none"
+      }
     });
 
     entranceTl
       .to(title, {
         y: 0,
         opacity: 1,
-        duration: 1.2,
-        ease: "power2.out"
-      })
-      .to(paragraph, {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out"
-      }, "-=0.8")
-      .to(button, {
-        y: 0,
-        opacity: 1,
         duration: 0.8,
         ease: "power2.out"
-      }, "-=0.6")
-      .to(showcase, {
+      })
+      .to([button, showcase], {
         y: 0,
         opacity: 1,
-        duration: 1,
+        duration: 0.6,
         ease: "power2.out"
       }, "-=0.4");
 

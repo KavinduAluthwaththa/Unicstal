@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
-import GlobalCustomBackground from '@/components/GlobalCustomBackground';
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -36,7 +35,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} font-sans antialiased`}>
-        <GlobalCustomBackground />
         {children}
       </body>
     </html>

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { crystalData, Crystal } from '@/data/crystals';
+import { Crystal } from '@/data/crystals';
+import { getCrystalData } from '@/lib/dataManager';
 import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
 
@@ -38,6 +39,11 @@ const CrystalSection = () => {
   const { containerRef, titleRef, buttonRef, showcaseRef } = useCrystalAnimations();
   const { firstRowRef, secondRowRef } = useAutoScroll();
   const [cartItems, setCartItems] = useState<Crystal[]>([]);
+  const [crystals, setCrystals] = useState<Crystal[]>([]);
+  
+  useEffect(() => {
+    setCrystals(getCrystalData());
+  }, []);
   
   const handleAddToCart = (crystal: Crystal) => {
     setCartItems(prev => [...prev, crystal]);
@@ -45,8 +51,8 @@ const CrystalSection = () => {
   };
 
   // Split crystals into two rows for display
-  const firstRow = crystalData.slice(0, 4);
-  const secondRow = crystalData.slice(4, 8);
+  const firstRow = crystals.slice(0, 4);
+  const secondRow = crystals.slice(4, 8);
 
   return (
     <section className="section third" id="section-three">

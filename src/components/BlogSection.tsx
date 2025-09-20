@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { blogData } from '@/data/blog';
+import { BlogPost } from '@/data/blog';
+import { getBlogData } from '@/lib/dataManager';
 import { useBlogAnimations } from '@/hooks/useBlogAnimations';
 import { gsap } from 'gsap';
 
@@ -39,6 +40,11 @@ const BlogCard = React.memo(({ post, index }: { post: any; index: number }) => {
 const BlogSection = () => {
   const { containerRef, titleRef, buttonRef, showcaseRef } = useBlogAnimations();
   const blogRowRef = React.useRef<HTMLDivElement>(null);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    setBlogs(getBlogData());
+  }, []);
 
   React.useEffect(() => {
     if (typeof window === 'undefined' || !blogRowRef.current) return;
@@ -105,7 +111,7 @@ const BlogSection = () => {
         <div className="blog-showcase" ref={showcaseRef}>
           <div className="blog-carousel">
             <div className="blog-row auto-scroll-row" ref={blogRowRef}>
-              {blogData.map((post, index) => (
+              {blogs.map((post: BlogPost, index: number) => (
                 <BlogCard key={post.id} post={post} index={index} />
               ))}
             </div>

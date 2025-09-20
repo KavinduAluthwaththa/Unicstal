@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X, Calendar, User, Clock } from 'lucide-react';
 import { blogData } from '@/data/blog';
 import type { BlogPost } from '@/data/blog';
-import { notifyBlogDataUpdate } from '@/hooks/useReactiveData';
+import { notifyBlogDataUpdate, permanentlyDeleteBlog, resetBlogDeletions } from '@/hooks/useReactiveData';
 
 const BlogAdmin = () => {
-  const [blogs, setBlogs] = useState<BlogPost[]>(blogData);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [newBlog, setNewBlog] = useState<Partial<BlogPost>>({
     title: '',
     excerpt: '',
@@ -20,19 +21,26 @@ const BlogAdmin = () => {
     slug: ''
   });
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount, initialize if doesn't exist
   useEffect(() => {
     const saved = localStorage.getItem('blogData');
     if (saved) {
       setBlogs(JSON.parse(saved));
+    } else {
+      // Initialize with original data and save to localStorage
+      localStorage.setItem('blogData', JSON.stringify(blogData));
+      setBlogs(blogData);
     }
+    setIsInitialized(true);
   }, []);
 
-  // Save to localStorage whenever blogs change
+  // Save to localStorage whenever blogs change (but not on initial load)  
   useEffect(() => {
-    localStorage.setItem('blogData', JSON.stringify(blogs));
-    notifyBlogDataUpdate(); // Notify other components of the change
-  }, [blogs]);
+    if (isInitialized) {
+      localStorage.setItem('blogData', JSON.stringify(blogs));
+      notifyBlogDataUpdate(); // Notify other components of the change
+    }
+  }, [blogs, isInitialized]);
 
   const handleEdit = (id: string) => {
     setEditingId(id);
@@ -47,7 +55,10 @@ const BlogAdmin = () => {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this blog post?')) {
+    if (confirm('Are you sure you want to PERMANENTLY delete this blog post? This cannot be undone and the item will never appear again.')) {
+      // Add to permanent deletion list
+      permanentlyDeleteBlog(id);
+      // Remove from current state
       setBlogs(blogs.filter(blog => blog.id !== id));
     }
   };
@@ -102,17 +113,34 @@ const BlogAdmin = () => {
     }
   };
 
+  const handleResetData = () => {
+    if (confirm('Are you sure you want to reset ALL blog data to original? This will restore all deleted items and remove all changes.')) {
+      resetBlogDeletions();
+      localStorage.setItem('blogData', JSON.stringify(blogData));
+      setBlogs(blogData);
+    }
+  };
+
   return (
     <div className="admin-section">
       <div className="admin-section-header">
         <h2>Blog Management</h2>
-        <button
-          onClick={() => setIsAddingNew(true)}
-          className="btn-primary"
-        >
-          <Plus size={20} />
-          Add New Blog Post
-        </button>
+        <div className="admin-buttons">
+          <button
+            onClick={handleResetData}
+            className="btn-secondary"
+            style={{ marginRight: '10px' }}
+          >
+            Reset to Original
+          </button>
+          <button
+            onClick={() => setIsAddingNew(true)}
+            className="btn-primary"
+          >
+            <Plus size={20} />
+            Add New Blog Post
+          </button>
+        </div>
       </div>
 
       {/* Add New Blog Form */}

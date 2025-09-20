@@ -17,7 +17,7 @@ const AdminPage = () => {
     // Check authentication on component mount
     const checkAuthentication = () => {
       if (!checkAuth()) {
-        router.replace('/login');
+        router.replace('/adminlogin');
         return;
       }
       setIsAuthenticated(true);
@@ -28,7 +28,7 @@ const AdminPage = () => {
 
   const handleLogout = () => {
     logout();
-    router.push('/login');
+    router.push('/adminlogin');
   };
 
   // Show loading while checking auth

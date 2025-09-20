@@ -41,6 +41,6 @@ export const requireAuth = () => {
   if (typeof window === 'undefined') return;
   
   if (!checkAuth()) {
-    window.location.href = '/login';
+    window.location.href = '/adminlogin';
   }
 };

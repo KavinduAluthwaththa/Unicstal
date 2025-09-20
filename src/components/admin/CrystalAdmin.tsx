@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
 import { crystalData } from '@/data/crystals';
 import type { Crystal } from '@/data/crystals';
-import { notifyCrystalDataUpdate } from '@/hooks/useReactiveData';
+import { notifyCrystalDataUpdate, permanentlyDeleteCrystal, resetCrystalDeletions } from '@/hooks/useReactiveData';
 
 const CrystalAdmin = () => {
-  const [crystals, setCrystals] = useState<Crystal[]>(crystalData);
+  const [crystals, setCrystals] = useState<Crystal[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [newCrystal, setNewCrystal] = useState<Partial<Crystal>>({
     name: '',
     type: '',
@@ -17,19 +18,26 @@ const CrystalAdmin = () => {
     image: ''
   });
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount, initialize if doesn't exist
   useEffect(() => {
     const saved = localStorage.getItem('crystalData');
     if (saved) {
       setCrystals(JSON.parse(saved));
+    } else {
+      // Initialize with original data and save to localStorage
+      localStorage.setItem('crystalData', JSON.stringify(crystalData));
+      setCrystals(crystalData);
     }
+    setIsInitialized(true);
   }, []);
 
-  // Save to localStorage whenever crystals change
+  // Save to localStorage whenever crystals change (but not on initial load)
   useEffect(() => {
-    localStorage.setItem('crystalData', JSON.stringify(crystals));
-    notifyCrystalDataUpdate(); // Notify other components of the change
-  }, [crystals]);
+    if (isInitialized) {
+      localStorage.setItem('crystalData', JSON.stringify(crystals));
+      notifyCrystalDataUpdate(); // Notify other components of the change
+    }
+  }, [crystals, isInitialized]);
 
   const handleEdit = (id: string) => {
     setEditingId(id);
@@ -44,7 +52,10 @@ const CrystalAdmin = () => {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this crystal?')) {
+    if (confirm('Are you sure you want to PERMANENTLY delete this crystal? This cannot be undone and the item will never appear again.')) {
+      // Add to permanent deletion list
+      permanentlyDeleteCrystal(id);
+      // Remove from current state
       setCrystals(crystals.filter(crystal => crystal.id !== id));
     }
   };
@@ -87,17 +98,34 @@ const CrystalAdmin = () => {
     }
   };
 
+  const handleResetData = () => {
+    if (confirm('Are you sure you want to reset ALL crystal data to original? This will restore all deleted items and remove all changes.')) {
+      resetCrystalDeletions();
+      localStorage.setItem('crystalData', JSON.stringify(crystalData));
+      setCrystals(crystalData);
+    }
+  };
+
   return (
     <div className="admin-section">
       <div className="admin-section-header">
         <h2>Crystal Management</h2>
-        <button
-          onClick={() => setIsAddingNew(true)}
-          className="btn-primary"
-        >
-          <Plus size={20} />
-          Add New Crystal
-        </button>
+        <div className="admin-buttons">
+          <button
+            onClick={handleResetData}
+            className="btn-secondary"
+            style={{ marginRight: '10px' }}
+          >
+            Reset to Original
+          </button>
+          <button
+            onClick={() => setIsAddingNew(true)}
+            className="btn-primary"
+          >
+            <Plus size={20} />
+            Add New Crystal
+          </button>
+        </div>
       </div>
 
       {/* Add New Crystal Form */}

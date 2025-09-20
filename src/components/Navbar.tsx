@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -48,9 +47,7 @@ const Navbar = () => {
           <span className="cart-count">{cartCount}</span>
         </button>
         
-        <Link href="/login" className="button--navbar login-btn" style={{ textDecoration: 'none', display: 'inline-block' }}>
-          Login
-        </Link>
+        <button className="button--navbar login-btn">Login</button>
         <button className="button--navbar login-btn">Register</button>
         
         <button className="icon-button menu-btn" title="Menu">

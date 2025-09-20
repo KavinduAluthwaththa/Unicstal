@@ -5,6 +5,7 @@ import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
 import { crystalData } from '@/data/crystals';
 import type { Crystal } from '@/data/crystals';
 import { notifyCrystalDataUpdate, permanentlyDeleteCrystal, resetCrystalDeletions } from '@/hooks/useReactiveData';
+import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
 
 const CrystalAdmin = () => {
   const [crystals, setCrystals] = useState<Crystal[]>([]);
@@ -51,8 +52,20 @@ const CrystalAdmin = () => {
     setEditingId(null);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to PERMANENTLY delete this crystal? This cannot be undone and the item will never appear again.')) {
+      const crystal = crystals.find(c => c.id === id);
+      
+      // Delete associated file if it's a local upload
+      if (crystal && isLocalUpload(crystal.image)) {
+        try {
+          const filename = extractFilenameFromUrl(crystal.image);
+          await deleteFile(filename);
+        } catch (error) {
+          console.error('Failed to delete file:', error);
+        }
+      }
+      
       // Add to permanent deletion list
       permanentlyDeleteCrystal(id);
       // Remove from current state
@@ -77,24 +90,32 @@ const CrystalAdmin = () => {
     setIsAddingNew(false);
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, crystalId?: string) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, crystalId?: string) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
+      try {
+        const result = await uploadFile(file, 'crystal');
         
         if (crystalId) {
+          // Delete old file if it exists and is a local upload
+          const existingCrystal = crystals.find(c => c.id === crystalId);
+          if (existingCrystal && isLocalUpload(existingCrystal.image)) {
+            const oldFilename = extractFilenameFromUrl(existingCrystal.image);
+            await deleteFile(oldFilename).catch(console.error);
+          }
+          
           // Update existing crystal
           setCrystals(crystals.map(crystal => 
-            crystal.id === crystalId ? { ...crystal, image: imageUrl } : crystal
+            crystal.id === crystalId ? { ...crystal, image: result.url } : crystal
           ));
         } else {
           // Update new crystal
-          setNewCrystal({ ...newCrystal, image: imageUrl });
+          setNewCrystal({ ...newCrystal, image: result.url });
         }
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('Failed to upload file:', error);
+        alert('Failed to upload image. Please try again.');
+      }
     }
   };
 

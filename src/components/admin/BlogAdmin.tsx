@@ -5,6 +5,7 @@ import { Plus, Edit2, Trash2, Save, X, Calendar, User, Clock } from 'lucide-reac
 import { blogData } from '@/data/blog';
 import type { BlogPost } from '@/data/blog';
 import { notifyBlogDataUpdate, permanentlyDeleteBlog, resetBlogDeletions } from '@/hooks/useReactiveData';
+import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
 
 const BlogAdmin = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -54,8 +55,20 @@ const BlogAdmin = () => {
     setEditingId(null);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to PERMANENTLY delete this blog post? This cannot be undone and the item will never appear again.')) {
+      const blog = blogs.find(b => b.id === id);
+      
+      // Delete associated file if it's a local upload
+      if (blog && isLocalUpload(blog.image)) {
+        try {
+          const filename = extractFilenameFromUrl(blog.image);
+          await deleteFile(filename);
+        } catch (error) {
+          console.error('Failed to delete file:', error);
+        }
+      }
+      
       // Add to permanent deletion list
       permanentlyDeleteBlog(id);
       // Remove from current state
@@ -92,24 +105,32 @@ const BlogAdmin = () => {
     setIsAddingNew(false);
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, blogId?: string) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, blogId?: string) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
+      try {
+        const result = await uploadFile(file, 'blog');
         
         if (blogId) {
+          // Delete old file if it exists and is a local upload
+          const existingBlog = blogs.find(b => b.id === blogId);
+          if (existingBlog && isLocalUpload(existingBlog.image)) {
+            const oldFilename = extractFilenameFromUrl(existingBlog.image);
+            await deleteFile(oldFilename).catch(console.error);
+          }
+          
           // Update existing blog
           setBlogs(blogs.map(blog => 
-            blog.id === blogId ? { ...blog, image: imageUrl } : blog
+            blog.id === blogId ? { ...blog, image: result.url } : blog
           ));
         } else {
           // Update new blog
-          setNewBlog({ ...newBlog, image: imageUrl });
+          setNewBlog({ ...newBlog, image: result.url });
         }
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('Failed to upload file:', error);
+        alert('Failed to upload image. Please try again.');
+      }
     }
   };
 

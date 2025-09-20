@@ -154,8 +154,6 @@ const Global3DModel: React.FC = () => {
       const initialRotY = starModel.rotation.y; // -0.6
       const initialScale = starModel.scale.clone();
 
-      // Use the same timeline structure as original project
-      // Section 1 (start) to Section 2 (end of .second) - continuous model animation aligned with scroll
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: "#section-two", // .second in original
@@ -166,8 +164,6 @@ const Global3DModel: React.FC = () => {
         }
       });
 
-      // PHASE 1: Section 1 to 2 (start as early as possible, -0.5 to 0.0 scroll progress)
-      // Exact movements from original project
       tl
         .to(starModel.position, {
           x: -1,
@@ -182,8 +178,6 @@ const Global3DModel: React.FC = () => {
           ease: "power2.inOut"
         }, -0.8)
 
-        // PHASE 2: Section 2 to 3 (start immediately after phase 1, 0.0 to 0.15 scroll progress)  
-        // Model exits far to the left as in original
         .to(starModel.position, {
           x: -50.8,
           y: -0.2,

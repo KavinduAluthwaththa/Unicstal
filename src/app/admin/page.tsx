@@ -50,7 +50,7 @@ const AdminPage = () => {
             <ArrowLeft size={20} />
             Back to Site
           </Link>
-          <h1>UNICSTAL Admin Panel</h1>
+          <h1>Admin Panel</h1>
           <div className="header-actions">
             <div className="admin-tabs">
               <button

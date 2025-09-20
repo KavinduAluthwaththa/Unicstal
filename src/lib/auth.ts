@@ -1,16 +1,25 @@
+import { getSessionConfig } from './adminConfig';
+
 export const checkAuth = (): boolean => {
   if (typeof window === 'undefined') return false;
   
   const isAuthenticated = localStorage.getItem('isAdminAuthenticated');
   const loginTime = localStorage.getItem('adminLoginTime');
+  const sessionToken = localStorage.getItem('adminSessionToken');
   
-  if (!isAuthenticated || !loginTime) return false;
+  if (!isAuthenticated || !loginTime || !sessionToken) return false;
   
-  // Check if login is still valid (24 hours)
-  const twentyFourHours = 24 * 60 * 60 * 1000;
-  const isSessionValid = Date.now() - parseInt(loginTime) < twentyFourHours;
+  // Get session duration from config
+  const sessionConfig = getSessionConfig();
+  const isSessionValid = Date.now() - parseInt(loginTime) < sessionConfig.duration;
   
   if (!isSessionValid) {
+    logout();
+    return false;
+  }
+  
+  // Validate session token exists (basic check)
+  if (!sessionToken || sessionToken.length < 10) {
     logout();
     return false;
   }
@@ -23,6 +32,9 @@ export const logout = () => {
   
   localStorage.removeItem('isAdminAuthenticated');
   localStorage.removeItem('adminLoginTime');
+  localStorage.removeItem('adminSessionToken');
+  localStorage.removeItem('loginAttempts');
+  localStorage.removeItem('lockoutTime');
 };
 
 export const requireAuth = () => {

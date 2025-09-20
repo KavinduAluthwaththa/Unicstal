@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, EyeOff, Lock, User } from 'lucide-react';
+import { Eye, EyeOff, Lock, User, Shield } from 'lucide-react';
+import { getAdminUsername, getAdminPasswordHash, getSecurityConfig, validateSecurityContext } from '@/lib/adminConfig';
+import { comparePassword } from '@/lib/passwordUtils';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -10,31 +12,105 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
   const router = useRouter();
 
-  // Hardcoded credentials
-  const ADMIN_CREDENTIALS = {
-    username: 'admin',
-    password: 'crystal2024'
-  };
+  // Get protected credentials and security config
+  const securityConfig = getSecurityConfig();
+  const maxAttempts = securityConfig.maxLoginAttempts;
+
+  // Check for existing lockout on component mount
+  React.useEffect(() => {
+    const storedAttempts = localStorage.getItem('loginAttempts');
+    const lockoutTime = localStorage.getItem('lockoutTime');
+    
+    if (storedAttempts) {
+      setLoginAttempts(parseInt(storedAttempts));
+    }
+    
+    if (lockoutTime) {
+      const timeSinceLockout = Date.now() - parseInt(lockoutTime);
+      if (timeSinceLockout < securityConfig.lockoutDuration) {
+        setIsLocked(true);
+        const remainingTime = Math.ceil((securityConfig.lockoutDuration - timeSinceLockout) / 60000);
+        setError(`Account locked. Try again in ${remainingTime} minutes.`);
+      } else {
+        // Lockout expired, clear it
+        localStorage.removeItem('loginAttempts');
+        localStorage.removeItem('lockoutTime');
+        setLoginAttempts(0);
+        setIsLocked(false);
+      }
+    }
+  }, [securityConfig.lockoutDuration]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if account is locked
+    if (isLocked) {
+      setError('Account locked due to too many failed attempts. Please try again later.');
+      return;
+    }
+
     setIsLoading(true);
     setError('');
 
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Security validation
+    if (!validateSecurityContext()) {
+      setError('Security validation failed');
+      setIsLoading(false);
+      return;
+    }
 
-    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-      // Set authentication in localStorage
-      localStorage.setItem('isAdminAuthenticated', 'true');
-      localStorage.setItem('adminLoginTime', Date.now().toString());
+    // Simulate network delay and add random delay for security
+    const delay = Math.random() * 1000 + 500;
+    await new Promise(resolve => setTimeout(resolve, delay));
+
+    try {
+      // Get protected credentials
+      const adminUsername = getAdminUsername();
+      const adminPasswordHash = getAdminPasswordHash();
       
-      // Redirect to admin panel
-      router.push('/admin');
-    } else {
-      setError('Invalid username or password');
+      // Check username and verify password hash
+      const isUsernameValid = username === adminUsername;
+      const isPasswordValid = await comparePassword(password, adminPasswordHash);
+      
+      if (isUsernameValid && isPasswordValid) {
+        // Reset login attempts on success
+        setLoginAttempts(0);
+        localStorage.removeItem('loginAttempts');
+        localStorage.removeItem('lockoutTime');
+        
+        // Set authentication in localStorage with enhanced security
+        localStorage.setItem('isAdminAuthenticated', 'true');
+        localStorage.setItem('adminLoginTime', Date.now().toString());
+        
+        // Generate and store session token for additional security
+        const sessionToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        localStorage.setItem('adminSessionToken', sessionToken);
+        
+        // Redirect to admin panel
+        router.push('/admin');
+      } else {
+        // Handle failed login attempt
+        const newAttempts = loginAttempts + 1;
+        setLoginAttempts(newAttempts);
+        localStorage.setItem('loginAttempts', newAttempts.toString());
+        
+        if (newAttempts >= maxAttempts) {
+          setIsLocked(true);
+          localStorage.setItem('lockoutTime', Date.now().toString());
+          setError(`Account locked for ${securityConfig.lockoutDuration / 60000} minutes due to too many failed attempts`);
+        } else {
+          setError(`Invalid credentials. ${maxAttempts - newAttempts} attempts remaining.`);
+        }
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+      setError('Authentication system error');
       setIsLoading(false);
     }
   };
@@ -50,11 +126,11 @@ const LoginPage = () => {
           <div className="login-header">
             <div className="login-logo">
               <div className="logo-icon-wrapper">
-                <Lock size={32} />
+                <Shield size={32} />
               </div>
             </div>
-            <h1>UNICSTAL Admin</h1>
-            <p>Access the content management system</p>
+            <h1>Login</h1>
+            <p>Welcome to Unicstal</p>
           </div>
 
           <form onSubmit={handleSubmit} className="login-form">
@@ -116,10 +192,6 @@ const LoginPage = () => {
               )}
             </button>
           </form>
-
-          <div className="login-footer">
-            <p>Default credentials: admin / crystal2024</p>
-          </div>
         </div>
       </div>
     </div>

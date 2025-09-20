@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { BlogPost } from '@/data/blog';
-import { getBlogData } from '@/lib/dataManager';
+import { useReactiveBlogData } from '@/hooks/useReactiveData';
 import { useBlogAnimations } from '@/hooks/useBlogAnimations';
 import { gsap } from 'gsap';
 
@@ -40,11 +40,7 @@ const BlogCard = React.memo(({ post, index }: { post: any; index: number }) => {
 const BlogSection = () => {
   const blogRowRef = React.useRef<HTMLDivElement>(null);
   const { containerRef, titleRef, paragraphRef, buttonRef, showcaseRef } = useBlogAnimations();
-  const [blogs, setBlogs] = useState<BlogPost[]>([]);
-
-  useEffect(() => {
-    setBlogs(getBlogData());
-  }, []);
+  const blogs = useReactiveBlogData(); // Use reactive hook instead of state
 
   React.useEffect(() => {
     if (typeof window === 'undefined' || !blogRowRef.current) return;

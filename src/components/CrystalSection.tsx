@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Crystal } from '@/data/crystals';
-import { getCrystalData } from '@/lib/dataManager';
+import { useReactiveCrystalData } from '@/hooks/useReactiveData';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 
@@ -39,11 +39,7 @@ const CrystalSection = () => {
   const { firstRowRef, secondRowRef } = useAutoScroll();
   const { containerRef, titleRef, paragraphRef, buttonRef, showcaseRef } = useCrystalAnimations();
   const [cartItems, setCartItems] = useState<Crystal[]>([]);
-  const [crystals, setCrystals] = useState<Crystal[]>([]);
-  
-  useEffect(() => {
-    setCrystals(getCrystalData());
-  }, []);
+  const crystals = useReactiveCrystalData(); // Use reactive hook instead of state
   
   const handleAddToCart = (crystal: Crystal) => {
     setCartItems(prev => [...prev, crystal]);

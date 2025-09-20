@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
 import { crystalData } from '@/data/crystals';
 import type { Crystal } from '@/data/crystals';
+import { notifyCrystalDataUpdate } from '@/hooks/useReactiveData';
 
 const CrystalAdmin = () => {
   const [crystals, setCrystals] = useState<Crystal[]>(crystalData);
@@ -27,6 +28,7 @@ const CrystalAdmin = () => {
   // Save to localStorage whenever crystals change
   useEffect(() => {
     localStorage.setItem('crystalData', JSON.stringify(crystals));
+    notifyCrystalDataUpdate(); // Notify other components of the change
   }, [crystals]);
 
   const handleEdit = (id: string) => {

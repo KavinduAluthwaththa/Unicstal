@@ -172,7 +172,7 @@ const Global3DModel: React.FC = () => {
         .to(starModel.position, {
           x: -1,
           y: -0.5,
-          z: 0.8,
+          z: 0,
           duration: 0.3,
           ease: "power2.inOut"
         }, -0.8)

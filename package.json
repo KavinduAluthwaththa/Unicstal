@@ -9,7 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/three": "^0.180.0",
+    "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.16",
     "gsap": "^3.13.0",

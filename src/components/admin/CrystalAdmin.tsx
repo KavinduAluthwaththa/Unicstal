@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
 import { crystalData } from '@/data/crystals';
 import type { Crystal } from '@/data/crystals';
-import { notifyCrystalDataUpdate, permanentlyDeleteCrystal, resetCrystalDeletions } from '@/hooks/useReactiveData';
+import { notifyCrystalDataUpdate, permanentlyDeleteCrystal } from '@/hooks/useReactiveData';
 import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
 
 const CrystalAdmin = () => {
@@ -119,25 +119,13 @@ const CrystalAdmin = () => {
     }
   };
 
-  const handleResetData = () => {
-    if (confirm('Are you sure you want to reset ALL crystal data to original? This will restore all deleted items and remove all changes.')) {
-      resetCrystalDeletions();
-      localStorage.setItem('crystalData', JSON.stringify(crystalData));
-      setCrystals(crystalData);
-    }
-  };
+
 
   return (
     <div className="admin-section">
       <div className="admin-section-header">
         <h2>Crystal Management</h2>
         <div className="admin-buttons">
-          <button
-            onClick={handleResetData}
-            className="btn-secondary"
-          >
-            Reset to Original
-          </button>
           <button
             onClick={() => setIsAddingNew(true)}
             className="btn-primary"

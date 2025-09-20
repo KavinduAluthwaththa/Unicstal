@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X, Calendar, User, Clock } from 'lucide-react';
 import { blogData } from '@/data/blog';
 import type { BlogPost } from '@/data/blog';
-import { notifyBlogDataUpdate, permanentlyDeleteBlog, resetBlogDeletions } from '@/hooks/useReactiveData';
+import { notifyBlogDataUpdate, permanentlyDeleteBlog } from '@/hooks/useReactiveData';
 import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
 
 const BlogAdmin = () => {
@@ -134,25 +134,13 @@ const BlogAdmin = () => {
     }
   };
 
-  const handleResetData = () => {
-    if (confirm('Are you sure you want to reset ALL blog data to original? This will restore all deleted items and remove all changes.')) {
-      resetBlogDeletions();
-      localStorage.setItem('blogData', JSON.stringify(blogData));
-      setBlogs(blogData);
-    }
-  };
+
 
   return (
     <div className="admin-section">
       <div className="admin-section-header">
         <h2>Blog Management</h2>
         <div className="admin-buttons">
-          <button
-            onClick={handleResetData}
-            className="btn-secondary"
-          >
-            Reset to Original
-          </button>
           <button
             onClick={() => setIsAddingNew(true)}
             className="btn-primary"

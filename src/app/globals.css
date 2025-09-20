@@ -16,6 +16,7 @@ body {
   background: white;
   color: black;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 /* Hide scrollbar for webkit browsers but keep functionality */
@@ -57,17 +58,54 @@ body {
   z-index: 10;
 }
 
-/* Ensure navbar stays above 3D model */
+/* Star Background Styles */
+.star-background-container {
+  overflow: hidden;
+}
+
+.star-bg-canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.section-star-bg {
+  position: absolute;
+  overflow: hidden;
+}
+
+.global-custom-bg {
+  position: relative;
+  z-index: 1;
+}
+
+/* Scroll Slide-In Animation Styles */
+.scroll-slide-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-slide-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ensure navbar stays above 3D model and stars */
 nav {
   position: relative;
   z-index: 50;
 }
 
-/* Loading animation */
+/* Loading animation - DISABLED */
 @keyframes fadeIn {
   from {
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 1;
+    transform: translateY(0);
   }
   to {
     opacity: 1;
@@ -76,7 +114,9 @@ nav {
 }
 
 .fade-in {
-  animation: fadeIn 0.6s ease-out;
+  /* animation: fadeIn 0.6s ease-out; */
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Gradient text utilities */
@@ -1917,7 +1957,7 @@ footer.main-footer {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   padding: 20px;
 }
 

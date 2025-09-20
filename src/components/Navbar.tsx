@@ -48,10 +48,8 @@ const Navbar = () => {
           <span className="cart-count">{cartCount}</span>
         </button>
         
-        <button className="button--navbar login-btn">Login</button>
-        
-        <Link href="/admin" className="button--navbar login-btn" style={{ textDecoration: 'none', display: 'inline-block' }}>
-          Admin
+        <Link href="/login" className="button--navbar login-btn" style={{ textDecoration: 'none', display: 'inline-block' }}>
+          Login
         </Link>
         <button className="button--navbar login-btn">Register</button>
         

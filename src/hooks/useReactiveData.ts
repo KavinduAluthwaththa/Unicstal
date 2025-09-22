@@ -7,6 +7,8 @@ import { BlogPost, blogData } from '@/data/blog';
 // Custom hook for reactive crystal data
 export const useReactiveCrystalData = () => {
   const [crystals, setCrystals] = useState<Crystal[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const loadCrystalData = () => {
     if (typeof window === 'undefined') return crystalData;
@@ -15,22 +17,33 @@ export const useReactiveCrystalData = () => {
     const saved = localStorage.getItem('crystalData');
     const deletedIds = JSON.parse(localStorage.getItem('deletedCrystals') || '[]');
     
+    console.log('📦 loadCrystalData: localStorage saved data:', saved ? 'exists' : 'not found');
+    console.log('🗑️ loadCrystalData: deleted IDs:', deletedIds);
+    
     let currentData: Crystal[];
     
     if (saved) {
       currentData = JSON.parse(saved);
+      console.log('📄 loadCrystalData: parsed saved data count:', currentData.length);
     } else {
       // Start with original data but filter out any previously deleted items
       currentData = crystalData.filter(item => !deletedIds.includes(item.id));
       localStorage.setItem('crystalData', JSON.stringify(currentData));
+      console.log('🆕 loadCrystalData: initialized with original data, count:', currentData.length);
     }
     
     // Always filter out deleted items (in case they were re-added somehow)
-    return currentData.filter(item => !deletedIds.includes(item.id));
+    const finalData = currentData.filter(item => !deletedIds.includes(item.id));
+    console.log('✅ loadCrystalData: final data count:', finalData.length);
+    return finalData;
   };
 
   const updateCrystals = () => {
-    setCrystals(loadCrystalData());
+    const data = loadCrystalData();
+    console.log('🔄 useReactiveCrystalData: Loading crystal data:', data.length, 'crystals');
+    console.log('🔍 Crystal data items:', data.map(c => ({id: c.id, name: c.name, slug: c.slug})));
+    setCrystals(data);
+    setIsInitialized(true);
   };
 
   useEffect(() => {
@@ -47,7 +60,7 @@ export const useReactiveCrystalData = () => {
     // Listen for custom events (for same-tab updates)
     const handleCustomUpdate = () => {
       console.log('🔄 Crystal data custom update received, reloading...');
-      updateCrystals();
+      setRefreshTrigger(prev => prev + 1);
     };
 
     window.addEventListener('storage', handleStorageChange);
@@ -59,12 +72,22 @@ export const useReactiveCrystalData = () => {
     };
   }, []);
 
+  // Effect to handle refresh triggers
+  useEffect(() => {
+    if (refreshTrigger > 0) {
+      console.log('🔄 Refresh trigger activated, updating crystals...');
+      updateCrystals();
+    }
+  }, [refreshTrigger]);
+
   return crystals;
 };
 
 // Custom hook for reactive blog data
 export const useReactiveBlogData = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const loadBlogData = () => {
     if (typeof window === 'undefined') return blogData;
@@ -73,22 +96,33 @@ export const useReactiveBlogData = () => {
     const saved = localStorage.getItem('blogData');
     const deletedIds = JSON.parse(localStorage.getItem('deletedBlogs') || '[]');
     
+    console.log('📦 loadBlogData: localStorage saved data:', saved ? 'exists' : 'not found');
+    console.log('🗑️ loadBlogData: deleted IDs:', deletedIds);
+    
     let currentData: BlogPost[];
     
     if (saved) {
       currentData = JSON.parse(saved);
+      console.log('📄 loadBlogData: parsed saved data count:', currentData.length);
     } else {
       // Start with original data but filter out any previously deleted items
       currentData = blogData.filter(item => !deletedIds.includes(item.id));
       localStorage.setItem('blogData', JSON.stringify(currentData));
+      console.log('🆕 loadBlogData: initialized with original data, count:', currentData.length);
     }
     
     // Always filter out deleted items (in case they were re-added somehow)
-    return currentData.filter(item => !deletedIds.includes(item.id));
+    const finalData = currentData.filter(item => !deletedIds.includes(item.id));
+    console.log('✅ loadBlogData: final data count:', finalData.length);
+    return finalData;
   };
 
   const updateBlogs = () => {
-    setBlogs(loadBlogData());
+    const data = loadBlogData();
+    console.log('🔄 useReactiveBlogData: Loading blog data:', data.length, 'blogs');
+    console.log('🔍 Blog data items:', data.map(b => ({id: b.id, title: b.title, slug: b.slug})));
+    setBlogs(data);
+    setIsInitialized(true);
   };
 
   useEffect(() => {
@@ -105,7 +139,7 @@ export const useReactiveBlogData = () => {
     // Listen for custom events (for same-tab updates)
     const handleCustomUpdate = () => {
       console.log('🔄 Blog data custom update received, reloading...');
-      updateBlogs();
+      setRefreshTrigger(prev => prev + 1);
     };
 
     window.addEventListener('storage', handleStorageChange);
@@ -116,6 +150,14 @@ export const useReactiveBlogData = () => {
       window.removeEventListener('blogDataUpdated', handleCustomUpdate);
     };
   }, []);
+
+  // Effect to handle refresh triggers
+  useEffect(() => {
+    if (refreshTrigger > 0) {
+      console.log('🔄 Refresh trigger activated, updating blogs...');
+      updateBlogs();
+    }
+  }, [refreshTrigger]);
 
   return blogs;
 };

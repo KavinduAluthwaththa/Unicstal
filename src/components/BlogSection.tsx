@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { BlogPost } from '@/data/blog';
 import { useReactiveBlogData } from '@/hooks/useReactiveData';
 import { useBlogAnimations } from '@/hooks/useBlogAnimations';
@@ -9,31 +10,33 @@ import { gsap } from 'gsap';
 
 const BlogCard = React.memo(({ post, index }: { post: any; index: number }) => {
   return (
-    <article className="blog-post">
-      <div className="blog-image">
-        <Image 
-          src={post.image} 
-          alt={post.title}
-          width={320}
-          height={200}
-          className="w-full h-full object-cover"
-          loading="lazy"
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-        />
-        <div className="blog-date">{post.date}</div>
-      </div>
-      
-      <div className="blog-content">
-        <h3 className="blog-title">{post.title}</h3>
-        <p className="blog-excerpt">{post.excerpt}</p>
-        
-        <div className="blog-meta">
-          <span className="blog-author">{post.author}</span>
-          <span className="blog-read-time">{post.readTime}</span>
+    <Link href={`/blogs/${post.slug}`} className="blog-post-link">
+      <article className="blog-post">
+        <div className="blog-image">
+          <Image 
+            src={post.image} 
+            alt={post.title}
+            width={320}
+            height={200}
+            className="w-full h-full object-cover"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+          />
+          <div className="blog-date">{post.date}</div>
         </div>
-      </div>
-    </article>
+        
+        <div className="blog-content">
+          <h3 className="blog-title">{post.title}</h3>
+          <p className="blog-excerpt">{post.excerpt}</p>
+          
+          <div className="blog-meta">
+            <span className="blog-author">{post.author}</span>
+            <span className="blog-read-time">{post.readTime}</span>
+          </div>
+        </div>
+      </article>
+    </Link>
   );
 });
 
@@ -114,12 +117,14 @@ const BlogSection = () => {
           </div>
         </div>
 
-        <button 
-          ref={buttonRef}
-          className="button--hero"
-        >
-          READ ALL STORIES
-        </button>
+        <Link href="/blogs">
+          <button 
+            ref={buttonRef}
+            className="button--hero"
+          >
+            READ ALL STORIES
+          </button>
+        </Link>
       </div>
     </section>
   );

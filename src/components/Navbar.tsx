@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,13 +34,15 @@ const Navbar = () => {
     <nav className="nav--bar">
       {/* Logo container (visible on desktop) */}
       <div className="logo-container">
-        <Image
-          src="/assets/images/logo.png"
-          alt="UNICSTAL Logo"
-          width={250}
-          height={250}
-          className="logo-icon"
-        />
+        <Link href="/">
+          <Image
+            src="/assets/images/logo.png"
+            alt="UNICSTAL Logo"
+            width={250}
+            height={250}
+            className="logo-icon"
+          />
+        </Link>
       </div>
       
       {/* Top bar with hamburger menu (mobile only) */}

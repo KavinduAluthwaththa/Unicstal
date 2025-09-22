@@ -7,6 +7,24 @@ import type { BlogPost } from '@/data/blog';
 import { notifyBlogDataUpdate, permanentlyDeleteBlog } from '@/hooks/useReactiveData';
 import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
 
+// Function to generate URL-friendly slug from title
+const generateSlug = (title: string): string => {
+  if (!title || title.trim() === '') {
+    return `blog-${Date.now()}`; // Fallback for empty titles
+  }
+  
+  const slug = title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters except spaces and hyphens
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+    .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+  
+  // Ensure slug is not empty after processing
+  return slug || `blog-${Date.now()}`;
+};
+
 const BlogAdmin = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -19,7 +37,10 @@ const BlogAdmin = () => {
     date: '',
     readTime: '',
     image: '',
-    slug: ''
+    slug: '',
+    content: '',
+    tags: [],
+    category: ''
   });
 
   // Load from localStorage on mount, initialize if doesn't exist
@@ -87,7 +108,7 @@ const BlogAdmin = () => {
     });
 
     const blogTitle = newBlog.title || 'New Blog Post';
-    const blogSlug = blogTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const blogSlug = newBlog.slug || generateSlug(blogTitle);
 
     const blog: BlogPost = {
       id: newId,
@@ -97,11 +118,25 @@ const BlogAdmin = () => {
       date: newBlog.date || currentDate,
       readTime: newBlog.readTime || '5 min read',
       image: newBlog.image || '/assets/images/blog1.jpg',
-      slug: newBlog.slug || blogSlug
+      slug: newBlog.slug || blogSlug,
+      content: newBlog.content || '',
+      tags: newBlog.tags || [],
+      category: newBlog.category || ''
     };
 
     setBlogs([...blogs, blog]);
-    setNewBlog({ title: '', excerpt: '', author: '', date: '', readTime: '', image: '', slug: '' });
+    setNewBlog({
+      title: '',
+      excerpt: '',
+      author: '',
+      date: '',
+      readTime: '',
+      image: '',
+      slug: '',
+      content: '',
+      tags: [],
+      category: ''
+    });
     setIsAddingNew(false);
   };
 
@@ -161,7 +196,16 @@ const BlogAdmin = () => {
               <input
                 type="text"
                 value={newBlog.title}
-                onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
+                onChange={(e) => {
+                  const title = e.target.value;
+                  const generatedSlug = generateSlug(title);
+                  console.log('📝 Blog Admin - Generated slug:', generatedSlug, 'from title:', title);
+                  setNewBlog({ 
+                    ...newBlog, 
+                    title: title,
+                    slug: generatedSlug
+                  });
+                }}
                 placeholder="Blog post title"
               />
             </div>
@@ -193,13 +237,17 @@ const BlogAdmin = () => {
               />
             </div>
             <div className="form-group">
-              <label>Slug (URL)</label>
+              <label>Slug (URL) - Auto-generated</label>
               <input
                 type="text"
                 value={newBlog.slug}
                 onChange={(e) => setNewBlog({ ...newBlog, slug: e.target.value })}
-                placeholder="blog-post-url"
+                placeholder="auto-generated-from-title"
+                style={{ backgroundColor: '#f8fafc' }}
               />
+              <small style={{ color: '#64748b', fontSize: '0.8rem' }}>
+                Auto-generated from title. You can edit if needed.
+              </small>
             </div>
             <div className="form-group full-width">
               <label>Excerpt</label>
@@ -222,6 +270,33 @@ const BlogAdmin = () => {
                   <img src={newBlog.image} alt="Preview" />
                 </div>
               )}
+            </div>
+            <div className="form-group full-width">
+              <label>Content (HTML)</label>
+              <textarea
+                value={newBlog.content || ''}
+                onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
+                placeholder="Full blog post content in HTML..."
+                rows={8}
+              />
+            </div>
+            <div className="form-group">
+              <label>Tags (comma separated)</label>
+              <input
+                type="text"
+                value={newBlog.tags?.join(', ') || ''}
+                onChange={(e) => setNewBlog({ ...newBlog, tags: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+                placeholder="meditation, healing, crystals"
+              />
+            </div>
+            <div className="form-group">
+              <label>Category</label>
+              <input
+                type="text"
+                value={newBlog.category || ''}
+                onChange={(e) => setNewBlog({ ...newBlog, category: e.target.value })}
+                placeholder="Meditation, Healing, etc."
+              />
             </div>
           </div>
           <div className="form-actions">
@@ -297,7 +372,14 @@ const BlogCard: React.FC<BlogCardProps> = ({
           <input
             type="text"
             value={editData.title}
-            onChange={(e) => setEditData({ ...editData, title: e.target.value })}
+            onChange={(e) => {
+              const title = e.target.value;
+              setEditData({ 
+                ...editData, 
+                title: title,
+                slug: generateSlug(title)
+              });
+            }}
             className="edit-input title-input"
             placeholder="Blog title"
           />
@@ -338,6 +420,27 @@ const BlogCard: React.FC<BlogCardProps> = ({
               placeholder="Slug"
             />
           </div>
+          <textarea
+            value={editData.content || ''}
+            onChange={(e) => setEditData({ ...editData, content: e.target.value })}
+            className="edit-textarea"
+            placeholder="Full content (HTML)"
+            rows={6}
+          />
+          <input
+            type="text"
+            value={editData.tags?.join(', ') || ''}
+            onChange={(e) => setEditData({ ...editData, tags: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+            className="edit-input"
+            placeholder="Tags (comma separated)"
+          />
+          <input
+            type="text"
+            value={editData.category || ''}
+            onChange={(e) => setEditData({ ...editData, category: e.target.value })}
+            className="edit-input"
+            placeholder="Category"
+          />
         </div>
         <div className="card-actions">
           <button onClick={handleSave} className="btn-success">

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Crystal } from '@/data/crystals';
 import { useReactiveCrystalData } from '@/hooks/useReactiveData';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
@@ -9,29 +10,23 @@ import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 
 const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: (crystal: Crystal) => void }) => {
   return (
-    <div 
-      className="crystal-component"
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'scale(1.02) translateY(-8px)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'scale(1) translateY(0)';
-      }}
-    >
-      <div className="crystal-image" style={{ backgroundImage: `url(${crystal.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <button 
-          onClick={() => onAddToCart(crystal)}
-          className="add-to-cart-btn"
-          title="Add to Cart"
-        >
-          +
-        </button>
+    <Link href={`/crystals/${crystal.slug}`} className="crystal-card-link">
+      <div 
+        className="crystal-component"
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.02) translateY(-8px)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1) translateY(0)';
+        }}
+      >
+        <div className="crystal-image" style={{ backgroundImage: `url(${crystal.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+        
+        <h3 className="crystal-name">{crystal.name}</h3>
+        <p className="crystal-type">{crystal.type}</p>
+        <p className="crystal-price">${crystal.price}</p>
       </div>
-      
-      <h3 className="crystal-name">{crystal.name}</h3>
-      <p className="crystal-type">{crystal.type}</p>
-      <p className="crystal-price">${crystal.price}</p>
-    </div>
+    </Link>
   );
 };
 
@@ -80,18 +75,20 @@ const CrystalSection = () => {
           </div>
         </div>
 
-        <button 
-          ref={buttonRef}
-          className="button--hero"
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-          }}
-        >
-          VIEW ALL CRYSTALS
-        </button>
+        <Link href="/crystals">
+          <button 
+            ref={buttonRef}
+            className="button--hero"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            VIEW ALL CRYSTALS
+          </button>
+        </Link>
       </div>
     </section>
   );

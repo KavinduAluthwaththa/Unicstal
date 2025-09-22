@@ -7,6 +7,24 @@ import type { Crystal } from '@/data/crystals';
 import { notifyCrystalDataUpdate, permanentlyDeleteCrystal } from '@/hooks/useReactiveData';
 import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
 
+// Function to generate URL-friendly slug from name
+const generateSlug = (name: string): string => {
+  if (!name || name.trim() === '') {
+    return `crystal-${Date.now()}`; // Fallback for empty names
+  }
+  
+  const slug = name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters except spaces and hyphens
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+    .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+  
+  // Ensure slug is not empty after processing
+  return slug || `crystal-${Date.now()}`;
+};
+
 const CrystalAdmin = () => {
   const [crystals, setCrystals] = useState<Crystal[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -16,7 +34,16 @@ const CrystalAdmin = () => {
     name: '',
     type: '',
     price: 0,
-    image: ''
+    image: '',
+    description: '',
+    slug: '',
+    fullDescription: '',
+    properties: [],
+    chakras: [],
+    origin: '',
+    hardness: '',
+    size: '',
+    weight: ''
   });
 
   // Load from localStorage on mount, initialize if doesn't exist
@@ -82,11 +109,34 @@ const CrystalAdmin = () => {
       name: newCrystal.name || 'New Crystal',
       type: newCrystal.type || 'Healing Stone',
       price: newCrystal.price || 25,
-      image: newCrystal.image || '/assets/images/crystal1.jpeg'
+      image: newCrystal.image || '/assets/images/crystal1.jpeg',
+      description: newCrystal.description || '',
+      slug: newCrystal.slug || generateSlug(newCrystal.name || 'new-crystal'),
+      fullDescription: newCrystal.fullDescription || '',
+      properties: newCrystal.properties || [],
+      chakras: newCrystal.chakras || [],
+      origin: newCrystal.origin || '',
+      hardness: newCrystal.hardness || '',
+      size: newCrystal.size || '',
+      weight: newCrystal.weight || ''
     };
 
     setCrystals([...crystals, crystal]);
-    setNewCrystal({ name: '', type: '', price: 0, image: '' });
+    setNewCrystal({
+      name: '',
+      type: '',
+      price: 0,
+      image: '',
+      description: '',
+      slug: '',
+      fullDescription: '',
+      properties: [],
+      chakras: [],
+      origin: '',
+      hardness: '',
+      size: '',
+      weight: ''
+    });
     setIsAddingNew(false);
   };
 
@@ -146,7 +196,16 @@ const CrystalAdmin = () => {
               <input
                 type="text"
                 value={newCrystal.name}
-                onChange={(e) => setNewCrystal({ ...newCrystal, name: e.target.value })}
+                onChange={(e) => {
+                  const name = e.target.value;
+                  const generatedSlug = generateSlug(name);
+                  console.log('💎 Crystal Admin - Generated slug:', generatedSlug, 'from name:', name);
+                  setNewCrystal({ 
+                    ...newCrystal, 
+                    name: name,
+                    slug: generatedSlug
+                  });
+                }}
                 placeholder="Crystal name"
               />
             </div>
@@ -180,6 +239,91 @@ const CrystalAdmin = () => {
                   <img src={newCrystal.image} alt="Preview" />
                 </div>
               )}
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                value={newCrystal.description || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, description: e.target.value })}
+                placeholder="Short description"
+              />
+            </div>
+            <div className="form-group">
+              <label>Slug (URL) - Auto-generated</label>
+              <input
+                type="text"
+                value={newCrystal.slug || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, slug: e.target.value })}
+                placeholder="auto-generated-from-name"
+                style={{ backgroundColor: '#f8fafc' }}
+              />
+              <small style={{ color: '#64748b', fontSize: '0.8rem' }}>
+                Auto-generated from name. You can edit if needed.
+              </small>
+            </div>
+            <div className="form-group full-width">
+              <label>Full Description</label>
+              <textarea
+                value={newCrystal.fullDescription || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, fullDescription: e.target.value })}
+                placeholder="Detailed description for the crystal page"
+                rows={4}
+              />
+            </div>
+            <div className="form-group">
+              <label>Properties (comma separated)</label>
+              <input
+                type="text"
+                value={newCrystal.properties?.join(', ') || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, properties: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+                placeholder="Healing, Protection, Energy"
+              />
+            </div>
+            <div className="form-group">
+              <label>Chakras (comma separated)</label>
+              <input
+                type="text"
+                value={newCrystal.chakras?.join(', ') || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, chakras: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+                placeholder="Crown, Third Eye, Heart"
+              />
+            </div>
+            <div className="form-group">
+              <label>Origin</label>
+              <input
+                type="text"
+                value={newCrystal.origin || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, origin: e.target.value })}
+                placeholder="Brazil, Madagascar, etc."
+              />
+            </div>
+            <div className="form-group">
+              <label>Hardness</label>
+              <input
+                type="text"
+                value={newCrystal.hardness || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, hardness: e.target.value })}
+                placeholder="7 on Mohs scale"
+              />
+            </div>
+            <div className="form-group">
+              <label>Size</label>
+              <input
+                type="text"
+                value={newCrystal.size || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, size: e.target.value })}
+                placeholder="2-3 inches"
+              />
+            </div>
+            <div className="form-group">
+              <label>Weight</label>
+              <input
+                type="text"
+                value={newCrystal.weight || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, weight: e.target.value })}
+                placeholder="150-200g"
+              />
             </div>
           </div>
           <div className="form-actions">
@@ -255,20 +399,93 @@ const CrystalCard: React.FC<CrystalCardProps> = ({
           <input
             type="text"
             value={editData.name}
-            onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+            onChange={(e) => {
+              const name = e.target.value;
+              setEditData({ 
+                ...editData, 
+                name: name,
+                slug: generateSlug(name)
+              });
+            }}
             className="edit-input"
+            placeholder="Name"
           />
           <input
             type="text"
             value={editData.type}
             onChange={(e) => setEditData({ ...editData, type: e.target.value })}
             className="edit-input"
+            placeholder="Type"
           />
           <input
             type="number"
             value={editData.price}
             onChange={(e) => setEditData({ ...editData, price: parseInt(e.target.value) || 0 })}
             className="edit-input"
+            placeholder="Price"
+          />
+          <input
+            type="text"
+            value={editData.description || ''}
+            onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+            className="edit-input"
+            placeholder="Description"
+          />
+          <input
+            type="text"
+            value={editData.slug || ''}
+            onChange={(e) => setEditData({ ...editData, slug: e.target.value })}
+            className="edit-input"
+            placeholder="Slug"
+          />
+          <textarea
+            value={editData.fullDescription || ''}
+            onChange={(e) => setEditData({ ...editData, fullDescription: e.target.value })}
+            className="edit-input"
+            placeholder="Full Description"
+            rows={3}
+          />
+          <input
+            type="text"
+            value={editData.properties?.join(', ') || ''}
+            onChange={(e) => setEditData({ ...editData, properties: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+            className="edit-input"
+            placeholder="Properties (comma separated)"
+          />
+          <input
+            type="text"
+            value={editData.chakras?.join(', ') || ''}
+            onChange={(e) => setEditData({ ...editData, chakras: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+            className="edit-input"
+            placeholder="Chakras (comma separated)"
+          />
+          <input
+            type="text"
+            value={editData.origin || ''}
+            onChange={(e) => setEditData({ ...editData, origin: e.target.value })}
+            className="edit-input"
+            placeholder="Origin"
+          />
+          <input
+            type="text"
+            value={editData.hardness || ''}
+            onChange={(e) => setEditData({ ...editData, hardness: e.target.value })}
+            className="edit-input"
+            placeholder="Hardness"
+          />
+          <input
+            type="text"
+            value={editData.size || ''}
+            onChange={(e) => setEditData({ ...editData, size: e.target.value })}
+            className="edit-input"
+            placeholder="Size"
+          />
+          <input
+            type="text"
+            value={editData.weight || ''}
+            onChange={(e) => setEditData({ ...editData, weight: e.target.value })}
+            className="edit-input"
+            placeholder="Weight"
           />
         </div>
         <div className="card-actions">

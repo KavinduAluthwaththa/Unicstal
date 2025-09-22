@@ -28,22 +28,6 @@ const CrystalsPage = () => {
         <div className="crystals-header-content">
           <h1>Our Crystal Collection</h1>
           <p>Discover the healing power and beauty of our carefully curated crystal collection.</p>
-          
-          {/* Temporary debug button */}
-          <button 
-            onClick={checkLocalStorage}
-            style={{ 
-              background: '#8b5cf6', 
-              color: 'white', 
-              padding: '10px 20px', 
-              border: 'none', 
-              borderRadius: '8px',
-              marginTop: '10px',
-              cursor: 'pointer'
-            }}
-          >
-            🔄 Check & Refresh Data (Debug)
-          </button>
         </div>
       </div>
 

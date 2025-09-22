@@ -10,9 +10,17 @@ import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 
 const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: (crystal: Crystal) => void }) => {
   return (
-    <Link href={`/crystals/${crystal.slug}`} className="crystal-card-link">
+    <Link 
+      href={`/crystals/${crystal.slug || crystal.name.toLowerCase().replace(/\s+/g, '-')}`} 
+      className="crystal-card-link"
+      style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+    >
       <div 
         className="crystal-component"
+        style={{ 
+          cursor: 'pointer',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+        }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'scale(1.02) translateY(-8px)';
         }}

@@ -180,6 +180,7 @@ nav {
 
 .search-bar {
   width: 100%;
+  min-width: 400px;
   padding: 12px 20px;
   border: none;
   border-radius: 25px;

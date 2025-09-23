@@ -1,4 +1,4 @@
-export const uploadFile = async (file: File, type: 'crystal' | 'blog') => {
+export const uploadFile = async (file: File, type: 'crystal' | 'blog' | 'article') => {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('type', type);

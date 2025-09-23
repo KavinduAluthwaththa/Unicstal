@@ -106,6 +106,10 @@ const BlogSection = () => {
         <h2 ref={titleRef}>
           <span className="crystal-gradient-stones">Crystal</span> Wisdom Blog.
         </h2>
+        <br />
+        <p>
+          Discover insights, stories, and tips on harnessing the power of crystals to enhance your life.
+        </p>
         
         <div className="blog-showcase" ref={showcaseRef}>
           <div className="blog-carousel">

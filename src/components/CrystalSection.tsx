@@ -51,6 +51,9 @@ const CrystalSection = () => {
         <h2 ref={titleRef}>
           YOUR <span className="crystal-gradient-journey">JOURNEY,</span> YOUR <span className="crystal-gradient-stones">STONES.</span>
         </h2>
+        <p ref={paragraphRef}>
+          Handpicked crystals to help you manifest your dreams, one stone at a time.
+        </p>
         
         <div className="crystal-showcase" ref={showcaseRef}>
           <div className="crystal-carousel">

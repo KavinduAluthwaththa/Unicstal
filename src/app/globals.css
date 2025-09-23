@@ -216,6 +216,15 @@ nav {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  background: transparent;
+  color: black;
+}
+
+.button--navbar:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  color: #333;
 }
 
 .login-btn {
@@ -321,8 +330,6 @@ nav {
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .nav--bar {
-    position: fixed;
-    top: 0 !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     padding: 12px 16px;
@@ -363,8 +370,7 @@ nav {
 
 @media (max-width: 480px) {
   .nav--bar {
-    position: fixed;
-    top: 0 !important;
+    top: -100px !important;
     padding: 10px 12px;
     gap: 10px;
     min-height: 80px;
@@ -401,8 +407,10 @@ nav {
   }
 
   .dropdown-button:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.25);
     color: black;
+    transform: translateX(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
 
   .dropdown-button.primary {
@@ -414,8 +422,10 @@ nav {
   }
 
   .dropdown-button.primary:hover {
-    background: #f0f0f0;
+    background: #e8e8e8;
     color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   }
 
   .button--navbar {
@@ -2362,8 +2372,7 @@ footer.main-footer {
 /* Navigation Mobile Improvements */
 @media (max-width: 768px) {
   .nav--bar {
-    position: fixed;
-    top: 0;
+    top: -100px !important;
     left: 50%;
     transform: translateX(-50%);
     flex-direction: column;
@@ -3782,7 +3791,7 @@ footer.main-footer {
 /* Mobile navbar - dropdown functionality */
 @media (max-width: 768px) {
   .nav--bar {
-    top:0%;
+    top: -100px !important;
     left: 50%;
     transform: translateX(-50%);
     padding: 15px;
@@ -3968,7 +3977,7 @@ footer.main-footer {
 
 @media (max-width: 480px) {
   .nav--bar {
-    top:0%;
+    top: -100px !important;
     border-radius: 16px;
   }
 
@@ -4044,6 +4053,10 @@ footer.main-footer {
   text-align: center;
   padding: 60px 20px;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.blogs-header-content {
+  animation: slideInFromRight 1s ease-in;
 }
 
 .blogs-header-content h1 {
@@ -4518,6 +4531,18 @@ footer.main-footer {
 
 /* Crystal Pages Styles */
 
+/* Slide-in animation from right */
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 /* Crystal Card Link Wrapper */
 .crystal-card-link {
   text-decoration: none;
@@ -4536,6 +4561,10 @@ footer.main-footer {
   text-align: center;
   padding: 60px 20px;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.crystals-header-content {
+  animation: slideInFromRight 1s ease-in;
 }
 
 .crystals-header-content h1 {

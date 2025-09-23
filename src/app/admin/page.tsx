@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import CrystalAdmin from '@/components/admin/CrystalAdmin';
 import BlogAdmin from '@/components/admin/BlogAdmin';
+import ArticleAdmin from '@/components/admin/ArticleAdmin';
 import { ArrowLeft, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { checkAuth, logout } from '@/lib/auth';
@@ -60,6 +61,12 @@ const AdminPage = () => {
                 Crystals
               </button>
               <button
+                onClick={() => setActiveTab('articles')}
+                className={`tab-button ${activeTab === 'articles' ? 'active' : ''}`}
+              >
+                Articles
+              </button>
+              <button
                 onClick={() => setActiveTab('blog')}
                 className={`tab-button ${activeTab === 'blog' ? 'active' : ''}`}
               >
@@ -77,6 +84,7 @@ const AdminPage = () => {
       {/* Content */}
       <main className="admin-main">
         {activeTab === 'crystals' && <CrystalAdmin />}
+        {activeTab === 'articles' && <ArticleAdmin />}
         {activeTab === 'blog' && <BlogAdmin />}
       </main>
     </div>

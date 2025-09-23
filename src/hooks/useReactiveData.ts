@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Crystal, crystalData } from '@/data/crystals';
 import { BlogPost, blogData } from '@/data/blog';
+import { Article, articleData } from '@/data/articles';
 
 // Custom hook for reactive crystal data
 export const useReactiveCrystalData = () => {
@@ -213,4 +214,82 @@ export const resetBlogDeletions = () => {
   localStorage.removeItem('deletedBlogs');
   localStorage.removeItem('blogData');
   console.log('🔄 Blog deletion history reset');
+};
+
+// Custom hook for reactive article data
+export const useReactiveArticleData = () => {
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  const loadArticleData = () => {
+    if (typeof window === 'undefined') return articleData;
+    
+    // Get saved data and deleted items list
+    const saved = localStorage.getItem('articleData');
+    const deletedIds = JSON.parse(localStorage.getItem('deletedArticles') || '[]');
+    
+    let currentData: Article[];
+    
+    if (saved) {
+      currentData = JSON.parse(saved);
+    } else {
+      // Start with original data but filter out any previously deleted items
+      currentData = articleData.filter(item => !deletedIds.includes(item.id));
+      localStorage.setItem('articleData', JSON.stringify(currentData));
+    }
+    
+    // Always filter out deleted items (in case they were re-added somehow)
+    return currentData.filter(item => !deletedIds.includes(item.id));
+  };
+
+  const updateArticles = () => {
+    setArticles(loadArticleData());
+  };
+
+  useEffect(() => {
+    // Initial load
+    updateArticles();
+
+    // Listen for storage changes from admin panel
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'articleData') {
+        updateArticles();
+      }
+    };
+
+    // Listen for custom events (for same-tab updates)
+    const handleCustomUpdate = () => {
+      console.log('🔄 Article data custom update received, reloading...');
+      updateArticles();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('articleDataUpdate', handleCustomUpdate);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('articleDataUpdate', handleCustomUpdate);
+    };
+  }, []);
+
+  return articles;
+};
+
+// Notification functions for articles
+export const notifyArticleDataUpdate = () => {
+  if (typeof window === 'undefined') return;
+  
+  const event = new Event('articleDataUpdate');
+  window.dispatchEvent(event);
+  console.log('📢 Article data update notification sent');
+};
+
+export const permanentlyDeleteArticle = (id: string) => {
+  if (typeof window === 'undefined') return;
+  
+  const deletedIds = JSON.parse(localStorage.getItem('deletedArticles') || '[]');
+  if (!deletedIds.includes(id)) {
+    deletedIds.push(id);
+    localStorage.setItem('deletedArticles', JSON.stringify(deletedIds));
+    console.log(`💀 Article ${id} permanently deleted`);
+  }
 };

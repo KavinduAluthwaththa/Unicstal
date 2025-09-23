@@ -77,11 +77,12 @@ const Navbar = () => {
             // Mobile dropdown style - individual buttons
             <>
               <button className="dropdown-button">Shop All</button>
-              <button className="dropdown-button">Crystals</button>
-              <button className="dropdown-button">Collections</button>
+              <Link href="/crystals" className="dropdown-button">Crystals</Link>
+              <Link href="/blogs" className="dropdown-button">Blogs</Link>
               <button className="dropdown-button">Favorites</button>
               <button className="dropdown-button">Cart ({cartCount})</button>
               <button className="dropdown-button primary">Login</button>
+              <button className="dropdown-button">Register</button>
             </>
           ) : (
             // Desktop style - original layout

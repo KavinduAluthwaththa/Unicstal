@@ -826,6 +826,8 @@ nav {
   width: min(95vw, 1600px);
   box-sizing: border-box;
   position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
   mask: linear-gradient(to right, 
     transparent 0%, 
     black 10%, 
@@ -884,6 +886,15 @@ nav {
   will-change: transform;
   overflow: visible;
   position: relative;
+  animation: scrollLeft 20s linear infinite;
+}
+
+.auto-scroll-row.reverse {
+  animation: scrollRight 25s linear infinite;
+}
+
+.auto-scroll-row.reverse {
+  animation: scrollRight 25s linear infinite;
 }
 
 .crystal-component {
@@ -1060,7 +1071,8 @@ nav {
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   position: relative;
   /* CSS mask for fade effect on both sides */
   -webkit-mask: linear-gradient(
@@ -1095,6 +1107,11 @@ nav {
   width: max-content;
   will-change: transform;
   overflow: visible;
+  animation: scrollLeft 50s linear infinite;
+}
+
+.blog-row.reverse {
+  animation: scrollRight 35s linear infinite;
 }
 
 .blog-row:last-child {

@@ -1,15 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useReactiveCrystalData } from '@/hooks/useReactiveData';
 import { Crystal } from '@/data/crystals';
 import Navbar from '@/components/Navbar';
+import { useStarBackground } from '@/hooks/useStarBackground';
 
 const CrystalsPage = () => {
   const crystals = useReactiveCrystalData();
   const [manualRefresh, setManualRefresh] = React.useState(0);
+  const headerRef = useRef<HTMLDivElement>(null);
+  
+  // Initialize star background
+  useStarBackground(headerRef);
 
   console.log('🔍 CrystalsPage: Current crystals data:', crystals);
   console.log('🔍 CrystalsPage: Number of crystals:', crystals.length);
@@ -24,7 +29,8 @@ const CrystalsPage = () => {
   return (
     <div className="crystals-page">
       <Navbar />
-      <div className="crystals-header">
+      <div ref={headerRef} className="crystals-header">
+        <canvas className="crystals-header-star-bg" />
         <div className="crystals-header-content">
           <h1>Our Crystal Collection</h1>
           <p>Discover the healing power and beauty of our carefully curated crystal collection.</p>

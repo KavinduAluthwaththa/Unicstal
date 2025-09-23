@@ -393,40 +393,34 @@ nav {
 
   /* Mobile dropdown button styling */
   .dropdown-button {
-    background: transparent;
-    border: none;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.2);
     padding: 16px 20px;
-    font-size: 16px;
-    font-weight: 400;
-    color: #000000;
+    font-size: 15px;
+    font-weight: 500;
+    color: #374151;
     text-align: center;
     cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    width: 100%;
-    margin: 2px 0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    width: 100% !important;
+    height: 50px !important;
+    text-decoration: none;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: none !important;
+    min-width: unset !important;
+    max-width: unset !important;
+    box-sizing: border-box;
   }
 
   .dropdown-button:hover {
-    background: rgba(255, 255, 255, 0.25);
-    color: black;
-    transform: translateX(8px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-
-  .dropdown-button.primary {
-    background: #ffffff;
-    color: #000000;
-    font-weight: 500;
-    border-radius: 20px;
-    margin-top: 8px;
-  }
-
-  .dropdown-button.primary:hover {
-    background: #e8e8e8;
-    color: #000000;
+    background: rgba(139, 92, 246, 0.1);
+    border-color: rgba(139, 92, 246, 0.4);
+    color: #6b46c1;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.15);
   }
 
   .button--navbar {
@@ -2708,6 +2702,7 @@ footer.main-footer {
     transform: skew(15deg) rotate(18deg);
     left: -15%;
     width: 130%;
+    overflow: hidden;
   }
 
   /* Star background container responsive */
@@ -3818,7 +3813,6 @@ footer.main-footer {
     border-radius: 20px;
     height: auto;
     backdrop-filter: blur(25px);
-    background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 1000;
@@ -3890,22 +3884,27 @@ footer.main-footer {
 
   /* Dropdown content container - mobile only */
   .nav-dropdown {
+    background: transparent;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease, padding 0.3s ease;
     padding: 0;
+    backdrop-filter: blur(10px);
+    border-radius: 0 0 20px 20px;
   }
 
   .nav-dropdown.open {
-    max-height: 400px;
-    padding: 15px 0;
+    background: transparent;
+    max-height: 500px;
+    padding: 20px 15px;
   }
 
   .search-container {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    padding: 0 10px;
   }
 
   .search-bar {
@@ -3929,22 +3928,22 @@ footer.main-footer {
 
   .nav-buttons {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
     justify-content: center;
+    gap: 4px;
+    width: 100%;
   }
 
   .nav-buttons button {
-    padding: 10px 16px;
-    font-size: 0.85rem;
-    flex: 1;
-    min-width: 100px;
-    max-width: 130px;
-    height: 44px;
+    padding: 16px 20px;
+    font-size: 15px;
+    width: 100%;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     border-radius: 12px;
     transition: all 0.3s ease;
   }
@@ -4069,30 +4068,42 @@ footer.main-footer {
 .blogs-header {
   text-align: center;
   padding: 60px 20px;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  background: linear-gradient(135deg, #5d34af 0%, #4d11b6 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
 
 .blogs-header-content {
   animation: slideInFromRight 1s ease-in;
+  position: relative;
+  z-index: 10;
 }
 
 .blogs-header-content h1 {
   font-size: 3.5rem;
   font-weight: 700;
-  color: #1a202c;
+  color: #ffffff;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .blogs-header-content p {
   font-size: 1.25rem;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.9);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
+}
+
+.blogs-header-star-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
 }
 
 .blogs-container {
@@ -4577,30 +4588,42 @@ footer.main-footer {
 .crystals-header {
   text-align: center;
   padding: 60px 20px;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  background: linear-gradient(135deg, #5d34af 0%, #4d11b6 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
 
 .crystals-header-content {
   animation: slideInFromRight 1s ease-in;
+  position: relative;
+  z-index: 10;
 }
 
 .crystals-header-content h1 {
   font-size: 3.5rem;
   font-weight: 700;
-  color: #1a202c;
+  color: #ffffff;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .crystals-header-content p {
   font-size: 1.25rem;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.9);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
+}
+
+.crystals-header-star-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
 }
 
 .crystals-container {

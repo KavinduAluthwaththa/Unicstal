@@ -1,19 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useReactiveBlogData } from '@/hooks/useReactiveData';
 import { BlogPost } from '@/data/blog';
 import Navbar from '@/components/Navbar';
+import { useStarBackground } from '@/hooks/useStarBackground';
 
 const BlogsPage = () => {
   const blogs = useReactiveBlogData();
+  const headerRef = useRef<HTMLDivElement>(null);
+  
+  // Initialize star background
+  useStarBackground(headerRef);
 
   return (
     <div className="blogs-page">
       <Navbar />
-      <div className="blogs-header">
+      <div ref={headerRef} className="blogs-header">
+        <canvas className="blogs-header-star-bg" />
         <div className="blogs-header-content">
           <h1>Our Crystal Blog</h1>
           <p>Discover insights, wisdom, and guidance from crystal experts and spiritual practitioners.</p>

@@ -19,7 +19,9 @@ const Global3DModel: React.FC = () => {
   const mixerRef = useRef<THREE.AnimationMixer | null>(null);
   const frameRef = useRef<number | undefined>(undefined);
   const clockRef = useRef(new THREE.Clock());
+  const scrollHandlerRef = useRef<(() => void) | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [debugInfo, setDebugInfo] = useState('');
 
   // Mobile detection function
   const mobileAndTabletCheck = () => {
@@ -35,14 +37,43 @@ const Global3DModel: React.FC = () => {
     if (!canvasRef.current || typeof window === 'undefined') return;
 
     const isMobile = mobileAndTabletCheck();
+    console.log('🔍 Global3DModel: isMobile =', isMobile);
+    console.log('🔍 Global3DModel: canvasRef.current =', canvasRef.current);
+    console.log('🔍 Global3DModel: window dimensions =', window.innerWidth, 'x', window.innerHeight);
+    
+    setDebugInfo(`Mobile: ${isMobile}, Canvas: ${!!canvasRef.current}, Window: ${window.innerWidth}x${window.innerHeight}`);
+    
+    // Mobile scroll behavior
+    if (isMobile && canvasRef.current) {
+      const handleScroll = () => {
+        const scrollY = window.scrollY;
+        if (canvasRef.current) {
+          if (scrollY > 100) {
+            canvasRef.current.classList.add('scrolling');
+            document.body.classList.add('scrolled');
+          } else {
+            canvasRef.current.classList.remove('scrolling');
+            document.body.classList.remove('scrolled');
+          }
+        }
+      };
+      
+      scrollHandlerRef.current = handleScroll;
+      window.addEventListener('scroll', handleScroll);
+      
+      // Cleanup scroll listener will be handled in main cleanup
+    }
     
     // Scene setup
     const scene = new THREE.Scene();
     scene.background = null; // Transparent background
     
+    const canvasWidth = isMobile ? 200 : window.innerWidth;
+    const canvasHeight = isMobile ? 200 : window.innerHeight;
+    
     const camera = new THREE.PerspectiveCamera(
       isMobile ? 55 : 70,
-      window.innerWidth / window.innerHeight,
+      canvasWidth / canvasHeight, // Use canvas dimensions, not window
       0.1,
       1000
     );
@@ -53,7 +84,7 @@ const Global3DModel: React.FC = () => {
       alpha: true 
     });
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(canvasWidth, canvasHeight); // Use canvas dimensions
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -69,7 +100,8 @@ const Global3DModel: React.FC = () => {
 
     // Camera positioning based on original setup
     if (isMobile) {
-      camera.position.set(-0.5, 0.5, 3.0);
+      // Mobile: Position camera to see the model in small canvas
+      camera.position.set(2, 0, 4); // Move back and slightly right to see model
     } else {
       camera.position.set(1, -0.4, 3);
     }
@@ -117,11 +149,24 @@ const Global3DModel: React.FC = () => {
         const starModel = gltf.scene;
         starModelRef.current = starModel;
         
-        // Position adjustments based on original setup
-        starModel.position.set(3, -0.8, 0);
-        starModel.rotation.set(0, -1, 0); // Added Z-axis rotation for right tilt
+        console.log('🎯 3D Model loaded successfully:', starModel);
+        console.log('🎯 Model position before adjustment:', starModel.position);
+        
+        // Position adjustments - different for mobile vs desktop
+        if (isMobile) {
+          // Mobile: Scale down and position for small canvas
+          starModel.position.set(2, 0, 0.3); // Move slightly to the right
+          starModel.scale.set(0.8, 0.8, 0.8); // Smaller for mobile
+          starModel.rotation.set(0, 0, 0); // 60 degrees rotation towards screen from left
+          console.log('🎯 Mobile model positioned:', starModel.position, 'scale:', starModel.scale);
+        } else {
+          // Desktop: Original positioning
+          starModel.position.set(3, -0.8, 0);
+          starModel.rotation.set(0, -1, 0);
+        }
         
         scene.add(starModel);
+        console.log('🎯 Model added to scene. Scene children:', scene.children.length);
         
         // Setup animations if available
         if (gltf.animations && gltf.animations.length > 0) {
@@ -266,9 +311,13 @@ const Global3DModel: React.FC = () => {
     // Handle window resize
     const handleResize = () => {
       if (camera && renderer) {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        const currentIsMobile = mobileAndTabletCheck();
+        const newWidth = currentIsMobile ? 200 : window.innerWidth;
+        const newHeight = currentIsMobile ? 200 : window.innerHeight;
+        
+        camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(newWidth, newHeight);
       }
     };
 
@@ -276,6 +325,10 @@ const Global3DModel: React.FC = () => {
 
     // Cleanup
     return () => {
+      // Remove scroll listener if it was added
+      if (scrollHandlerRef.current) {
+        window.removeEventListener('scroll', scrollHandlerRef.current);
+      }
       window.removeEventListener('resize', handleResize);
       if (frameRef.current) {
         cancelAnimationFrame(frameRef.current);
@@ -286,19 +339,22 @@ const Global3DModel: React.FC = () => {
   }, []);
 
   return (
-    <canvas 
-      ref={canvasRef}
-      className="global-3d-canvas"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 10, // Above most content but below navbar
-      }}
-    />
+    <>
+      <canvas 
+        ref={canvasRef}
+        className="global-3d-canvas"
+        style={{
+          position: 'fixed',
+          top: mobileAndTabletCheck() ? '80px' : 0,
+          left: mobileAndTabletCheck() ? 'auto' : 0,
+          right: mobileAndTabletCheck() ? '10px' : 'auto',
+          width: mobileAndTabletCheck() ? '200px' : '100%',
+          height: mobileAndTabletCheck() ? '200px' : '100%',
+          pointerEvents: 'none',
+          zIndex: mobileAndTabletCheck() ? 999 : 10,
+        }}
+      />
+    </>
   );
 };
 

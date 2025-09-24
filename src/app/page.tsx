@@ -13,15 +13,6 @@ export default function Home() {
       <GlobalCustomBackground />
       <Global3DModel />
       
-      {/* Mobile Video Background - Under other content */}
-      <div className="mobile-video-background">
-        <img
-          src="/assets/videos/painter_of_stars.gif"
-          alt="Background animation"
-          className="mobile-background-video"
-        />
-      </div>
-      
       <main className="min-h-screen relative">
         <Navbar />
         <HeroSection />

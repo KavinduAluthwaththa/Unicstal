@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-export const useAutoScroll = () => {
+export const useAutoScroll = (isMobile?: boolean) => {
   const firstRowRef = useRef<HTMLDivElement>(null);
   const secondRowRef = useRef<HTMLDivElement>(null);
 
@@ -12,6 +12,26 @@ export const useAutoScroll = () => {
 
     const firstRow = firstRowRef.current;
     const secondRow = secondRowRef.current;
+    
+    // On mobile, disable auto-scroll and enable swipe behavior
+    if (isMobile) {
+      // Kill any existing animations
+      gsap.killTweensOf(firstRow);
+      gsap.killTweensOf(secondRow);
+      
+      // Reset transforms
+      gsap.set(firstRow, { x: 0 });
+      gsap.set(secondRow, { x: 0 });
+      
+      // Enable horizontal scrolling for mobile
+      const showcase = firstRow.closest('.crystal-showcase') as HTMLElement;
+      if (showcase) {
+        showcase.style.overflowX = 'auto';
+        showcase.style.scrollSnapType = 'x mandatory';
+      }
+      
+      return;
+    }
 
     // Wait for content to be rendered
     setTimeout(() => {
@@ -89,9 +109,7 @@ export const useAutoScroll = () => {
         secondRow.removeEventListener('mouseleave', secondRowMouseLeave);
       };
     }, 100);
-  }, []);
-
-  return {
+  }, [isMobile]);  return {
     firstRowRef,
     secondRowRef
   };

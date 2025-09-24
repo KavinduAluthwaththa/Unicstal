@@ -39,10 +39,25 @@ const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: 
 };
 
 const CrystalSection = () => {
-  const { firstRowRef, secondRowRef } = useAutoScroll();
+  const [isMobile, setIsMobile] = useState(false);
+  const { firstRowRef, secondRowRef } = useAutoScroll(isMobile);
   const { containerRef, titleRef, paragraphRef, buttonRef, showcaseRef } = useCrystalAnimations();
   const [cartItems, setCartItems] = useState<Crystal[]>([]);
   const crystals = useReactiveCrystalData(); // Use reactive hook instead of state
+  
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
   
   const handleAddToCart = (crystal: Crystal) => {
     setCartItems(prev => [...prev, crystal]);
@@ -60,9 +75,9 @@ const CrystalSection = () => {
           YOUR <span className="crystal-gradient-journey">JOURNEY,</span> YOUR <span className="crystal-gradient-stones">STONES.</span>
         </h2>
         
-        <div className="crystal-showcase" ref={showcaseRef}>
-          <div className="crystal-carousel">
-            <div className="crystal-row auto-scroll-row" ref={firstRowRef}>
+        <div className={`crystal-showcase ${isMobile ? 'mobile-swipe' : ''}`} ref={showcaseRef}>
+          <div className={`crystal-carousel ${isMobile ? 'mobile-swipe' : ''}`}>
+            <div className={`crystal-row ${isMobile ? 'mobile-row' : 'auto-scroll-row'}`} ref={firstRowRef}>
               {firstRow.map((crystal) => (
                 <CrystalCard 
                   key={crystal.id} 
@@ -71,7 +86,7 @@ const CrystalSection = () => {
                 />
               ))}
             </div>
-            <div className="crystal-row auto-scroll-row" ref={secondRowRef}>
+            <div className={`crystal-row ${isMobile ? 'mobile-row' : 'auto-scroll-row'}`} ref={secondRowRef}>
               {secondRow.map((crystal) => (
                 <CrystalCard 
                   key={crystal.id} 

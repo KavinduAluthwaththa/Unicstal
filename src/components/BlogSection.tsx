@@ -44,13 +44,45 @@ const BlogSection = () => {
   const blogRowRef = React.useRef<HTMLDivElement>(null);
   const { containerRef, titleRef, paragraphRef, buttonRef, showcaseRef } = useBlogAnimations();
   const blogs = useReactiveBlogData(); // Use reactive hook instead of state
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   React.useEffect(() => {
     if (typeof window === 'undefined' || !blogRowRef.current) return;
 
     const blogRow = blogRowRef.current;
+    
+    // On mobile, make carousel swipeable instead of auto-scrolling
+    if (isMobile) {
+      // Remove any existing GSAP animations
+      gsap.killTweensOf(blogRow);
+      
+      // Reset transform
+      gsap.set(blogRow, { x: 0 });
+      
+      // Enable horizontal scrolling for mobile
+      if (blogRow.parentElement) {
+        blogRow.parentElement.style.overflowX = 'auto';
+        blogRow.parentElement.style.scrollSnapType = 'x mandatory';
+      }
+      
+      return;
+    }
 
-    // Wait for content to be rendered
+    // Desktop: Auto-scroll behavior
     setTimeout(() => {
       // Clone the blog cards for seamless infinite loop
       const blogCards = Array.from(blogRow.querySelectorAll('.blog-post'));
@@ -98,7 +130,7 @@ const BlogSection = () => {
         blogRow.removeEventListener('mouseleave', playAnimation);
       };
     }, 100);
-  }, []);
+  }, [isMobile]);
 
   return (
     <section className="section fourth" id="section-four">
@@ -108,8 +140,8 @@ const BlogSection = () => {
         </h2>
         
         <div className="blog-showcase" ref={showcaseRef}>
-          <div className="blog-carousel">
-            <div className="blog-row auto-scroll-row" ref={blogRowRef}>
+          <div className={`blog-carousel ${isMobile ? 'mobile-swipe' : ''}`}>
+            <div className={`blog-row ${isMobile ? 'mobile-row' : 'auto-scroll-row'}`} ref={blogRowRef}>
               {blogs.map((post: BlogPost, index: number) => (
                 <BlogCard key={post.id} post={post} index={index} />
               ))}

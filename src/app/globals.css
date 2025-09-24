@@ -164,9 +164,9 @@ nav {
   display: none; /* Hidden on desktop */
   position: absolute;
   top: 100px;
-  left: 0;
+  left: 20px;
   width: 100%;
-  height: 350px; /* Fixed height instead of 100vh */
+  height: 330px; /* Fixed height instead of 100vh */
   z-index: -10; /* Behind all content */
   overflow: hidden;
 }
@@ -176,6 +176,19 @@ nav {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+/* White fade overlay at the bottom of video */
+.mobile-video-background::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 60px; /* Height of the fade effect */
+  background: linear-gradient(to top, rgba(255, 255, 255, 1) 10%, rgba(255, 255, 255, 0.8) 30%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Show video background only on mobile */

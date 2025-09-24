@@ -15,17 +15,11 @@ export default function Home() {
       
       {/* Mobile Video Background - Under other content */}
       <div className="mobile-video-background">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          disablePictureInPicture
-          controlsList="nodownload nofullscreen noremoteplayback"
+        <img
+          src="/assets/videos/painter_of_stars.gif"
+          alt="Background animation"
           className="mobile-background-video"
-        >
-          <source src="/assets/videos/mobile-intro.webm" type="video/mp4" />
-        </video>
+        />
       </div>
       
       <main className="min-h-screen relative">

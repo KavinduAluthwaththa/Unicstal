@@ -3,7 +3,7 @@
 import React from 'react';
 import { useManifestAnimations } from '@/hooks/useManifestAnimations';
 
-const ManifestSection: React.FC = () => {
+const ManifestSection = () => {
   const { containerRef, titleRef, paragraphRef, buttonRef } = useManifestAnimations();
 
   return (
@@ -26,7 +26,7 @@ const ManifestSection: React.FC = () => {
           What do you want to Manifest?
         </h2>
         
-        <p
+        <p 
           ref={paragraphRef}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-2px)';

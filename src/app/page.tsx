@@ -9,9 +9,25 @@ import GlobalCustomBackground from '@/components/GlobalCustomBackground';
 
 export default function Home() {
   return (
-    <>
+    <div className="home-page">
       <GlobalCustomBackground />
       <Global3DModel />
+      
+      {/* Mobile Video Background - Under other content */}
+      <div className="mobile-video-background">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
+          className="mobile-background-video"
+        >
+          <source src="/assets/videos/mobile-intro.webm" type="video/mp4" />
+        </video>
+      </div>
+      
       <main className="min-h-screen relative">
         <Navbar />
         <HeroSection />
@@ -20,6 +36,6 @@ export default function Home() {
         <BlogSection />
         <Footer />
       </main>
-    </>
+    </div>
   );
 }

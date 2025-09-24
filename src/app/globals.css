@@ -5151,12 +5151,60 @@ footer.main-footer {
     font-size: 2.5rem;
   }
 
+  /* Mobile crystals container - ensure equal padding */
+  .crystals-container {
+    padding: 40px 20px !important;
+  }
+
   .crystals-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    justify-items: center;
+    margin: 0 auto;
+    display: grid;
+    justify-content: center;
+  }
+
+  /* Crystal card mobile styling - 190px width with minimal content */
+  .crystal-card {
+    width: 190px !important;
+    max-width: 190px;
+  }
+
+  /* Hide elements not needed on mobile */
+  .crystal-card-description,
+  .crystal-card-properties,
+  .crystal-card-type,
+  .crystal-add-to-cart {
+    display: none !important;
+  }
+
+  /* Adjust remaining elements for compact mobile view */
+  .crystal-card-content {
+    padding: 15px !important;
+  }
+
+  .crystal-card-name {
+    font-size: 1.1rem !important;
+    margin-bottom: 5px !important;
+    line-height: 1.3;
+  }
+
+  .crystal-card-price {
+    font-size: 1.3rem !important;
+    margin-bottom: 0 !important;
+  }
+
+  .crystal-card-image {
+    height: 140px !important;
+  }
+
+  .crystal-card-image .crystal-image {
+    height: 140px !important;
+    object-fit: cover;
   }
 
   .crystal-detail-content {

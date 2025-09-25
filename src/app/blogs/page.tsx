@@ -46,38 +46,23 @@ const BlogsPage = () => {
                     height={250}
                     className="blog-image"
                   />
-                  <div className="blog-card-date">
-                    {post.date}
-                  </div>
-                  {post.category && (
-                    <div className="blog-card-category">
-                      {post.category}
-                    </div>
-                  )}
                 </div>
                 
                 <div className="blog-card-content">
+                  <div className="blog-card-meta-top">
+                    <span className="blog-card-date-text">{post.date}</span>
+                    <span className="blog-card-meta-separator">•</span>
+                    <span className="blog-card-read-time-text">{post.readTime}</span>
+                  </div>
+                  
                   <h2 className="blog-card-title">{post.title}</h2>
                   <p className="blog-card-excerpt">{post.excerpt}</p>
                   
                   <div className="blog-card-meta">
-                    <div className="blog-card-author">
-                      By {post.author}
-                    </div>
-                    <div className="blog-card-read-time">
-                      {post.readTime}
+                    <div className="blog-card-author-info">
+                      <span className="blog-card-author">{post.author}</span>
                     </div>
                   </div>
-                  
-                  {post.tags && (
-                    <div className="blog-card-tags">
-                      {post.tags.map((tag: string) => (
-                        <span key={tag} className="blog-tag">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </article>
             </Link>

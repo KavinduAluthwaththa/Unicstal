@@ -23,16 +23,21 @@ const BlogCard = React.memo(({ post, index }: { post: any; index: number }) => {
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
           />
-          <div className="blog-date">{post.date}</div>
         </div>
         
         <div className="blog-content">
+          <div className="blog-meta-top">
+            <span className="blog-date-text">{post.date}</span>
+            <span className="blog-meta-separator">•</span>
+            <span className="blog-read-time-text">{post.readTime}</span>
+          </div>
+          
           <h3 className="blog-title">{post.title}</h3>
-          <p className="blog-excerpt">{post.excerpt}</p>
           
           <div className="blog-meta">
-            <span className="blog-author">{post.author}</span>
-            <span className="blog-read-time">{post.readTime}</span>
+            <div className="blog-author-info">
+              <span className="blog-author">{post.author}</span>
+            </div>
           </div>
         </div>
       </article>

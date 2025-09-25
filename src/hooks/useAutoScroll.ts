@@ -12,24 +12,90 @@ export const useAutoScroll = (isMobile?: boolean) => {
 
     const firstRow = firstRowRef.current;
     const secondRow = secondRowRef.current;
-    
-    // On mobile, disable auto-scroll and enable swipe behavior
+
+    // On mobile, enable slow auto-scroll in both directions (like desktop, but slower)
     if (isMobile) {
-      // Kill any existing animations
       gsap.killTweensOf(firstRow);
       gsap.killTweensOf(secondRow);
-      
-      // Reset transforms
       gsap.set(firstRow, { x: 0 });
       gsap.set(secondRow, { x: 0 });
-      
-      // Enable horizontal scrolling for mobile
-      const showcase = firstRow.closest('.crystal-showcase') as HTMLElement;
-      if (showcase) {
-        showcase.style.overflowX = 'auto';
-        showcase.style.scrollSnapType = 'x mandatory';
-      }
-      
+
+      // Clone cards for seamless loop (same as desktop)
+      setTimeout(() => {
+        // Only keep the original set of cards before cloning
+        const resetRow = (row: HTMLElement) => {
+          const cards = Array.from(row.querySelectorAll('.crystal-component'));
+          // Remove all but the first N (originals)
+          const originals = cards.slice(0, 4); // assumes 4 originals per row
+          while (row.children.length > originals.length) {
+            row.removeChild(row.lastChild!);
+          }
+        };
+        resetRow(firstRow);
+        resetRow(secondRow);
+        const firstRowCards = Array.from(firstRow.querySelectorAll('.crystal-component'));
+        const secondRowCards = Array.from(secondRow.querySelectorAll('.crystal-component'));
+        if (firstRowCards.length === 0 || secondRowCards.length === 0) return;
+        for (let i = 0; i < 3; i++) {
+          firstRowCards.forEach(card => {
+            const clone = card.cloneNode(true) as HTMLElement;
+            firstRow.appendChild(clone);
+          });
+          secondRowCards.forEach(card => {
+            const clone = card.cloneNode(true) as HTMLElement;
+            secondRow.appendChild(clone);
+          });
+        }
+        const cardWidth = 280 + 20;
+        const firstRowWidth = cardWidth * firstRowCards.length;
+        const secondRowWidth = cardWidth * secondRowCards.length;
+        // Slow auto-scroll for mobile
+        const firstRowAnimation = gsap.fromTo(firstRow, 
+          { x: 0 },
+          {
+            x: -firstRowWidth,
+            duration: 20, // slower for mobile
+            ease: "none",
+            repeat: -1,
+          }
+        );
+        const secondRowAnimation = gsap.fromTo(secondRow,
+          { x: -secondRowWidth },
+          {
+            x: 0,
+            duration: 20, // slower for mobile
+            ease: "none",
+            repeat: -1,
+          }
+        );
+        // Pause on touch/hover for mobile
+        const pauseAnimation = (animation: gsap.core.Tween) => animation.pause();
+        const playAnimation = (animation: gsap.core.Tween) => animation.play();
+        const firstRowEnter = () => pauseAnimation(firstRowAnimation);
+        const firstRowLeave = () => playAnimation(firstRowAnimation);
+        const secondRowEnter = () => pauseAnimation(secondRowAnimation);
+        const secondRowLeave = () => playAnimation(secondRowAnimation);
+        firstRow.addEventListener('mouseenter', firstRowEnter);
+        firstRow.addEventListener('mouseleave', firstRowLeave);
+        firstRow.addEventListener('touchstart', firstRowEnter);
+        firstRow.addEventListener('touchend', firstRowLeave);
+        secondRow.addEventListener('mouseenter', secondRowEnter);
+        secondRow.addEventListener('mouseleave', secondRowLeave);
+        secondRow.addEventListener('touchstart', secondRowEnter);
+        secondRow.addEventListener('touchend', secondRowLeave);
+        return () => {
+          firstRowAnimation.kill();
+          secondRowAnimation.kill();
+          firstRow.removeEventListener('mouseenter', firstRowEnter);
+          firstRow.removeEventListener('mouseleave', firstRowLeave);
+          firstRow.removeEventListener('touchstart', firstRowEnter);
+          firstRow.removeEventListener('touchend', firstRowLeave);
+          secondRow.removeEventListener('mouseenter', secondRowEnter);
+          secondRow.removeEventListener('mouseleave', secondRowLeave);
+          secondRow.removeEventListener('touchstart', secondRowEnter);
+          secondRow.removeEventListener('touchend', secondRowLeave);
+        };
+      }, 100);
       return;
     }
 
@@ -64,7 +130,7 @@ export const useAutoScroll = (isMobile?: boolean) => {
         { x: 0 },
         {
           x: -firstRowWidth,
-          duration: 15,
+          duration: 20,
           ease: "none",
           repeat: -1,
         }
@@ -75,7 +141,7 @@ export const useAutoScroll = (isMobile?: boolean) => {
         { x: -secondRowWidth },
         {
           x: 0,
-          duration: 18, // Different speed for variety
+          duration: 20, // speed
           ease: "none",
           repeat: -1,
         }

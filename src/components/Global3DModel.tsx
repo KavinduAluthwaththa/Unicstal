@@ -344,7 +344,6 @@ const Global3DModel: React.FC = () => {
         ref={canvasRef}
         className="global-3d-canvas"
         style={{
-          position: 'fixed',
           top: mobileAndTabletCheck() ? '80px' : 0,
           left: mobileAndTabletCheck() ? 'auto' : 0,
           right: mobileAndTabletCheck() ? '10px' : 'auto',

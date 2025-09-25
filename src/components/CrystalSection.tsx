@@ -76,6 +76,8 @@ const CrystalSection = () => {
         </h2>
         
         <div className={`crystal-showcase ${isMobile ? 'mobile-swipe' : ''}`} ref={showcaseRef}>
+          {/* Right fade for mobile horizontal scroll */}
+          {isMobile && <div className="crystal-showcase__right-fade" />}
           <div className={`crystal-carousel ${isMobile ? 'mobile-swipe' : ''}`}>
             <div className={`crystal-row ${isMobile ? 'mobile-row' : 'auto-scroll-row'}`} ref={firstRowRef}>
               {firstRow.map((crystal) => (

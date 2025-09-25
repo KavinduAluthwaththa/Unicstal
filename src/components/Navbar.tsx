@@ -32,7 +32,13 @@ const Navbar = () => {
         {/* Mobile header - always visible */}
         <div className="mobile-nav-header">
           <Link href="/" className="mobile-logo">
-            UNICSTAL
+          <Image
+            src="/assets/images/logo.png"
+            alt="UNICRYSTAL Logo"
+            width={250}
+            height={250}
+            className="logo-icon"
+          />
           </Link>
           <button 
             className={`mobile-menu-toggle ${isMenuOpen ? 'open' : ''}`}
@@ -46,8 +52,18 @@ const Navbar = () => {
           </button>
         </div>
 
+
         {/* Mobile dropdown menu */}
         <div className={`mobile-nav-dropdown ${isMenuOpen ? 'open' : ''}`}>
+          {/* Search bar for mobile nav */}
+          <div className="mobile-nav-search" style={{ padding: '1rem', borderBottom: '1px solid #eee' }}>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+            />
+          </div>
           <div className="mobile-nav-links">
             <Link href="/crystals" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
               <span>Shop All</span>

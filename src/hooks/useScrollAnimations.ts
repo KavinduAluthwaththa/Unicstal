@@ -19,8 +19,9 @@ export const useScrollAnimations = () => {
           .from('.hero-button', { duration: 1, y: 30, opacity: 0, ease: "power2.out" }, "-=0.5");
 
     // Section scroll triggers
-    gsap.utils.toArray('.scroll-section').forEach((section: any) => {
-      gsap.fromTo(section, 
+    gsap.utils.toArray('.scroll-section').forEach((section) => {
+      const el = section as Element;
+      gsap.fromTo(el, 
         { y: 100, opacity: 0 },
         {
           y: 0,
@@ -28,7 +29,7 @@ export const useScrollAnimations = () => {
           duration: 1,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: section,
+            trigger: el,
             start: "top 80%",
             end: "bottom 20%",
             toggleActions: "play none none reverse"
@@ -61,10 +62,11 @@ export const useScrollAnimations = () => {
     });
 
     // Blog cards hover effects
-    gsap.utils.toArray('.blog-card').forEach((card: any) => {
+    gsap.utils.toArray('.blog-card').forEach((card) => {
+      const el = card as HTMLElement;
       const tl = gsap.timeline({ paused: true });
       
-      tl.to(card, { 
+      tl.to(el, { 
         y: -10, 
         scale: 1.02, 
         boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
@@ -72,17 +74,18 @@ export const useScrollAnimations = () => {
         ease: "power2.out" 
       });
 
-      card.addEventListener('mouseenter', () => tl.play());
-      card.addEventListener('mouseleave', () => tl.reverse());
+      el.addEventListener('mouseenter', () => tl.play());
+      el.addEventListener('mouseleave', () => tl.reverse());
     });
 
     // Parallax effect for background elements
-    gsap.utils.toArray('.parallax-bg').forEach((element: any) => {
-      gsap.to(element, {
+    gsap.utils.toArray('.parallax-bg').forEach((element) => {
+      const el = element as HTMLElement;
+      gsap.to(el, {
         yPercent: -50,
         ease: "none",
         scrollTrigger: {
-          trigger: element,
+          trigger: el,
           start: "top bottom",
           end: "bottom top",
           scrub: true
@@ -96,7 +99,7 @@ export const useScrollAnimations = () => {
     };
   }, []);
 
-  const animateOnScroll = (selector: string, animation: any) => {
+  const animateOnScroll = (selector: string, animation: Record<string, unknown>) => {
     if (typeof window === 'undefined') return;
     
     ScrollTrigger.create({

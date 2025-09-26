@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useReactiveBlogData } from '@/hooks/useReactiveData';
-import { BlogPost } from '@/data/blog';
+import type { BlogPost } from '@/types/blog';
 import Navbar from '@/components/Navbar';
 import { useStarBackground } from '@/hooks/useStarBackground';
 

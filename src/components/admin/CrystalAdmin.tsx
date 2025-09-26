@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
 import { crystalData } from '@/data/crystals';
-import type { Crystal } from '@/data/crystals';
+import type { Crystal } from '@/types/crystal';
 import { notifyCrystalDataUpdate, permanentlyDeleteCrystal } from '@/hooks/useReactiveData';
 import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
 

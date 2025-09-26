@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Crystal, crystalData } from '@/data/crystals';
-import { BlogPost, blogData } from '@/data/blog';
+// Sample types
+import type { Crystal } from '../types/crystal';
+
+import type { BlogPost } from '../types/blog';
 
 // Custom hook for reactive crystal data
 export const useReactiveCrystalData = () => {
@@ -11,25 +13,42 @@ export const useReactiveCrystalData = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const loadCrystalData = () => {
-    if (typeof window === 'undefined') return crystalData;
-    
-    // Always store the latest crystalData from file in localStorage
-    // This ensures new content is stored the same way admin-added items would be
+    if (typeof window === 'undefined') return [];
     const savedData = localStorage.getItem('crystalData');
     const deletedIds = JSON.parse(localStorage.getItem('deletedCrystals') || '[]');
-    
-    console.log('📦 loadCrystalData: localStorage saved data:', savedData ? 'exists' : 'not found');
-    console.log('🗑️ loadCrystalData: deleted IDs:', deletedIds);
-    
-    // Always use the current crystalData from file and store it
-    const currentData = crystalData.filter(item => !deletedIds.includes(item.id));
-    
-    // Store in localStorage the same way admin panel would
-    localStorage.setItem('crystalData', JSON.stringify(currentData));
-    console.log('💾 loadCrystalData: stored current data in localStorage, count:', currentData.length);
-    console.log('🔍 Crystal data items:', currentData.map(c => ({id: c.id, name: c.name, slug: c.slug})));
-    
-    return currentData;
+    let data: Crystal[];
+    if (savedData) {
+      data = JSON.parse(savedData).filter((item: Crystal) => !deletedIds.includes(item.id));
+      console.log('📦 loadCrystalData: loaded from localStorage, count:', data.length);
+    } else {
+      // Populate sample data only once, never again
+      data = [
+        {
+          id: '1',
+          name: 'Amethyst',
+          slug: 'amethyst',
+          description: 'A calming stone for peace and clarity.',
+          image: '/assets/images/crystal1.jpeg',
+        },
+        {
+          id: '2',
+          name: 'Rose Quartz',
+          slug: 'rose-quartz',
+          description: 'The stone of universal love and harmony.',
+          image: '/assets/images/crystal2.jpeg',
+        },
+        {
+          id: '3',
+          name: 'Citrine',
+          slug: 'citrine',
+          description: 'A stone for abundance and manifestation.',
+          image: '/assets/images/crystal3.jpg',
+        },
+      ];
+      localStorage.setItem('crystalData', JSON.stringify(data));
+      console.log('📦 loadCrystalData: initialized with sample data, count:', data.length);
+    }
+    return data;
   };
 
   const updateCrystals = () => {
@@ -84,21 +103,59 @@ export const useReactiveBlogData = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const loadBlogData = () => {
-    if (typeof window === 'undefined') return blogData;
+    if (typeof window === 'undefined') return [];
     const savedData = localStorage.getItem('blogData');
     const deletedIds = JSON.parse(localStorage.getItem('deletedBlogs') || '[]');
     let data: BlogPost[];
     if (savedData) {
-      // Use blogs from localStorage (admin edits/adds)
       data = JSON.parse(savedData).filter((item: BlogPost) => !deletedIds.includes(item.id));
-      console.log('� loadBlogData: loaded from localStorage, count:', data.length);
+      console.log('📦 loadBlogData: loaded from localStorage, count:', data.length);
     } else {
-      // Fallback to static file if nothing in localStorage
-      data = blogData.filter(item => !deletedIds.includes(item.id));
+      // Populate sample data only once, never again
+      data = [
+        {
+          id: '1',
+          title: 'The Power of Amethyst',
+          excerpt: 'Discover the calming and spiritual benefits of amethyst crystals.',
+          author: 'Crystal Guru',
+          date: 'September 1, 2025',
+          readTime: '4 min read',
+          image: '/assets/images/blog1.jpg',
+          slug: 'the-power-of-amethyst',
+          content: 'Amethyst is known for its calming energy and spiritual protection...',
+          tags: ['amethyst', 'healing'],
+          category: 'Crystals',
+        },
+        {
+          id: '2',
+          title: 'Rose Quartz: Love and Harmony',
+          excerpt: 'How rose quartz can help you attract love and heal relationships.',
+          author: 'Gemstone Sage',
+          date: 'September 10, 2025',
+          readTime: '3 min read',
+          image: '/assets/images/blog2.jpg',
+          slug: 'rose-quartz-love-harmony',
+          content: 'Rose Quartz is the stone of universal love...',
+          tags: ['rose quartz', 'love'],
+          category: 'Crystals',
+        },
+        {
+          id: '3',
+          title: 'Citrine for Abundance',
+          excerpt: 'Manifest abundance and success with citrine.',
+          author: 'Crystal Coach',
+          date: 'September 20, 2025',
+          readTime: '5 min read',
+          image: '/assets/images/blog3.jpg',
+          slug: 'citrine-for-abundance',
+          content: 'Citrine is a powerful stone for manifestation...',
+          tags: ['citrine', 'abundance'],
+          category: 'Crystals',
+        },
+      ];
       localStorage.setItem('blogData', JSON.stringify(data));
-      console.log('� loadBlogData: initialized from static file, count:', data.length);
+      console.log('📦 loadBlogData: initialized with sample data, count:', data.length);
     }
-    console.log('🔍 Blog data items:', data.map(b => ({id: b.id, title: b.title, slug: b.slug})));
     return data;
   };
 

@@ -172,7 +172,7 @@ const Global3DModel: React.FC = () => {
         if (gltf.animations && gltf.animations.length > 0) {
           const mixer = new THREE.AnimationMixer(starModel);
           mixerRef.current = mixer;
-          const action = mixer.clipAction(gltf.animations[0]);
+          const action = mixer.clipAction(gltf.animations[0] as THREE.AnimationClip);
           action.play();
           console.log('Animation loaded and playing');
         }

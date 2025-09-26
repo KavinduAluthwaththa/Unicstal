@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { BlogPost } from '@/data/blog';
+import type { BlogPost } from '@/types/blog';
 import { useReactiveBlogData } from '@/hooks/useReactiveData';
 import { useBlogAnimations } from '@/hooks/useBlogAnimations';
 import { gsap } from 'gsap';

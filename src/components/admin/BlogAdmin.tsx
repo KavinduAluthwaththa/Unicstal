@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X, Calendar, User, Clock } from 'lucide-react';
 import { blogData } from '@/data/blog';
-import type { BlogPost } from '@/data/blog';
+import type { BlogPost } from '@/types/blog';
 import { notifyBlogDataUpdate, permanentlyDeleteBlog } from '@/hooks/useReactiveData';
 import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
 

@@ -1,5 +1,5 @@
 declare module 'three/examples/jsm/loaders/GLTFLoader' {
-  import { Loader, LoadingManager, Group, Object3D } from 'three';
+  import { Loader, LoadingManager, Group } from 'three';
   export class GLTFLoader extends Loader {
     constructor(manager?: LoadingManager);
     load(
@@ -18,10 +18,10 @@ declare module 'three/examples/jsm/loaders/GLTFLoader' {
   export interface GLTF {
     scene: Group;
     scenes: Group[];
-    cameras: any[];
-    animations: any[];
-    asset: any;
-    parser: any;
-    userData: any;
+    cameras: unknown[];
+    animations: unknown[];
+    asset: Record<string, unknown>;
+    parser: unknown;
+    userData: Record<string, unknown>;
   }
 }

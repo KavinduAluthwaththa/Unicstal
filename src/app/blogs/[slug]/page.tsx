@@ -1,6 +1,7 @@
 'use client';
 
-import { blogData, BlogPost } from '@/data/blog';
+import { blogData } from '@/data/blog';
+import type { BlogPost } from '@/types/blog';
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';

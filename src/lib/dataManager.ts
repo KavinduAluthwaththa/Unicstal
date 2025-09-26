@@ -1,5 +1,7 @@
-import { Crystal, crystalData } from '@/data/crystals';
-import { BlogPost, blogData } from '@/data/blog';
+import { crystalData } from '@/data/crystals';
+import { blogData } from '@/data/blog';
+import type { Crystal } from '@/types/crystal';
+import type { BlogPost } from '@/types/blog';
 
 export const getCrystalData = (): Crystal[] => {
   if (typeof window === 'undefined') return crystalData;

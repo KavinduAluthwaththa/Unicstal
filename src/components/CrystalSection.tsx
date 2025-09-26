@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Crystal } from '@/data/crystals';
+import type { Crystal } from '@/types/crystal';
 import { useReactiveCrystalData } from '@/hooks/useReactiveData';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';

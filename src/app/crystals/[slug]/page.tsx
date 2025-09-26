@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { crystalData, Crystal } from '@/data/crystals';
+import { crystalData } from '@/data/crystals';
+import type { Crystal } from '@/types/crystal';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';

@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useReactiveCrystalData } from '@/hooks/useReactiveData';
-import { Crystal } from '@/data/crystals';
+import type { Crystal } from '@/types/crystal';
 import Navbar from '@/components/Navbar';
 import { useStarBackground } from '@/hooks/useStarBackground';
 

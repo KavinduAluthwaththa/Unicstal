@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 // Sample types
 import type { Crystal } from '../types/crystal';
+import { crystalData as initialCrystalData } from '../data/crystals';
 
 import type { BlogPost } from '../types/blog';
+import { blogData as initialBlogData } from '../data/blog';
 
 // Custom hook for reactive crystal data
 export const useReactiveCrystalData = () => {
@@ -21,32 +23,10 @@ export const useReactiveCrystalData = () => {
       data = JSON.parse(savedData).filter((item: Crystal) => !deletedIds.includes(item.id));
       console.log('📦 loadCrystalData: loaded from localStorage, count:', data.length);
     } else {
-      // Populate sample data only once, never again
-      data = [
-        {
-          id: '1',
-          name: 'Amethyst',
-          slug: 'amethyst',
-          description: 'A calming stone for peace and clarity.',
-          image: '/assets/images/crystal1.jpeg',
-        },
-        {
-          id: '2',
-          name: 'Rose Quartz',
-          slug: 'rose-quartz',
-          description: 'The stone of universal love and harmony.',
-          image: '/assets/images/crystal2.jpeg',
-        },
-        {
-          id: '3',
-          name: 'Citrine',
-          slug: 'citrine',
-          description: 'A stone for abundance and manifestation.',
-          image: '/assets/images/crystal3.jpg',
-        },
-      ];
+      // Use full initial data from data file
+      data = initialCrystalData.filter((item: Crystal) => !deletedIds.includes(item.id));
       localStorage.setItem('crystalData', JSON.stringify(data));
-      console.log('📦 loadCrystalData: initialized with sample data, count:', data.length);
+      console.log('📦 loadCrystalData: initialized with full data, count:', data.length);
     }
     return data;
   };
@@ -111,50 +91,10 @@ export const useReactiveBlogData = () => {
       data = JSON.parse(savedData).filter((item: BlogPost) => !deletedIds.includes(item.id));
       console.log('📦 loadBlogData: loaded from localStorage, count:', data.length);
     } else {
-      // Populate sample data only once, never again
-      data = [
-        {
-          id: '1',
-          title: 'The Power of Amethyst',
-          excerpt: 'Discover the calming and spiritual benefits of amethyst crystals.',
-          author: 'Crystal Guru',
-          date: 'September 1, 2025',
-          readTime: '4 min read',
-          image: '/assets/images/blog1.jpg',
-          slug: 'the-power-of-amethyst',
-          content: 'Amethyst is known for its calming energy and spiritual protection...',
-          tags: ['amethyst', 'healing'],
-          category: 'Crystals',
-        },
-        {
-          id: '2',
-          title: 'Rose Quartz: Love and Harmony',
-          excerpt: 'How rose quartz can help you attract love and heal relationships.',
-          author: 'Gemstone Sage',
-          date: 'September 10, 2025',
-          readTime: '3 min read',
-          image: '/assets/images/blog2.jpg',
-          slug: 'rose-quartz-love-harmony',
-          content: 'Rose Quartz is the stone of universal love...',
-          tags: ['rose quartz', 'love'],
-          category: 'Crystals',
-        },
-        {
-          id: '3',
-          title: 'Citrine for Abundance',
-          excerpt: 'Manifest abundance and success with citrine.',
-          author: 'Crystal Coach',
-          date: 'September 20, 2025',
-          readTime: '5 min read',
-          image: '/assets/images/blog3.jpg',
-          slug: 'citrine-for-abundance',
-          content: 'Citrine is a powerful stone for manifestation...',
-          tags: ['citrine', 'abundance'],
-          category: 'Crystals',
-        },
-      ];
+      // Use full initial data from data file
+      data = initialBlogData.filter((item: BlogPost) => !deletedIds.includes(item.id));
       localStorage.setItem('blogData', JSON.stringify(data));
-      console.log('📦 loadBlogData: initialized with sample data, count:', data.length);
+      console.log('📦 loadBlogData: initialized with full data, count:', data.length);
     }
     return data;
   };

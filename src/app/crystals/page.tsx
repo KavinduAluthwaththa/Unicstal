@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useReactiveCrystalData } from '@/hooks/useReactiveData';
@@ -15,6 +15,10 @@ const CrystalsPage = () => {
   
   // Initialize star background
   useStarBackground(headerRef);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   console.log('🔍 CrystalsPage: Current crystals data:', crystals);
   console.log('🔍 CrystalsPage: Number of crystals:', crystals.length);

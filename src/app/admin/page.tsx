@@ -26,6 +26,10 @@ const AdminPage = () => {
     checkAuthentication();
   }, [router]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleLogout = () => {
     logout();
     router.push('/adminlogin');

@@ -4820,7 +4820,7 @@ footer.main-footer {
 }
 
 .crystals-page .crystal-card-image{
-  padding: 15px;
+  padding: 15px 15px 0 15px;
 }
 
 .crystals-header {
@@ -4884,7 +4884,7 @@ footer.main-footer {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0.06);
-  height: 400px;
+  height: 350px;
   display: flex;
   flex-direction: column;
 }
@@ -4898,9 +4898,7 @@ footer.main-footer {
 .crystal-card-image {
   position: relative;
   height: 200px;
-  overflow: hidden;
   border-radius: 12px;
-  margin-bottom: 16px;
 }
 
 .crystal-card-image .crystal-image {
@@ -4931,24 +4929,22 @@ footer.main-footer {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0;
+  padding: 0 0 10px 10px;
 }
 
 .crystal-card-name {
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 800;
   color: #1a202c;
   line-height: 1.3;
   text-align: left;
   padding: 10px;
-  margin-bottom: 12px;
 }
 
 .crystal-card-description {
   font-size: 0.85rem;
   color: #64748b;
   line-height: 1.4;
-  margin-bottom: 12px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -4956,6 +4952,7 @@ footer.main-footer {
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 .crystal-card-price {
@@ -4964,7 +4961,6 @@ footer.main-footer {
   color: #139e34;
   margin-top: auto;
   padding: 0 0 10px 10px;
-  margin-bottom: 16px;
 }
 
 .crystal-card-properties {
@@ -4985,6 +4981,12 @@ footer.main-footer {
   min-height: 100vh;
   padding-top: 120px;
   background: white;
+}
+
+@media (max-width: 768px) {
+  .crystal-detail-page {
+    padding-top: 0;
+  }
 }
 
 .crystal-detail-container {
@@ -5266,12 +5268,11 @@ footer.main-footer {
 
   /* Adjust remaining elements for compact mobile view */
   .crystal-card-content {
-    padding: 0 !important; /* Remove extra content padding */
+    padding: 10px !important; /* Remove extra content padding */
   }
 
   .crystal-card-name {
     font-size: 1.1rem !important;
-    margin-bottom: 4px !important;
     line-height: 1.3;
   }
 
@@ -5288,6 +5289,7 @@ footer.main-footer {
   .crystal-card-image .crystal-image {
     height: 120px !important; /* Reduced from 140px */
     object-fit: cover;
+    border-radius: 5px;
   }
 
   .crystal-detail-content {

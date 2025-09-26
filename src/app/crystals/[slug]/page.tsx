@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -14,6 +14,10 @@ interface CrystalPageProps {
 }
 
 const CrystalPage = ({ params }: CrystalPageProps) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const { slug } = React.use(params);
   const crystals = useReactiveCrystalData();
   const [isLoading, setIsLoading] = React.useState(true);

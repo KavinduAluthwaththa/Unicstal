@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useReactiveBlogData } from '@/hooks/useReactiveData';
@@ -14,6 +14,10 @@ const BlogsPage = () => {
   
   // Initialize star background
   useStarBackground(headerRef);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="blogs-page">

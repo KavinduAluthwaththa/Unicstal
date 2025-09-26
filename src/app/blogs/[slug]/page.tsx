@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -14,6 +14,10 @@ interface BlogPageProps {
 }
 
 const BlogPage = ({ params }: BlogPageProps) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const { slug } = React.use(params);
   const blogs = useReactiveBlogData();
   const [isLoading, setIsLoading] = React.useState(true);

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Lock, User, Shield } from 'lucide-react';
 import { getAdminUsername, getAdminPasswordHash, getSecurityConfig, validateSecurityContext } from '@/lib/adminConfig';
@@ -44,6 +44,10 @@ const LoginPage = () => {
       }
     }
   }, [securityConfig.lockoutDuration]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

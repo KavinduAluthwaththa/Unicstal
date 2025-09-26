@@ -5587,4 +5587,8 @@ footer.main-footer {
   }
 }
 
-/* Enable GSAP auto-loop for mobile crystal carousel rows */
+.admin-container .blog-card,
+.admin-container .admin-card {
+  height: unset !important;
+}
+

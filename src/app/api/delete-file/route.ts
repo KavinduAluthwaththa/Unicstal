@@ -24,7 +24,7 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     console.error('File deletion error:', error);
     // If file doesn't exist, still return success
-    if ((error as any).code === 'ENOENT') {
+  if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
       return NextResponse.json({ 
         success: true, 
         message: 'File already deleted or not found' 

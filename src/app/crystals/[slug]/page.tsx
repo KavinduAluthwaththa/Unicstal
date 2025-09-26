@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { crystalData, Crystal } from '@/data/crystals';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -43,9 +44,8 @@ const CrystalPage = ({ params }: CrystalPageProps) => {
   
   // Fallback: if no crystal found in reactive data, check original data
   if (!crystal && crystals.length === 0) {
-    // Import the original data as fallback
-    const { crystalData } = require('@/data/crystals');
-    crystal = crystalData.find((c: any) => c.slug === slug);
+    // Use the original data as fallback
+    crystal = crystalData.find((c: Crystal) => c.slug === slug);
     console.log('🔄 Using fallback original data, found:', crystal ? crystal.name : 'NOT FOUND');
   }
   

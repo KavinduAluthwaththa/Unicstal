@@ -36,7 +36,7 @@ const ManifestSection = () => {
             e.currentTarget.style.transform = 'translateY(0)';
           }}
         >
-          "Your thoughts are powerful. Set your intention, align your energy, and call in the life you desire — one crystal at a time."
+          &quot;Your thoughts are powerful. Set your intention, align your energy, and call in the life you desire — one crystal at a time.&quot;
         </p>
         
         <Link href='/blogs'>

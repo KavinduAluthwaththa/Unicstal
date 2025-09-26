@@ -85,24 +85,21 @@ export const useReactiveBlogData = () => {
 
   const loadBlogData = () => {
     if (typeof window === 'undefined') return blogData;
-    
-    // Always store the latest blogData from file in localStorage
-    // This ensures new content is stored the same way admin-added items would be
     const savedData = localStorage.getItem('blogData');
     const deletedIds = JSON.parse(localStorage.getItem('deletedBlogs') || '[]');
-    
-    console.log('📦 loadBlogData: localStorage saved data:', savedData ? 'exists' : 'not found');
-    console.log('🗑️ loadBlogData: deleted IDs:', deletedIds);
-    
-    // Always use the current blogData from file and store it
-    const currentData = blogData.filter(item => !deletedIds.includes(item.id));
-    
-    // Store in localStorage the same way admin panel would
-    localStorage.setItem('blogData', JSON.stringify(currentData));
-    console.log('💾 loadBlogData: stored current data in localStorage, count:', currentData.length);
-    console.log('🔍 Blog data items:', currentData.map(b => ({id: b.id, title: b.title, slug: b.slug})));
-    
-    return currentData;
+    let data: BlogPost[];
+    if (savedData) {
+      // Use blogs from localStorage (admin edits/adds)
+      data = JSON.parse(savedData).filter((item: BlogPost) => !deletedIds.includes(item.id));
+      console.log('� loadBlogData: loaded from localStorage, count:', data.length);
+    } else {
+      // Fallback to static file if nothing in localStorage
+      data = blogData.filter(item => !deletedIds.includes(item.id));
+      localStorage.setItem('blogData', JSON.stringify(data));
+      console.log('� loadBlogData: initialized from static file, count:', data.length);
+    }
+    console.log('🔍 Blog data items:', data.map(b => ({id: b.id, title: b.title, slug: b.slug})));
+    return data;
   };
 
   const updateBlogs = () => {

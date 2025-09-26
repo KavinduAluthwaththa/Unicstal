@@ -1,5 +1,6 @@
 'use client';
 
+import { blogData, BlogPost } from '@/data/blog';
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -40,12 +41,9 @@ const BlogPage = ({ params }: BlogPageProps) => {
   }, [blogs]);
   
   let post = blogs.find(blog => blog.slug === slug);
-  
   // Fallback: if no post found in reactive data, check original data
   if (!post && blogs.length === 0) {
-    // Import the original data as fallback
-    const { blogData } = require('@/data/blog');
-    post = blogData.find((blog: any) => blog.slug === slug);
+    post = blogData.find((blog: BlogPost) => blog.slug === slug);
     console.log('🔄 Using fallback original data, found:', post ? post.title : 'NOT FOUND');
   }
   
@@ -100,7 +98,6 @@ const BlogPage = ({ params }: BlogPageProps) => {
             className="blog-content-html"
             dangerouslySetInnerHTML={{ __html: post.content || post.excerpt }}
           />
-          
           {post.tags && (
             <div className="blog-post-tags-section">
               <h3>Tags</h3>

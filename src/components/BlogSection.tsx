@@ -8,7 +8,7 @@ import { useReactiveBlogData } from '@/hooks/useReactiveData';
 import { useBlogAnimations } from '@/hooks/useBlogAnimations';
 import { gsap } from 'gsap';
 
-const BlogCard = React.memo(({ post, index }: { post: any; index: number }) => {
+const BlogCard = React.memo(({ post }: { post: BlogPost }) => {
   return (
     <Link href={`/blogs/${post.slug}`} className="blog-post-link">
       <article className="blog-post">
@@ -24,16 +24,13 @@ const BlogCard = React.memo(({ post, index }: { post: any; index: number }) => {
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
           />
         </div>
-        
         <div className="blog-content">
           <div className="blog-meta-top">
             <span className="blog-date-text">{post.date}</span>
             <span className="blog-meta-separator">•</span>
             <span className="blog-read-time-text">{post.readTime}</span>
           </div>
-          
           <h3 className="blog-title">{post.title}</h3>
-          
           <div className="blog-meta">
             <div className="blog-author-info">
               <span className="blog-author">{post.author}</span>
@@ -44,10 +41,11 @@ const BlogCard = React.memo(({ post, index }: { post: any; index: number }) => {
     </Link>
   );
 });
+BlogCard.displayName = 'BlogCard';
 
 const BlogSection = () => {
   const blogRowRef = React.useRef<HTMLDivElement>(null);
-  const { containerRef, titleRef, paragraphRef, buttonRef, showcaseRef } = useBlogAnimations();
+  const { containerRef, titleRef, buttonRef, showcaseRef } = useBlogAnimations();
   const blogs = useReactiveBlogData(); // Use reactive hook instead of state
   const [isMobile, setIsMobile] = useState(false);
 
@@ -148,7 +146,7 @@ const BlogSection = () => {
           <div className={`blog-carousel ${isMobile ? 'mobile-swipe' : ''}`}>
             <div className={`blog-row ${isMobile ? 'mobile-row' : 'auto-scroll-row'}`} ref={blogRowRef}>
               {blogs.map((post: BlogPost, index: number) => (
-                <BlogCard key={post.id} post={post} index={index} />
+                <BlogCard key={post.id} post={post} />
               ))}
             </div>
           </div>

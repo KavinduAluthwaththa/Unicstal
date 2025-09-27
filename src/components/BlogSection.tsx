@@ -65,65 +65,60 @@ const BlogSection = () => {
 
   React.useEffect(() => {
     if (typeof window === 'undefined' || !blogRowRef.current) return;
-
     const blogRow = blogRowRef.current;
-    
-    // On mobile, make carousel swipeable instead of auto-scrolling
+
     if (isMobile) {
-      // Remove any existing GSAP animations
       gsap.killTweensOf(blogRow);
-      
-      // Reset transform
       gsap.set(blogRow, { x: 0 });
-      
-      // Enable horizontal scrolling for mobile
       if (blogRow.parentElement) {
         blogRow.parentElement.style.overflowX = 'auto';
         blogRow.parentElement.style.scrollSnapType = 'x mandatory';
       }
-      
+      // Remove any clones if present (cleanup)
+      const clones = blogRow.querySelectorAll('.blog-post.clone');
+      clones.forEach(clone => clone.remove());
       return;
     }
 
     // Desktop: Auto-scroll behavior
-    setTimeout(() => {
-      // Clone the blog cards for seamless infinite loop
-      const blogCards = Array.from(blogRow.querySelectorAll('.blog-post'));
+    // Remove any previous clones before adding new ones
+    const clones = blogRow.querySelectorAll('.blog-post.clone');
+    clones.forEach(clone => clone.remove());
 
+    setTimeout(() => {
+      const blogCards = Array.from(blogRow.querySelectorAll('.blog-post:not(.clone)'));
       if (blogCards.length === 0) return;
 
-      // Clone cards multiple times for smoother infinite scroll
-      for (let i = 0; i < 4; i++) {
+      // Only clone if not already cloned
+      for (let i = 0; i < 2; i++) {
         blogCards.forEach(card => {
           const clone = card.cloneNode(true) as HTMLElement;
+          clone.classList.add('clone');
           blogRow.appendChild(clone);
         });
       }
 
-      // Calculate the width of one set of cards
-      const cardWidth = 350 + 24; // card width + gap
-      const rowWidth = cardWidth * blogCards.length;
+      // Calculate the width of all cards (original + clones)
+      const allCards = Array.from(blogRow.querySelectorAll('.blog-post'));
+      let totalWidth = 0;
+      allCards.forEach(card => {
+        totalWidth += (card as HTMLElement).offsetWidth + 24; // 24px gap
+      });
 
       // Auto-scroll row to the LEFT (negative direction)
-      const blogAnimation = gsap.fromTo(blogRow, 
+      const blogAnimation = gsap.fromTo(blogRow,
         { x: 0 },
         {
-          x: -rowWidth,
+          x: -totalWidth / 2, // scroll through one set
           duration: 25,
-          ease: "none",
+          ease: 'none',
           repeat: -1,
         }
       );
 
       // Pause animation on hover for better UX
-      const pauseAnimation = () => {
-        blogAnimation.pause();
-      };
-
-      const playAnimation = () => {
-        blogAnimation.play();
-      };
-
+      const pauseAnimation = () => blogAnimation.pause();
+      const playAnimation = () => blogAnimation.play();
       blogRow.addEventListener('mouseenter', pauseAnimation);
       blogRow.addEventListener('mouseleave', playAnimation);
 

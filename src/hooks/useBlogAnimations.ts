@@ -16,67 +16,77 @@ export const useBlogAnimations = () => {
   const showcaseRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !containerRef.current) return;
+      if (typeof window === 'undefined' || !containerRef.current) return;
 
-    const container = containerRef.current;
-    const title = titleRef.current;
-    const paragraph = paragraphRef.current;
-    const button = buttonRef.current;
-    const showcase = showcaseRef.current;
+      const container = containerRef.current;
+      const title = titleRef.current;
+      const paragraph = paragraphRef.current;
+      const button = buttonRef.current;
+      const showcase = showcaseRef.current;
 
-    // Initial states - set elements to invisible and positioned from left
-    gsap.set([title, paragraph, button], {
-      x: -100,
-      opacity: 0
-    });
-
-    gsap.set(showcase, {
-      x: -80,
-      opacity: 0
-    });
-
-    // Create timeline for entrance animations when section comes into view
-    const entranceTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: "top 80%",
-        end: "top 50%",
-        toggleActions: "play none none reverse"
+      // Initial states - set elements to invisible and positioned from left
+      if (title && paragraph && button) {
+        gsap.set([title, paragraph, button], {
+          x: -100,
+          opacity: 0
+        });
       }
-    });
+      if (showcase) {
+        gsap.set(showcase, {
+          x: -80,
+          opacity: 0
+        });
+      }
 
-    entranceTl
-      .to(title, {
-        x: 0,
-        opacity: 1,
-        duration: 1.2,
-        ease: "power2.out"
-      })
-      .to(paragraph, {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out"
-      }, "-=0.8")
-      .to(button, {
-        x: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out"
-      }, "-=0.6")
-      .to(showcase, {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out"
-      }, "-=0.4");
+      // Create timeline for entrance animations when section comes into view
+      const entranceTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 80%",
+          end: "top 50%",
+          toggleActions: "play none none reverse"
+        }
+      });
 
-    // No exit animation - let it stay visible
+      if (title) {
+        entranceTl.to(title, {
+          x: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power2.out"
+        });
+      }
+      if (paragraph) {
+        entranceTl.to(paragraph, {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out"
+        }, "-=0.8");
+      }
+      if (button) {
+        entranceTl.to(button, {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out"
+        }, "-=0.6");
+      }
+      if (showcase) {
+        entranceTl.to(showcase, {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out"
+        }, "-=0.4");
+      }
 
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
+      // No exit animation - let it stay visible
+
+      return () => {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      };
+    }, []);
 
   return {
     containerRef,

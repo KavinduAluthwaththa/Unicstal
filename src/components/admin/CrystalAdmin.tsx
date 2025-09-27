@@ -255,7 +255,7 @@ const CrystalAdmin = () => {
               <input
                 type="text"
                 value={newCrystal.properties?.join(', ') || ''}
-                onChange={(e) => setNewCrystal({ ...newCrystal, properties: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+                onChange={(e) => setNewCrystal({ ...newCrystal, properties: e.target.value.split(/[,\s]+/).map(s => s.trim()).filter(s => s) })}
                 placeholder="Healing, Protection, Energy"
               />
             </div>
@@ -264,7 +264,7 @@ const CrystalAdmin = () => {
               <input
                 type="text"
                 value={newCrystal.chakras?.join(', ') || ''}
-                onChange={(e) => setNewCrystal({ ...newCrystal, chakras: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+                onChange={(e) => setNewCrystal({ ...newCrystal, chakras: e.target.value.split(/[,\s]+/).map(s => s.trim()).filter(s => s) })}
                 placeholder="Crown, Third Eye, Heart"
               />
             </div>
@@ -427,14 +427,14 @@ const CrystalCard: React.FC<CrystalCardProps> = ({
           <input
             type="text"
             value={editData.properties?.join(', ') || ''}
-            onChange={(e) => setEditData({ ...editData, properties: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+            onChange={(e) => setEditData({ ...editData, properties: e.target.value.split(/[,\s]+/).map(s => s.trim()).filter(s => s) })}
             className="edit-input"
             placeholder="Properties (comma separated)"
           />
           <input
             type="text"
             value={editData.chakras?.join(', ') || ''}
-            onChange={(e) => setEditData({ ...editData, chakras: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+            onChange={(e) => setEditData({ ...editData, chakras: e.target.value.split(/[,\s]+/).map(s => s.trim()).filter(s => s) })}
             className="edit-input"
             placeholder="Chakras (comma separated)"
           />

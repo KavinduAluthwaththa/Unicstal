@@ -266,7 +266,7 @@ const BlogAdmin = () => {
               <input
                 type="text"
                 value={newBlog.tags?.join(', ') || ''}
-                onChange={(e) => setNewBlog({ ...newBlog, tags: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+                onChange={(e) => setNewBlog({ ...newBlog, tags: e.target.value.split(/[,\s]+/).map(s => s.trim()).filter(s => s) })}
                 placeholder="meditation, healing, crystals"
               />
             </div>
@@ -411,7 +411,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           <input
             type="text"
             value={editData.tags?.join(', ') || ''}
-            onChange={(e) => setEditData({ ...editData, tags: e.target.value.split(',').map(s => s.trim()).filter(s => s) })}
+            onChange={(e) => setEditData({ ...editData, tags: e.target.value.split(/[,\s]+/).map(s => s.trim()).filter(s => s) })}
             className="edit-input"
             placeholder="Tags (comma separated)"
           />

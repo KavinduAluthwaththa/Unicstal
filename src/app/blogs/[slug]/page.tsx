@@ -41,17 +41,10 @@ const BlogPage = ({ params }: BlogPageProps) => {
     }
   }, [blogs]);
   
-  let post = blogs.find(blog => blog.slug === slug);
-  // Fallback: if no post found in reactive data, check original data
-  if (!post && blogs.length === 0) {
-    post = blogData.find((blog: BlogPost) => blog.slug === slug);
-    console.log('🔄 Using fallback original data, found:', post ? post.title : 'NOT FOUND');
-  }
-  
-  console.log('🔍 Found blog:', post ? post.title : 'NOT FOUND');
-  
-  // Show loading state
-  if (isLoading && blogs.length === 0) {
+  let post: BlogPost | undefined = undefined;
+
+  // Wait for blogs to load before searching
+  if (isLoading) {
     return (
       <div className="blog-post-page">
         <Navbar />
@@ -61,6 +54,16 @@ const BlogPage = ({ params }: BlogPageProps) => {
       </div>
     );
   }
+
+  if (blogs.length > 0) {
+    post = blogs.find(blog => blog.slug === slug);
+  }
+  // Fallback: if no post found in reactive data, check original data
+  if (!post) {
+    post = blogData.find((blog: BlogPost) => blog.slug === slug);
+    console.log('🔄 Using fallback original data, found:', post ? post.title : 'NOT FOUND');
+  }
+  console.log('🔍 Found blog:', post ? post.title : 'NOT FOUND');
 
   if (!post) {
     notFound();

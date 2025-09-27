@@ -11,33 +11,36 @@ import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 
 const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: (crystal: Crystal) => void }) => {
   return (
-    <div 
-      className="crystal-component"
-      style={{ 
-        width: '220px', // fixed width for all cards
-        height: '270px', // uniform height for all cards
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-      }}
-    >
+    <Link href={`/crystals/${crystal.slug}`} passHref legacyBehavior>
+      <a style={{ textDecoration: 'none', color: 'inherit' }}>
         <div 
-          className="crystal-image" 
+          className="crystal-component"
           style={{ 
-            backgroundImage: `url(${crystal.image})`, 
-            backgroundSize: 'cover', 
-            backgroundPosition: 'center', 
-            height: '100px',
-            width: '100%',
-            borderRadius: '12px'
+            width: '220px', // fixed width for all cards
+            height: '270px', // uniform height for all cards
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
           }}
-        ></div>
-        
-        <h3 className="crystal-name">{crystal.name}</h3>
-        <p className="crystal-type">{crystal.type}</p>
-        <p className="crystal-price">${crystal.price}</p>
-      </div>
+        >
+            <div 
+              className="crystal-image" 
+              style={{ 
+                backgroundImage: `url(${crystal.image})`, 
+                backgroundSize: 'cover', 
+                backgroundPosition: 'center', 
+                height: '100px',
+                width: '100%',
+                borderRadius: '12px'
+              }}
+            ></div>
+            <h3 className="crystal-name">{crystal.name}</h3>
+            <p className="crystal-type">{crystal.type}</p>
+            <p className="crystal-price">${crystal.price}</p>
+        </div>
+      </a>
+    </Link>
   );
 };
 

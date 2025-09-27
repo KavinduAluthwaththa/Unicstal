@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { useLoading } from '@/context/LoadingContext';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from 'gsap';
@@ -12,6 +13,7 @@ if (typeof window !== 'undefined') {
 
 const Global3DModel: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { setProgress, stagedProgress, setStagedProgress, loadingStart, setModelDone } = useLoading();
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -35,7 +37,10 @@ const Global3DModel: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!canvasRef.current || typeof window === 'undefined') return;
+  if (!canvasRef.current || typeof window === 'undefined') return;
+  // Start staged loading animation
+  loadingStart();
+  let loadingTimeout: NodeJS.Timeout | null = null;
 
     const isMobile = mobileAndTabletCheck();
     console.log('🔍 Global3DModel: isMobile =', isMobile);
@@ -140,8 +145,13 @@ const Global3DModel: React.FC = () => {
           loader.load(
             '/assets/painter_of_stars.glb',
             resolve,
-            (progress) => {
-              console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
+            (xhr) => {
+              if (xhr && xhr.total) {
+                const percent = (xhr.loaded / xhr.total) * 100;
+                setProgress(percent);
+                // If real progress > staged, update staged
+                if (percent > stagedProgress) setStagedProgress(percent);
+              }
             },
             reject
           );
@@ -181,7 +191,11 @@ const Global3DModel: React.FC = () => {
   // setIsLoaded removed (unused)
         
         // Setup scroll animations after model is loaded
-        setupScrollAnimations();
+    setupScrollAnimations();
+    // Hide loading overlay after model is loaded
+  setProgress(100);
+  setModelDone(true);
+  if (loadingTimeout) clearTimeout(loadingTimeout);
         
       } catch (error) {
         console.error('Error loading model:', error);
@@ -293,6 +307,12 @@ const Global3DModel: React.FC = () => {
     };
 
     loadModel();
+    // Fallback: if not loaded in 30s, finish loading
+    loadingTimeout = setTimeout(() => {
+  setStagedProgress(100);
+  setProgress(100);
+  setModelDone(true);
+    }, 30000);
 
     // Animation loop
     const animate = () => {
@@ -336,6 +356,7 @@ const Global3DModel: React.FC = () => {
       }
       renderer.dispose();
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (loadingTimeout) clearTimeout(loadingTimeout);
     };
   }, []);
 

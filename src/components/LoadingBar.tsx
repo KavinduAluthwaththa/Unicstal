@@ -1,55 +1,43 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useLoading } from '@/context/LoadingContext';
 
 const LoadingBar: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const { isLoading, stagedProgress } = useLoading();
+  const [slideDown, setSlideDown] = React.useState(false);
+  const [finished, setFinished] = React.useState(false);
 
-  useEffect(() => {
-    // Simulate loading progress
-    const timer = setInterval(() => {
-      setProgress((prevProgress) => {
-        if (prevProgress >= 100) {
-          setIsLoading(false);
-          return 100;
-        }
-        // Simulate realistic loading with varying speeds
-        const increment = Math.random() * 15 + 5; // Random between 5-20
-        return Math.min(prevProgress + increment, 100);
-      });
-    }, 150);
-
-    // Cleanup timer
-    return () => clearInterval(timer);
-  }, []);
-
-  // Hide component after loading completes with a small delay
-  useEffect(() => {
-    if (progress === 100) {
-      const hideTimer = setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-      return () => clearTimeout(hideTimer);
+  React.useEffect(() => {
+    if (stagedProgress === 100 && isLoading) {
+      const timer = setTimeout(() => setSlideDown(true), 200);
+      return () => clearTimeout(timer);
     }
-  }, [progress]);
+  }, [stagedProgress, isLoading]);
 
-  if (!isLoading) {
-    return null;
-  }
+  React.useEffect(() => {
+    if (slideDown) {
+      const timer = setTimeout(() => {
+        setSlideDown(false);
+        setFinished(true);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [slideDown]);
+
+  React.useEffect(() => {
+    if (isLoading) setFinished(false);
+  }, [isLoading]);
+
+  if ((!isLoading && !slideDown) || finished) return null;
 
   return (
-    <div className="loading-overlay">
+    <div className={`loading-overlay${slideDown ? ' slide-down' : ''}`}>
       <div className="loading-container">
         <div className="loading-bar-container">
-          <div 
-            className="loading-bar-fill" 
-            style={{ width: `${progress}%` }}
-          />
+          <div className="loading-bar-fill" style={{ width: `${stagedProgress}%` }} />
         </div>
-        <div className="loading-text">
-          Loading... {Math.round(progress)}%
-        </div>
+        <div className="loading-text">Loading... {Math.round(stagedProgress)}%</div>
       </div>
     </div>
   );

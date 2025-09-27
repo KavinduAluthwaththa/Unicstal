@@ -36,7 +36,7 @@ export const LoadingProvider = ({ children }: { children: ReactNode }) => {
     setStagedProgress(0);
     setStagedDone(false);
     setModelDone(false);
-    let start = Date.now();
+  const start = Date.now();
     let timer: NodeJS.Timeout;
     const animate = () => {
       const elapsed = (Date.now() - start) / 1000;
@@ -56,8 +56,8 @@ export const LoadingProvider = ({ children }: { children: ReactNode }) => {
   React.useEffect(() => {
     if (stagedDone && modelDone && stagedProgress < 100) {
       let cancelled = false;
-      let start = stagedProgress;
-      let startTime = Date.now();
+  const start = stagedProgress;
+  const startTime = Date.now();
       const animate = () => {
         if (cancelled) return;
         const elapsed = (Date.now() - startTime) / 1000;

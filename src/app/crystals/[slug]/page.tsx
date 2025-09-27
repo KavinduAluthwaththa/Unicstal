@@ -48,8 +48,10 @@ const CrystalPage = ({ params }: CrystalPageProps) => {
     return (
       <div className="crystal-detail-page">
         <Navbar />
-        <div style={{ padding: '200px 20px', textAlign: 'center' }}>
-          <p>Loading crystal...</p>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+          <svg className="loading-spinner" width="160" height="160" viewBox="0 0 100 100">
+            <circle className="path" cx="50" cy="50" r="40" fill="none" strokeWidth="12" />
+          </svg>
         </div>
       </div>
     );

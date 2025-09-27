@@ -32,7 +32,13 @@ const BlogsPage = () => {
 
       <div className="blogs-container">
         <div className="blogs-grid">
-          {loading && <div>Loading blogs...</div>}
+          {loading && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', width: '100%' }}>
+              <svg className="loading-spinner" width="160" height="160" viewBox="0 0 100 100">
+                <circle className="path" cx="50" cy="50" r="40" fill="none" strokeWidth="12" />
+              </svg>
+            </div>
+          )}
           {error && <div>Error: {error}</div>}
           {!loading && blogs.map((post: BlogPost) => {
             const blogUrl = `/blogs/${post.slug}`;

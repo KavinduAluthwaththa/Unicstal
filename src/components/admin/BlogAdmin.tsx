@@ -129,9 +129,13 @@ const BlogAdmin = () => {
       try {
         const url = await uploadImage(file, 'blog-images');
         setNewBlog({ ...newBlog, image: url });
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('Failed to upload image:', error);
-        alert(`Failed to upload image: ${error.message || error}`);
+        if (typeof error === 'object' && error !== null && 'message' in error) {
+          alert(`Failed to upload image: ${(error as { message?: string }).message}`);
+        } else {
+          alert(`Failed to upload image: ${String(error)}`);
+        }
       }
     }
   };

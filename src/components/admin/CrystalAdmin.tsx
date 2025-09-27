@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
-import { crystalData } from '@/data/crystals';
+import { fetchCrystals, addCrystal, uploadImage } from '@/lib/supabaseApi';
 import type { Crystal } from '@/types/crystal';
 import { notifyCrystalDataUpdate, permanentlyDeleteCrystal } from '@/hooks/useReactiveData';
 import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
@@ -48,24 +48,12 @@ const CrystalAdmin = () => {
 
   // Load from localStorage on mount, initialize if doesn't exist
   useEffect(() => {
-    const saved = localStorage.getItem('crystalData');
-    if (saved) {
-      setCrystals(JSON.parse(saved));
-    } else {
-      // Initialize with original data and save to localStorage
-      localStorage.setItem('crystalData', JSON.stringify(crystalData));
-      setCrystals(crystalData);
-    }
+    fetchCrystals().then(setCrystals);
     setIsInitialized(true);
   }, []);
 
   // Save to localStorage whenever crystals change (but not on initial load)
-  useEffect(() => {
-    if (isInitialized) {
-      localStorage.setItem('crystalData', JSON.stringify(crystals));
-      notifyCrystalDataUpdate(); // Notify other components of the change
-    }
-  }, [crystals, isInitialized]);
+  // No localStorage syncing needed
 
   const handleEdit = (id: string) => {
     setEditingId(id);
@@ -100,12 +88,8 @@ const CrystalAdmin = () => {
     }
   };
 
-  const handleAddNew = () => {
-    const maxId = Math.max(...crystals.map(c => parseInt(c.id)));
-    const newId = (maxId + 1).toString();
-    
-    const crystal: Crystal = {
-      id: newId,
+  const handleAddNew = async () => {
+    const crystal: Partial<Crystal> = {
       name: newCrystal.name || 'New Crystal',
       type: newCrystal.type || 'Healing Stone',
       price: newCrystal.price || 25,
@@ -120,8 +104,9 @@ const CrystalAdmin = () => {
       size: newCrystal.size || '',
       weight: newCrystal.weight || ''
     };
-
-    setCrystals([...crystals, crystal]);
+    await addCrystal(crystal);
+    const updatedCrystals = await fetchCrystals();
+    setCrystals(updatedCrystals);
     setNewCrystal({
       name: '',
       type: '',
@@ -140,30 +125,14 @@ const CrystalAdmin = () => {
     setIsAddingNew(false);
   };
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, crystalId?: string) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       try {
-        const result = await uploadFile(file, 'crystal');
-        
-        if (crystalId) {
-          // Delete old file if it exists and is a local upload
-          const existingCrystal = crystals.find(c => c.id === crystalId);
-          if (existingCrystal && isLocalUpload(existingCrystal.image)) {
-            const oldFilename = extractFilenameFromUrl(existingCrystal.image);
-            await deleteFile(oldFilename).catch(console.error);
-          }
-          
-          // Update existing crystal
-          setCrystals(crystals.map(crystal => 
-            crystal.id === crystalId ? { ...crystal, image: result.url } : crystal
-          ));
-        } else {
-          // Update new crystal
-          setNewCrystal({ ...newCrystal, image: result.url });
-        }
+        const url = await uploadImage(file, 'crystal-images');
+        setNewCrystal({ ...newCrystal, image: url });
       } catch (error) {
-        console.error('Failed to upload file:', error);
+        console.error('Failed to upload image:', error);
         alert('Failed to upload image. Please try again.');
       }
     }
@@ -350,7 +319,7 @@ const CrystalAdmin = () => {
             onSave={(updated) => handleSave(crystal.id, updated)}
             onDelete={() => handleDelete(crystal.id)}
             onCancel={() => setEditingId(null)}
-            onImageUpload={(e) => handleImageUpload(e, crystal.id)}
+            onImageUpload={handleImageUpload}
           />
         ))}
       </div>

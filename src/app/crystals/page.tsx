@@ -3,13 +3,13 @@
 import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useReactiveCrystalData } from '@/hooks/useReactiveData';
+import { useSupabaseCrystals } from '@/hooks/useSupabaseCrystals';
 import type { Crystal } from '@/types/crystal';
 import Navbar from '@/components/Navbar';
 import { useStarBackground } from '@/hooks/useStarBackground';
 
 const CrystalsPage = () => {
-  const crystals = useReactiveCrystalData();
+  const { crystals, loading, error } = useSupabaseCrystals();
   const [manualRefresh, setManualRefresh] = React.useState(0);
   const headerRef = useRef<HTMLDivElement>(null);
   
@@ -43,53 +43,52 @@ const CrystalsPage = () => {
 
       <div className="crystals-container">
         <div className="crystals-grid">
-          {crystals.map((crystal: Crystal) => {
+          {loading && <div>Loading crystals...</div>}
+          {error && <div>Error: {error}</div>}
+          {!loading && crystals.map((crystal: Crystal) => {
             const crystalUrl = `/crystals/${crystal.slug}`;
-            console.log('🔗 Crystal Link:', crystal.name, '→', crystalUrl);
             return (
-            <Link 
-              href={crystalUrl} 
-              key={crystal.id}
-              className="crystal-card-link"
-            >
-              <article className="crystal-card">
-                <div className="crystal-card-image">
-                  <Image
-                    src={crystal.image}
-                    alt={crystal.name}
-                    width={300}
-                    height={300}
-                    className="crystal-image"
-                  />
-                  <div className="crystal-card-type">
-                    {crystal.type}
-                  </div>
-                  <button className="crystal-add-to-cart">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="9" cy="21" r="1"></circle>
-                      <circle cx="20" cy="21" r="1"></circle>
-                      <path d="m1 1 4 4 4.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L17 8H7.68"></path>
-                    </svg>
-                  </button>
-                </div>
-                
-                <div className="crystal-card-content">
-                  <h2 className="crystal-card-name">{crystal.name}</h2>
-                  <p className="crystal-card-description">{crystal.description}</p>
-                  <div className="crystal-card-price">${crystal.price}</div>
-                  
-                  {crystal.properties && (
-                    <div className="crystal-card-properties">
-                      {crystal.properties.slice(0, 3).map((property: string) => (
-                        <span key={property} className="crystal-property">
-                          {property}
-                        </span>
-                      ))}
+              <Link 
+                href={crystalUrl} 
+                key={crystal.id}
+                className="crystal-card-link"
+              >
+                <article className="crystal-card">
+                  <div className="crystal-card-image">
+                    <Image
+                      src={crystal.image}
+                      alt={crystal.name}
+                      width={300}
+                      height={300}
+                      className="crystal-image"
+                    />
+                    <div className="crystal-card-type">
+                      {crystal.type}
                     </div>
-                  )}
-                </div>
-              </article>
-            </Link>
+                    <button className="crystal-add-to-cart">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="m1 1 4 4 4.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L17 8H7.68"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div className="crystal-card-content">
+                    <h2 className="crystal-card-name">{crystal.name}</h2>
+                    <p className="crystal-card-description">{crystal.description}</p>
+                    <div className="crystal-card-price">${crystal.price}</div>
+                    {crystal.properties && (
+                      <div className="crystal-card-properties">
+                        {crystal.properties.slice(0, 3).map((property: string) => (
+                          <span key={property} className="crystal-property">
+                            {property}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </article>
+              </Link>
             );
           })}
         </div>

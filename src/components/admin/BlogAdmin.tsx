@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X, Calendar, User, Clock } from 'lucide-react';
-import { blogData } from '@/data/blog';
+import { fetchBlogs, addBlog, uploadImage } from '@/lib/supabaseApi';
 import type { BlogPost } from '@/types/blog';
 import { notifyBlogDataUpdate, permanentlyDeleteBlog } from '@/hooks/useReactiveData';
 import { uploadFile, deleteFile, extractFilenameFromUrl, isLocalUpload } from '@/lib/fileUtils';
@@ -45,24 +45,12 @@ const BlogAdmin = () => {
 
   // Load from localStorage on mount, initialize if doesn't exist
   useEffect(() => {
-    const saved = localStorage.getItem('blogData');
-    if (saved) {
-      setBlogs(JSON.parse(saved));
-    } else {
-      // Initialize with original data and save to localStorage
-      localStorage.setItem('blogData', JSON.stringify(blogData));
-      setBlogs(blogData);
-    }
+    fetchBlogs().then(setBlogs);
     setIsInitialized(true);
   }, []);
 
   // Save to localStorage whenever blogs change (but not on initial load)  
-  useEffect(() => {
-    if (isInitialized) {
-      localStorage.setItem('blogData', JSON.stringify(blogs));
-      notifyBlogDataUpdate(); // Notify other components of the change
-    }
-  }, [blogs, isInitialized]);
+  // No localStorage syncing needed
 
   const handleEdit = (id: string) => {
     setEditingId(id);
@@ -97,21 +85,15 @@ const BlogAdmin = () => {
     }
   };
 
-  const handleAddNew = () => {
-    const maxId = Math.max(...blogs.map(b => parseInt(b.id)));
-    const newId = (maxId + 1).toString();
-    
+  const handleAddNew = async () => {
     const currentDate = new Date().toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
       year: 'numeric'
     });
-
     const blogTitle = newBlog.title || 'New Blog Post';
     const blogSlug = newBlog.slug || generateSlug(blogTitle);
-
-    const blog: BlogPost = {
-      id: newId,
+    const blog: Partial<BlogPost> = {
       title: blogTitle,
       excerpt: newBlog.excerpt || 'Add your blog excerpt here...',
       author: newBlog.author || 'Admin',
@@ -123,8 +105,9 @@ const BlogAdmin = () => {
       tags: newBlog.tags || [],
       category: newBlog.category || ''
     };
-
-    setBlogs([...blogs, blog]);
+    await addBlog(blog);
+    const updatedBlogs = await fetchBlogs();
+    setBlogs(updatedBlogs);
     setNewBlog({
       title: '',
       excerpt: '',
@@ -140,30 +123,14 @@ const BlogAdmin = () => {
     setIsAddingNew(false);
   };
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, blogId?: string) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       try {
-        const result = await uploadFile(file, 'blog');
-        
-        if (blogId) {
-          // Delete old file if it exists and is a local upload
-          const existingBlog = blogs.find(b => b.id === blogId);
-          if (existingBlog && isLocalUpload(existingBlog.image)) {
-            const oldFilename = extractFilenameFromUrl(existingBlog.image);
-            await deleteFile(oldFilename).catch(console.error);
-          }
-          
-          // Update existing blog
-          setBlogs(blogs.map(blog => 
-            blog.id === blogId ? { ...blog, image: result.url } : blog
-          ));
-        } else {
-          // Update new blog
-          setNewBlog({ ...newBlog, image: result.url });
-        }
+        const url = await uploadImage(file, 'blog-images');
+        setNewBlog({ ...newBlog, image: url });
       } catch (error) {
-        console.error('Failed to upload file:', error);
+        console.error('Failed to upload image:', error);
         alert('Failed to upload image. Please try again.');
       }
     }

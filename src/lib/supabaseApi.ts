@@ -44,7 +44,7 @@ export async function addCrystal(crystal: Partial<Crystal>) {
 export async function uploadImage(file: File, bucket: string): Promise<string> {
   const { data, error } = await supabase.storage
     .from(bucket)
-    .upload(`public/${file.name}`, file, { upsert: true });
+    .upload(file.name, file, { upsert: true });
   if (error) throw error;
-  return supabase.storage.from(bucket).getPublicUrl(`public/${file.name}`).data.publicUrl;
+  return supabase.storage.from(bucket).getPublicUrl(file.name).data.publicUrl;
 }

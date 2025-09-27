@@ -37,7 +37,7 @@ const CrystalAdmin = () => {
     image: '',
     description: '',
     slug: '',
-    fullDescription: '',
+    full_description: '',
     properties: [],
     chakras: [],
     origin: '',
@@ -96,7 +96,7 @@ const CrystalAdmin = () => {
       image: newCrystal.image || '/assets/images/crystal1.jpeg',
       description: newCrystal.description || '',
       slug: newCrystal.slug || generateSlug(newCrystal.name || 'new-crystal'),
-      fullDescription: newCrystal.fullDescription || '',
+      full_description: newCrystal.full_description || '',
       properties: newCrystal.properties || [],
       chakras: newCrystal.chakras || [],
       origin: newCrystal.origin || '',
@@ -114,7 +114,7 @@ const CrystalAdmin = () => {
       image: '',
       description: '',
       slug: '',
-      fullDescription: '',
+      full_description: '',
       properties: [],
       chakras: [],
       origin: '',
@@ -234,8 +234,8 @@ const CrystalAdmin = () => {
             <div className="form-group full-width">
               <label>Full Description</label>
               <textarea
-                value={newCrystal.fullDescription || ''}
-                onChange={(e) => setNewCrystal({ ...newCrystal, fullDescription: e.target.value })}
+                value={newCrystal.full_description || ''}
+                onChange={(e) => setNewCrystal({ ...newCrystal, full_description: e.target.value })}
                 placeholder="Detailed description for the crystal page"
                 rows={4}
               />
@@ -408,8 +408,8 @@ const CrystalCard: React.FC<CrystalCardProps> = ({
             placeholder="Slug"
           />
           <textarea
-            value={editData.fullDescription || ''}
-            onChange={(e) => setEditData({ ...editData, fullDescription: e.target.value })}
+            value={editData.full_description || ''}
+            onChange={(e) => setEditData({ ...editData, full_description: e.target.value })}
             className="edit-input"
             placeholder="Full Description"
             rows={3}

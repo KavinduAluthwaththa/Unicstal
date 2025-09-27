@@ -6,7 +6,7 @@ export interface Crystal {
   image: string;
   description?: string;
   slug: string;
-  fullDescription?: string;
+  full_description?: string;
   properties?: string[];
   chakras?: string[];
   origin?: string;

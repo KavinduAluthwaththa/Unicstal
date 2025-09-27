@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Crystal } from '@/types/crystal';
 import { useReactiveCrystalData } from '@/hooks/useReactiveData';
-import { useAutoScroll } from '@/hooks/useAutoScroll';
 import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 
 const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: (crystal: Crystal) => void }) => {
@@ -40,7 +39,7 @@ const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: 
 
 const CrystalSection = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const { firstRowRef, secondRowRef } = useAutoScroll(isMobile);
+  // Removed auto-scroll feature
   const { containerRef, titleRef, paragraphRef, buttonRef, showcaseRef } = useCrystalAnimations();
   const [cartItems, setCartItems] = useState<Crystal[]>([]);
   const crystals = useReactiveCrystalData(); // Use reactive hook instead of state
@@ -79,7 +78,7 @@ const CrystalSection = () => {
           {/* Right fade for mobile horizontal scroll */}
           {isMobile && <div className="crystal-showcase__right-fade" />}
           <div className={`crystal-carousel ${isMobile ? 'mobile-swipe' : ''}`}>
-            <div className={`crystal-row ${isMobile ? 'mobile-row' : 'auto-scroll-row'}`} ref={firstRowRef}>
+            <div className={`crystal-row ${isMobile ? 'mobile-row' : ''}`}>
               {firstRow.map((crystal) => (
                 <CrystalCard 
                   key={crystal.id} 
@@ -88,7 +87,7 @@ const CrystalSection = () => {
                 />
               ))}
             </div>
-            <div className={`crystal-row ${isMobile ? 'mobile-row' : 'auto-scroll-row'}`} ref={secondRowRef}>
+            <div className={`crystal-row ${isMobile ? 'mobile-row' : ''}`}>
               {secondRow.map((crystal) => (
                 <CrystalCard 
                   key={crystal.id} 

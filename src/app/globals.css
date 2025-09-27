@@ -891,21 +891,6 @@ nav {
 }
 
 /* Auto-scrolling row styles */
-.auto-scroll-row {
-  width: max-content;
-  will-change: transform;
-  overflow: visible;
-  position: relative;
-  animation: scrollLeft 20s linear infinite;
-}
-
-.auto-scroll-row.reverse {
-  animation: scrollRight 25s linear infinite;
-}
-
-.auto-scroll-row.reverse {
-  animation: scrollRight 25s linear infinite;
-}
 
 .crystal-component {
   flex: 0 0 280px;

@@ -67,68 +67,70 @@ const BlogSection = () => {
     if (typeof window === 'undefined' || !blogRowRef.current) return;
     const blogRow = blogRowRef.current;
 
+    // Cleanup previous animation and clones
+    gsap.killTweensOf(blogRow);
+    gsap.set(blogRow, { x: 0 });
+    const clones = blogRow.querySelectorAll('.blog-post.clone');
+    clones.forEach(clone => clone.remove());
+
     if (isMobile) {
-      gsap.killTweensOf(blogRow);
-      gsap.set(blogRow, { x: 0 });
+      // Enable manual scrolling for mobile
       if (blogRow.parentElement) {
         blogRow.parentElement.style.overflowX = 'auto';
         blogRow.parentElement.style.scrollSnapType = 'x mandatory';
       }
-      // Remove any clones if present (cleanup)
-      const clones = blogRow.querySelectorAll('.blog-post.clone');
-      clones.forEach(clone => clone.remove());
+      blogRow.style.animation = '';
+      blogRow.style.transform = '';
       return;
     }
 
-    // Desktop: Auto-scroll behavior
-    // Remove any previous clones before adding new ones
-    const clones = blogRow.querySelectorAll('.blog-post.clone');
-    clones.forEach(clone => clone.remove());
+    // PC view: auto-scroll effect
+    if (blogRow.parentElement) {
+      blogRow.parentElement.style.overflowX = 'hidden';
+      blogRow.parentElement.style.scrollSnapType = 'none';
+    }
+    // Remove CSS animation from .blog-row
+    blogRow.style.animation = 'none';
 
-    setTimeout(() => {
-      const blogCards = Array.from(blogRow.querySelectorAll('.blog-post:not(.clone)'));
-      if (blogCards.length === 0) return;
+    // Clone blog cards for seamless loop
+    const cards = blogRow.querySelectorAll('.blog-post');
+    cards.forEach(card => {
+      const clone = card.cloneNode(true) as HTMLElement;
+      clone.classList.add('clone');
+      blogRow.appendChild(clone);
+    });
 
-      // Only clone if not already cloned
-      for (let i = 0; i < 2; i++) {
-        blogCards.forEach(card => {
-          const clone = card.cloneNode(true) as HTMLElement;
-          clone.classList.add('clone');
-          blogRow.appendChild(clone);
-        });
+    // Calculate total width
+    const cardWidth = (cards[0] as HTMLElement)?.offsetWidth || 320;
+    const totalCards = cards.length;
+    const totalWidth = cardWidth * totalCards;
+
+    // Animate x position for infinite loop
+    gsap.to(blogRow, {
+      x: -totalWidth,
+      duration: totalCards * 2, // 2s per card
+      ease: 'none',
+      repeat: -1,
+      force3D: true,
+      onUpdate: () => {
+        // Ensure transform is set
+        blogRow.style.transform = `translateX(${gsap.getProperty(blogRow, 'x')}px)`;
+      },
+      modifiers: {
+        x: x => `${parseFloat(x) % totalWidth}`
       }
+    });
 
-      // Calculate the width of all cards (original + clones)
-      const allCards = Array.from(blogRow.querySelectorAll('.blog-post'));
-      let totalWidth = 0;
-      allCards.forEach(card => {
-        totalWidth += (card as HTMLElement).offsetWidth + 24; // 24px gap
-      });
-
-      // Auto-scroll row to the LEFT (negative direction)
-      const blogAnimation = gsap.fromTo(blogRow,
-        { x: 0 },
-        {
-          x: -totalWidth / 2, // scroll through one set
-          duration: 25,
-          ease: 'none',
-          repeat: -1,
-        }
-      );
-
-      // Pause animation on hover for better UX
-      const pauseAnimation = () => blogAnimation.pause();
-      const playAnimation = () => blogAnimation.play();
-      blogRow.addEventListener('mouseenter', pauseAnimation);
-      blogRow.addEventListener('mouseleave', playAnimation);
-
-      return () => {
-        blogAnimation.kill();
-        blogRow.removeEventListener('mouseenter', pauseAnimation);
-        blogRow.removeEventListener('mouseleave', playAnimation);
-      };
-    }, 100);
-  }, [isMobile]);
+    // Cleanup on unmount
+    return () => {
+      gsap.killTweensOf(blogRow);
+      gsap.set(blogRow, { x: 0 });
+      blogRow.style.animation = '';
+      blogRow.style.transform = '';
+      const clones = blogRow.querySelectorAll('.blog-post.clone');
+      clones.forEach(clone => clone.remove());
+    };
+  }, [isMobile, blogs]);
 
   return (
     <section className="section fourth" id="section-four">
@@ -139,7 +141,7 @@ const BlogSection = () => {
         
         <div className="blog-showcase" ref={showcaseRef}>
           <div className={`blog-carousel ${isMobile ? 'mobile-swipe' : ''}`}>
-            <div className={`blog-row ${isMobile ? 'mobile-row' : 'auto-scroll-row'}`} ref={blogRowRef}>
+            <div className={`blog-row ${isMobile ? 'mobile-row' : ''}`} ref={blogRowRef}>
               {blogs.map((post: BlogPost, index: number) => (
                 <BlogCard key={post.id} post={post} />
               ))}

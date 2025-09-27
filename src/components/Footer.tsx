@@ -23,19 +23,12 @@ const Footer = () => {
           <h3 className="footer-title">NAVIGATION</h3>
           <ul className="footer-links">
             {[
-              { href: "#shop", text: "Shop All" },
-              { href: "#crystals", text: "Crystals and their Meanings" },
-              { href: "#reviews", text: "REVIEWS" },
-              { href: "#trade", text: "Designer Trade Program" },
-              { href: "#quiz", text: "CRYSTAL QUIZ" },
-              { href: "#rewards", text: "REWARDS" },
-              { href: "#affiliate", text: "BECOME AN AFFILIATE" },
-              { href: "#contact", text: "CONTACT" },
-              { href: "#search", text: "Search" },
-              { href: "#faq", text: "FAQ" },
-              { href: "#about", text: "About Us" },
-              { href: "#returns", text: "Return & Refund Policy" },
-              { href: "#terms", text: "Terms of service" }
+              { href: "/Blogs", text: "Blogs" },
+              { href: "/crystals", text: "Crystals" },
+              { href: "/shop", text: "Shop All" },
+              { href: "/rewards", text: "Rewards" },
+              { href: "/quiz", text: "Crystal Quiz" },
+              { href: "/trade", text: "Designer Trade Program" },
             ].map((link, index) => (
               <li key={index}>
                 <a 
@@ -57,10 +50,33 @@ const Footer = () => {
         </div>
 
         <div className="footer-section">
-          <h3 className="footer-title">UNICSTAL.COM</h3>
-          <p className="footer-description">
-            Discover our crystal shop online for home décor, wellness, and meaningful gifts.
-          </p>
+          <br/>
+          <ul className="footer-links">
+            {[
+              { href: "/faq", text: "FAQ" },
+              { href: "/contact", text: "Contact" },
+              { href: "/about", text: "About Us" },
+              { href: "/terms", text: "Terms of Service" },
+              { href: "/affiliate", text: "Become an Affiliate" },
+              { href: "/returns", text: "Return & Refund Policy" }
+            ].map((link, index) => (
+              <li key={index}>
+                <a 
+                  href={link.href}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateX(5px)';
+                    e.currentTarget.style.color = '#C084FC';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
+                  }}
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="footer-section">
@@ -124,6 +140,12 @@ const Footer = () => {
               →
             </button>
           </form>
+          <br /><br />
+          <h3 className="footer-title">UNICSTAL.COM</h3>
+          <p className="footer-description">
+            Discover our crystal shop online for home décor, wellness, and meaningful gifts.
+          </p>
+
         </div>
       </div>
 

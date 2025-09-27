@@ -41,19 +41,10 @@ const CrystalPage = ({ params }: CrystalPageProps) => {
     }
   }, [crystals]);
   
-  let crystal = crystals.find(c => c.slug === slug);
-  
-  // Fallback: if no crystal found in reactive data, check original data
-  if (!crystal && crystals.length === 0) {
-    // Use the original data as fallback
-    crystal = crystalData.find((c: Crystal) => c.slug === slug);
-    console.log('🔄 Using fallback original data, found:', crystal ? crystal.name : 'NOT FOUND');
-  }
-  
-  console.log('🔍 Found crystal:', crystal ? crystal.name : 'NOT FOUND');
-  
-  // Show loading state
-  if (isLoading && crystals.length === 0) {
+  let crystal: Crystal | undefined = undefined;
+
+  // Wait for crystals to load before searching
+  if (isLoading) {
     return (
       <div className="crystal-detail-page">
         <Navbar />
@@ -63,6 +54,16 @@ const CrystalPage = ({ params }: CrystalPageProps) => {
       </div>
     );
   }
+
+  if (crystals.length > 0) {
+    crystal = crystals.find(c => c.slug === slug);
+  }
+  // Fallback: if no crystal found in reactive data, check original data
+  if (!crystal) {
+    crystal = crystalData.find((c: Crystal) => c.slug === slug);
+    console.log('🔄 Using fallback original data, found:', crystal ? crystal.name : 'NOT FOUND');
+  }
+  console.log('🔍 Found crystal:', crystal ? crystal.name : 'NOT FOUND');
 
   if (!crystal) {
     notFound();
@@ -93,7 +94,7 @@ const CrystalPage = ({ params }: CrystalPageProps) => {
             
             <div className="crystal-detail-description">
               <h3>About This Crystal</h3>
-              <p>{crystal.fullDescription || crystal.description}</p>
+              <p>{crystal.full_description || crystal.description}</p>
             </div>
             
             {crystal.properties && (

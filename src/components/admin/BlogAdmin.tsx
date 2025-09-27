@@ -290,7 +290,7 @@ const BlogAdmin = () => {
             onSave={(updated) => handleSave(blog.id, updated)}
             onDelete={() => handleDelete(blog.id)}
             onCancel={() => setEditingId(null)}
-            onImageUpload={(e) => handleImageUpload(e, blog.id)}
+            onImageUpload={handleImageUpload}
           />
         ))}
       </div>

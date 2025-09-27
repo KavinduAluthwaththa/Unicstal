@@ -927,16 +927,17 @@ nav {
 }
 
 .crystal-component:hover {
-  transform: translateY(-8px);
   border: 0.5px solid rgba(0, 0, 0, 0.1);
 }
 
 .crystal-image {
-  height: 120px;
-  border-radius: 15px;
-  margin-bottom: 12px;
-  position: relative;
-  transition: transform 0.3s ease;
+  height: 100px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  display: block;
 }
 
 .crystal-component:hover .crystal-image {

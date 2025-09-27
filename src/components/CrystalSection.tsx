@@ -11,33 +11,33 @@ import { useCrystalAnimations } from '@/hooks/useCrystalAnimations';
 
 const CrystalCard = ({ crystal, onAddToCart }: { crystal: Crystal; onAddToCart: (crystal: Crystal) => void }) => {
   return (
-    <Link 
-      href={`/crystals/${crystal.slug || crystal.name.toLowerCase().replace(/\s+/g, '-')}`} 
-      className="crystal-card-link"
-      style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+    <div 
+      className="crystal-component"
+      style={{ 
+        width: '220px', // fixed width for all cards
+        height: '270px', // uniform height for all cards
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+      }}
     >
-      <div 
-        className="crystal-component"
-        style={{ 
-          width: '220px', // fixed width for all cards
-          height: '280px', // fixed height for all cards
-          cursor: 'pointer',
-          transition: 'transform 0.3s ease, box-shadow 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.02) translateY(-8px)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1) translateY(0)';
-        }}
-      >
-        <div className="crystal-image" style={{ backgroundImage: `url(${crystal.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+        <div 
+          className="crystal-image" 
+          style={{ 
+            backgroundImage: `url(${crystal.image})`, 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center', 
+            height: '100px',
+            width: '100%',
+            borderRadius: '12px'
+          }}
+        ></div>
         
         <h3 className="crystal-name">{crystal.name}</h3>
         <p className="crystal-type">{crystal.type}</p>
         <p className="crystal-price">${crystal.price}</p>
       </div>
-    </Link>
   );
 };
 
@@ -84,7 +84,7 @@ const CrystalSection = () => {
           {/* Right fade for mobile horizontal scroll */}
           {isMobile && <div className="crystal-showcase__right-fade" />}
           <div className="crystal-carousel">
-            <div style={{ width: '100%',padding: '20px', overflowY: 'visible' }}>
+            <div style={{ width: '100%',paddingTop:'20px' }}>
               <Marquee pauseOnHover className="[--duration:10s]">
                 {[...firstRow, ...firstRow].map((crystal, idx) => (
                   <div style={{ display: 'inline-block', marginRight: '2rem' }} key={crystal.id + '-clone-' + idx}>

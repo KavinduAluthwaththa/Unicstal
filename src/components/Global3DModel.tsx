@@ -24,13 +24,14 @@ const Global3DModel: React.FC = () => {
 
   // Mobile detection function
   const mobileAndTabletCheck = () => {
-    let check = false;
-    if (typeof window !== 'undefined') {
-      const agent = navigator.userAgent || navigator.vendor || (window as { opera?: unknown }).opera;
-      const agentStr = typeof agent === 'string' ? agent : '';
-      check = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(agentStr.substr(0,4));
-    }
-    return check;
+    if (typeof window === 'undefined') return false;
+    // User agent check
+    const agent = navigator.userAgent || navigator.vendor || (window as { opera?: unknown }).opera;
+    const agentStr = typeof agent === 'string' ? agent : '';
+    const uaCheck = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(agentStr.substr(0,4));
+    // Fallback: screen width check
+    const widthCheck = window.innerWidth <= 600;
+    return uaCheck || widthCheck;
   };
 
   useEffect(() => {

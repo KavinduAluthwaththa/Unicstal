@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { gsap } from 'gsap';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Crystal } from '@/types/crystal';
@@ -67,6 +68,110 @@ const CrystalSection = () => {
   const firstRow = crystals.slice(0, 4);
   const secondRow = crystals.slice(4, 8);
 
+  // Refs for both rows
+  const firstRowRef = React.useRef<HTMLDivElement>(null);
+  const secondRowRef = React.useRef<HTMLDivElement>(null);
+
+  // Auto-scroll both rows in opposite directions
+  useEffect(() => {
+    // Ensure parent containers have overflow hidden
+    const setOverflowHidden = (rowRef: React.RefObject<HTMLDivElement | null>) => {
+      if (rowRef.current && rowRef.current.parentElement) {
+        rowRef.current.parentElement.style.overflow = 'hidden';
+      }
+    };
+
+    const animateRow = (rowRef: React.RefObject<HTMLDivElement | null>, direction: 'left' | 'right', rowName = '') => {
+      if (!rowRef.current) return;
+      const row = rowRef.current;
+      setOverflowHidden(rowRef);
+      // Cleanup previous animation and clones
+      gsap.killTweensOf(row);
+      gsap.set(row, { x: 0 });
+      row.style.animation = 'none';
+      row.style.transform = '';
+      row.querySelectorAll('.crystal-component.clone').forEach(clone => clone.remove());
+      // Wait for cards to render
+      setTimeout(() => {
+        // Reliably select only original cards
+        const cards = row.querySelectorAll('.crystal-component:not(.clone)');
+        if (cards.length < 2) {
+          // eslint-disable-next-line no-console
+          console.warn(`Not enough cards to scroll for ${rowName}`);
+          return;
+        }
+        // Clone enough cards to cover visible area
+        const cardWidth = (cards[0] as HTMLElement)?.offsetWidth || 200;
+        const parentWidth = row.parentElement?.offsetWidth || (cardWidth * cards.length);
+        const visibleCount = Math.ceil(parentWidth / cardWidth);
+        let cloneWidth = 0;
+        if (rowName === 'bottom row') {
+          // Prepend clones to the left for infinite rightward scroll
+          for (let i = visibleCount - 1; i >= 0; i--) {
+            const clone = (cards[i % cards.length] as HTMLElement).cloneNode(true) as HTMLElement;
+            clone.classList.add('clone');
+            row.insertBefore(clone, row.firstChild);
+            cloneWidth += cardWidth;
+          }
+        } else {
+          // Default: append clones to the right
+          for (let i = 0; i < visibleCount; i++) {
+            const clone = (cards[i % cards.length] as HTMLElement).cloneNode(true) as HTMLElement;
+            clone.classList.add('clone');
+            row.appendChild(clone);
+          }
+        }
+        // Calculate total width
+        const totalCards = cards.length + visibleCount;
+        const totalWidth = cardWidth * totalCards;
+        row.style.minWidth = `${totalWidth}px`;
+        // Animate x for infinite loop
+        if (rowName === 'bottom row') {
+          // Start at negative offset so clones are visible on the left
+          gsap.set(row, { x: -cloneWidth });
+          gsap.to(row, {
+            x: totalWidth - cloneWidth,
+            duration: totalCards * 2,
+            ease: 'none',
+            repeat: -1,
+            onRepeat: () => {
+              gsap.set(row, { x: -cloneWidth });
+              // eslint-disable-next-line no-console
+              console.log(`Looped ${rowName}`);
+            }
+          });
+        } else {
+          gsap.to(row, {
+            x: -totalWidth,
+            duration: totalCards * 2,
+            ease: 'none',
+            repeat: -1,
+            onRepeat: () => {
+              gsap.set(row, { x: 0 });
+              // eslint-disable-next-line no-console
+              console.log(`Looped ${rowName}`);
+            }
+          });
+        }
+      }, 100);
+      // Cleanup on unmount
+      return () => {
+        gsap.killTweensOf(row);
+        gsap.set(row, { x: 0, xPercent: 0 });
+        row.style.animation = '';
+        row.style.transform = '';
+        row.querySelectorAll('.crystal-component.clone').forEach(clone => clone.remove());
+      };
+    };
+    // Animate both rows
+  const cleanup1 = animateRow(firstRowRef, 'left', 'top row');
+  const cleanup2 = animateRow(secondRowRef, 'right', 'bottom row');
+    return () => {
+      cleanup1 && cleanup1();
+      cleanup2 && cleanup2();
+    };
+  }, [crystals, isMobile]);
+
   return (
     <section className="section third" id="section-three">
       <div className="section--third--container" ref={containerRef}>
@@ -78,7 +183,7 @@ const CrystalSection = () => {
           {/* Right fade for mobile horizontal scroll */}
           {isMobile && <div className="crystal-showcase__right-fade" />}
           <div className={`crystal-carousel ${isMobile ? 'mobile-swipe' : ''}`}>
-            <div className={`crystal-row ${isMobile ? 'mobile-row' : ''}`}>
+            <div className={`crystal-row ${isMobile ? 'mobile-row' : ''}`} ref={firstRowRef} style={{ width: 'max-content' }}>
               {firstRow.map((crystal) => (
                 <CrystalCard 
                   key={crystal.id} 
@@ -87,7 +192,7 @@ const CrystalSection = () => {
                 />
               ))}
             </div>
-            <div className={`crystal-row ${isMobile ? 'mobile-row' : ''}`}>
+            <div className={`crystal-row ${isMobile ? 'mobile-row' : ''}`} ref={secondRowRef} style={{ width: 'max-content' }}>
               {secondRow.map((crystal) => (
                 <CrystalCard 
                   key={crystal.id} 

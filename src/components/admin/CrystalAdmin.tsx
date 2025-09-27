@@ -70,19 +70,29 @@ const CrystalAdmin = () => {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to PERMANENTLY delete this crystal? This cannot be undone and the item will never appear again.')) {
       const crystal = crystals.find(c => c.id === id);
-      
-      // Delete associated file if it's a local upload
-      if (crystal && isLocalUpload(crystal.image)) {
+      // Delete image from Supabase Storage if present
+      if (crystal && crystal.image && crystal.image.includes('supabase.co')) {
         try {
-          const filename = extractFilenameFromUrl(crystal.image);
-          await deleteFile(filename);
+          // Extract bucket and file path from Supabase public URL
+          // Example: https://xyz.supabase.co/storage/v1/object/public/crystal-images/myimage.png
+          const url = new URL(crystal.image);
+          const pathParts = url.pathname.split('/');
+          // pathParts[4] is the bucket, pathParts[5...] is the file path
+          const bucket = pathParts[4];
+          const filePath = decodeURIComponent(pathParts.slice(5).join('/'));
+          const { deleteImageFromStorage } = await import('@/lib/supabaseApi');
+          await deleteImageFromStorage(bucket, filePath);
         } catch (error) {
-          console.error('Failed to delete file:', error);
+          console.error('Failed to delete image from Supabase Storage:', error);
         }
       }
-      
-      // Add to permanent deletion list
-      permanentlyDeleteCrystal(id);
+      // Delete crystal from DB
+      try {
+        const { deleteCrystal } = await import('@/lib/supabaseApi');
+        await deleteCrystal(id);
+      } catch (error) {
+        console.error('Failed to delete crystal from DB:', error);
+      }
       // Remove from current state
       setCrystals(crystals.filter(crystal => crystal.id !== id));
     }

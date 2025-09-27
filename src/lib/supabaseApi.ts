@@ -1,3 +1,29 @@
+// Delete a blog by id
+export async function deleteBlog(id: string) {
+  const { error } = await supabase
+    .from('blogs')
+    .delete()
+    .eq('id', id);
+  if (error) throw error;
+}
+
+// Delete a crystal by id
+export async function deleteCrystal(id: string) {
+  const { error } = await supabase
+    .from('crystals')
+    .delete()
+    .eq('id', id);
+  if (error) throw error;
+}
+
+// Delete an image from Supabase Storage
+export async function deleteImageFromStorage(bucket: string, fileName: string) {
+  // fileName should be the full path inside the bucket, e.g. 'myimage.png' or 'uploads/blog_12345.jpeg'
+  const { data, error } = await supabase.storage.from(bucket).remove([fileName]);
+  if (error) {
+    throw new Error(`Failed to delete image from storage: ${error.message}`);
+  }
+}
 import { supabase } from './supabaseClient';
 import type { BlogPost } from '@/types/blog';
 import type { Crystal } from '@/types/crystal';

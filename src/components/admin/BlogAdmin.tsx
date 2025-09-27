@@ -67,19 +67,29 @@ const BlogAdmin = () => {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to PERMANENTLY delete this blog post? This cannot be undone and the item will never appear again.')) {
       const blog = blogs.find(b => b.id === id);
-      
-      // Delete associated file if it's a local upload
-      if (blog && isLocalUpload(blog.image)) {
+      // Delete image from Supabase Storage if present
+      if (blog && blog.image && blog.image.includes('supabase.co')) {
         try {
-          const filename = extractFilenameFromUrl(blog.image);
-          await deleteFile(filename);
+          // Extract bucket and file path from Supabase public URL
+          // Example: https://xyz.supabase.co/storage/v1/object/public/blog-images/myimage.png
+          const url = new URL(blog.image);
+          const pathParts = url.pathname.split('/');
+          // pathParts[4] is the bucket, pathParts[5...] is the file path
+          const bucket = pathParts[4];
+          const filePath = decodeURIComponent(pathParts.slice(5).join('/'));
+          const { deleteImageFromStorage } = await import('@/lib/supabaseApi');
+          await deleteImageFromStorage(bucket, filePath);
         } catch (error) {
-          console.error('Failed to delete file:', error);
+          console.error('Failed to delete image from Supabase Storage:', error);
         }
       }
-      
-      // Add to permanent deletion list
-      permanentlyDeleteBlog(id);
+      // Delete blog from DB
+      try {
+        const { deleteBlog } = await import('@/lib/supabaseApi');
+        await deleteBlog(id);
+      } catch (error) {
+        console.error('Failed to delete blog from DB:', error);
+      }
       // Remove from current state
       setBlogs(blogs.filter(blog => blog.id !== id));
     }

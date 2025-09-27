@@ -14,7 +14,19 @@ export const useReactiveCrystalData = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  const loadCrystalData = () => {
+  const loadCrystalData = async () => {
+    try {
+      const { supabase } = await import('../lib/supabaseClient');
+      const { data, error } = await supabase.from('crystals').select('*');
+      if (error) throw error;
+      if (data && Array.isArray(data)) {
+        console.log('📦 loadCrystalData: loaded from Supabase, count:', data.length);
+        return data;
+      }
+    } catch (err) {
+      console.error('❌ Supabase fetch failed, falling back to localStorage/static data:', err);
+    }
+    // Fallback to localStorage/static data
     if (typeof window === 'undefined') return [];
     const savedData = localStorage.getItem('crystalData');
     const deletedIds = JSON.parse(localStorage.getItem('deletedCrystals') || '[]');
@@ -23,7 +35,6 @@ export const useReactiveCrystalData = () => {
       data = JSON.parse(savedData).filter((item: Crystal) => !deletedIds.includes(item.id));
       console.log('📦 loadCrystalData: loaded from localStorage, count:', data.length);
     } else {
-      // Use full initial data from data file
       data = initialCrystalData.filter((item: Crystal) => !deletedIds.includes(item.id));
       localStorage.setItem('crystalData', JSON.stringify(data));
       console.log('📦 loadCrystalData: initialized with full data, count:', data.length);
@@ -31,8 +42,8 @@ export const useReactiveCrystalData = () => {
     return data;
   };
 
-  const updateCrystals = () => {
-    const data = loadCrystalData();
+  const updateCrystals = async () => {
+    const data = await loadCrystalData();
     console.log('🔄 useReactiveCrystalData: Loading crystal data:', data.length, 'crystals');
     console.log('🔍 Crystal data items:', data.map(c => ({id: c.id, name: c.name, slug: c.slug})));
     setCrystals(data);
@@ -82,7 +93,19 @@ export const useReactiveBlogData = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  const loadBlogData = () => {
+  const loadBlogData = async () => {
+    try {
+      const { supabase } = await import('../lib/supabaseClient');
+      const { data, error } = await supabase.from('blogs').select('*');
+      if (error) throw error;
+      if (data && Array.isArray(data)) {
+        console.log('📦 loadBlogData: loaded from Supabase, count:', data.length);
+        return data;
+      }
+    } catch (err) {
+      console.error('❌ Supabase fetch failed, falling back to localStorage/static data:', err);
+    }
+    // Fallback to localStorage/static data
     if (typeof window === 'undefined') return [];
     const savedData = localStorage.getItem('blogData');
     const deletedIds = JSON.parse(localStorage.getItem('deletedBlogs') || '[]');
@@ -91,7 +114,6 @@ export const useReactiveBlogData = () => {
       data = JSON.parse(savedData).filter((item: BlogPost) => !deletedIds.includes(item.id));
       console.log('📦 loadBlogData: loaded from localStorage, count:', data.length);
     } else {
-      // Use full initial data from data file
       data = initialBlogData.filter((item: BlogPost) => !deletedIds.includes(item.id));
       localStorage.setItem('blogData', JSON.stringify(data));
       console.log('📦 loadBlogData: initialized with full data, count:', data.length);
@@ -99,8 +121,8 @@ export const useReactiveBlogData = () => {
     return data;
   };
 
-  const updateBlogs = () => {
-    const data = loadBlogData();
+  const updateBlogs = async () => {
+    const data = await loadBlogData();
     console.log('🔄 useReactiveBlogData: Loading blog data:', data.length, 'blogs');
     console.log('🔍 Blog data items:', data.map(b => ({id: b.id, title: b.title, slug: b.slug})));
     setBlogs(data);
